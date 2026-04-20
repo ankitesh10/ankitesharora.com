@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap");
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Brand */
+  --color-primary: #9cff93;
+  --color-on-primary: #006413;
+  --color-primary-container: #00fc40;
+  --color-on-primary-container: #005a10;
+  --color-primary-fixed: #00fc40;
+  --color-primary-fixed-dim: #00ec3b;
+  --color-on-primary-fixed: #00440a;
+  --color-on-primary-fixed-variant: #006513;
+  --color-primary-dim: #00ec3b;
+  --color-inverse-primary: #006f16;
+  --color-surface-tint: #9cff93;
+
+  /* Secondary */
+  --color-secondary: #00e3fd;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #006875;
+  --color-on-secondary-container: #001f24;
+  --color-secondary-fixed: #26e6ff;
+  --color-secondary-fixed-dim: #00d7f0;
+  --color-on-secondary-fixed: #003a42;
+  --color-on-secondary-fixed-variant: #005964;
+  --color-secondary-dim: #00d4ec;
+
+  /* Tertiary */
+  --color-tertiary: #ffffff;
+  --color-on-tertiary: #5e5f60;
+  --color-tertiary-container: #ebebeb;
+  --color-on-tertiary-container: #555757;
+  --color-tertiary-fixed: #ffffff;
+  --color-tertiary-fixed-dim: #f0f1f1;
+  --color-on-tertiary-fixed: #4f5051;
+  --color-on-tertiary-fixed-variant: #6c6d6e;
+  --color-tertiary-dim: #ebebeb;
+
+  /* Surface */
+  --color-background: #f9f9f9;
+  --color-on-background: #0e0e0e;
+  --color-surface: #f9f9f9;
+  --color-on-surface: #0e0e0e;
+  --color-surface-dim: #f9f9f9;
+  --color-surface-bright: #ffffff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #fafafa;
+  --color-surface-container: #f0f0f0;
+  --color-surface-container-high: #f5f5f5;
+  --color-surface-container-highest: #e0e0e0;
+  --color-surface-variant: #f0f0f0;
+  --color-on-surface-variant: #555555;
+  --color-inverse-surface: #0e0e0e;
+  --color-inverse-on-surface: #ababab;
+
+  /* Utility */
+  --color-outline: #757575;
+  --color-outline-variant: #d1d1d1;
+  --color-error: #ff7351;
+  --color-on-error: #ffffff;
+  --color-error-container: #b92902;
+  --color-on-error-container: #ffd2c8;
+  --color-error-dim: #d53d18;
+
+  /* Radius */
+  --radius: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-full: 0px;
+
+  /* Typography */
+  --font-headline: "Space Grotesk", sans-serif;
+  --font-body: "Space Grotesk", sans-serif;
+  --font-label: "Space Grotesk", sans-serif;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-body);
+    background-color: var(--color-background);
+    color: var(--color-on-background);
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: var(--color-background);
+    color: var(--color-on-background);
+  }
+}
