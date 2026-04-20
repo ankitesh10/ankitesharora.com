@@ -4,66 +4,38 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* Brand */
-  --color-primary: #9cff93;
-  --color-on-primary: #006413;
-  --color-primary-container: #00fc40;
-  --color-on-primary-container: #005a10;
-  --color-primary-fixed: #00fc40;
-  --color-primary-fixed-dim: #00ec3b;
-  --color-on-primary-fixed: #00440a;
-  --color-on-primary-fixed-variant: #006513;
-  --color-primary-dim: #00ec3b;
-  --color-inverse-primary: #006f16;
-  --color-surface-tint: #9cff93;
+  /* Accent */
+  --color-accent: hsl(115 100% 78.8%);
+  --color-accent-foreground: hsl(131 100% 19.6%);
+  --color-accent-strong: hsl(135 100% 49.4%);
+  --color-accent-strong-foreground: hsl(131 100% 17.6%);
 
-  /* Secondary */
-  --color-secondary: #00e3fd;
-  --color-on-secondary: #ffffff;
-  --color-secondary-container: #006875;
-  --color-on-secondary-container: #001f24;
-  --color-secondary-fixed: #26e6ff;
-  --color-secondary-fixed-dim: #00d7f0;
-  --color-on-secondary-fixed: #003a42;
-  --color-on-secondary-fixed-variant: #005964;
-  --color-secondary-dim: #00d4ec;
+  /* Supporting accent */
+  --color-secondary: hsl(186 100% 49.6%);
+  --color-secondary-panel: hsl(187 100% 22.9%);
+  --color-secondary-panel-foreground: hsl(188 100% 7.1%);
 
-  /* Tertiary */
-  --color-tertiary: #ffffff;
-  --color-on-tertiary: #5e5f60;
-  --color-tertiary-container: #ebebeb;
-  --color-on-tertiary-container: #555757;
-  --color-tertiary-fixed: #ffffff;
-  --color-tertiary-fixed-dim: #f0f1f1;
-  --color-on-tertiary-fixed: #4f5051;
-  --color-on-tertiary-fixed-variant: #6c6d6e;
-  --color-tertiary-dim: #ebebeb;
+  /* Neutral surfaces */
+  --color-canvas: hsl(0 0% 97.6%);
+  --color-panel: hsl(0 0% 100%);
+  --color-panel-soft: hsl(0 0% 98%);
+  --color-panel-muted: hsl(0 0% 96.1%);
+  --color-panel-strong: hsl(0 0% 87.8%);
 
-  /* Surface */
-  --color-background: #f9f9f9;
-  --color-on-background: #0e0e0e;
-  --color-surface: #f9f9f9;
-  --color-on-surface: #0e0e0e;
-  --color-surface-dim: #f9f9f9;
-  --color-surface-bright: #ffffff;
-  --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #fafafa;
-  --color-surface-container: #f0f0f0;
-  --color-surface-container-high: #f5f5f5;
-  --color-surface-container-highest: #e0e0e0;
-  --color-surface-variant: #f0f0f0;
-  --color-on-surface-variant: #555555;
-  --color-inverse-surface: #0e0e0e;
-  --color-inverse-on-surface: #ababab;
+  /* Neutral ink */
+  --color-ink: hsl(0 0% 5.5%);
+  --color-ink-muted: hsl(0 0% 33.3%);
+  --color-ink-subtle: hsl(0 0% 67.1%);
 
-  /* Utility */
-  --color-outline: #757575;
-  --color-outline-variant: #d1d1d1;
-  --color-error: #ff7351;
-  --color-on-error: #ffffff;
-  --color-error-container: #b92902;
-  --color-on-error-container: #ffd2c8;
-  --color-error-dim: #d53d18;
+  /* Borders */
+  --color-border: hsl(0 0% 45.9%);
+  --color-border-muted: hsl(0 0% 82%);
+
+  /* Status */
+  --color-danger: hsl(12 100% 65.9%);
+  --color-danger-foreground: hsl(0 0% 100%);
+  --color-danger-panel: hsl(13 97.9% 36.7%);
+  --color-danger-panel-foreground: hsl(11 100% 89.2%);
 
   /* Radius */
   --radius: 0px;
@@ -78,15 +50,59 @@
 }
 
 @layer base {
+  :root {
+    --app-grid-size: 40px;
+    --app-grid-line: rgb(224 224 224 / 1);
+    --app-scanline-dark: rgb(0 0 0 / 0.03);
+    --app-scanline-red: rgb(255 0 0 / 0.01);
+    --app-scanline-green: rgb(0 255 0 / 0.005);
+    --app-scanline-blue: rgb(0 0 255 / 0.01);
+  }
+
   html {
     font-family: var(--font-body);
-    background-color: var(--color-background);
-    color: var(--color-on-background);
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
   }
 
   body {
     min-height: 100vh;
-    background-color: var(--color-background);
-    color: var(--color-on-background);
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings:
+      "FILL" 0,
+      "wght" 400,
+      "GRAD" 0,
+      "opsz" 24;
+    vertical-align: middle;
+  }
+}
+
+@layer components {
+  .app-shell {
+    background-color: var(--color-canvas);
+    background-image:
+      linear-gradient(var(--app-grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--app-grid-line) 1px, transparent 1px);
+    background-size: var(--app-grid-size) var(--app-grid-size);
+  }
+
+  .scanline {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background:
+      linear-gradient(rgb(18 16 16 / 0) 50%, var(--app-scanline-dark) 50%),
+      linear-gradient(
+        90deg,
+        var(--app-scanline-red),
+        var(--app-scanline-green),
+        var(--app-scanline-blue)
+      );
+    background-size: 100% 2px, 3px 100%;
   }
 }

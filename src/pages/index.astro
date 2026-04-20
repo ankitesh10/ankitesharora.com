@@ -1,21 +1,238 @@
 ---
+import ArchiveItem from "../components/ArchiveItem.astro";
+import ModuleCard from "../components/ModuleCard.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 import TopNavigation from "../components/TopNavigation.astro";
-import "../styles/global.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const moduleCards = [
+  {
+    code: "MOD_01",
+    title: "BACKEND_INFRA",
+    description:
+      "High-performance distributed systems architecture and database optimization.",
+    icon: "memory",
+    accent: "primary" as const,
+  },
+  {
+    code: "MOD_02",
+    title: "ALGO_DESIGN",
+    description:
+      "Complex problem solving through efficient data structures and logic sets.",
+    icon: "data_object",
+    accent: "secondary" as const,
+  },
+  {
+    code: "MOD_03",
+    title: "SYSTEM_OPS",
+    description:
+      "Deployment pipelines, containerization, and cloud orchestration protocols.",
+    icon: "developer_board",
+    accent: "primary" as const,
+  },
+  {
+    code: "MOD_04",
+    title: "INTERFACE_DEV",
+    description:
+      "Building high-fidelity, high-performance user experiences for modern browsers.",
+    icon: "architecture",
+    accent: "secondary" as const,
+  },
+];
+
+const archiveItems = [
+  {
+    period: "2023 - PRESENT",
+    title: "SR. SYSTEMS ARCHITECT // NEXUS_LABS",
+    description:
+      "Leading the development of decentralized transaction protocols and high-throughput API gateways.",
+    highlighted: true,
+  },
+  {
+    period: "2021 - 2023",
+    title: "DATA ENGINEER // CIPHER_CORE",
+    description:
+      "Optimized large-scale ETL pipelines reducing processing latency by 45% using modern streaming technologies.",
+  },
+  {
+    period: "2019 - 2021",
+    title: "FRONTEND SPECIALIST // VOID_UI",
+    description:
+      "Designed and developed high-fidelity design systems for enterprise-grade dashboard applications.",
+  },
+];
+
+const certifications = [
+  { label: "AWS_CERTIFIED_SOLUTIONS_ARCH", year: "2022" },
+  { label: "GOOGLE_PROF_DATA_ENGINEER", year: "2021" },
+  { label: "CKA_KUBERNETES_ADMIN", year: "2020" },
+];
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
-  </head>
-
-  <body>
+<BaseLayout title="ANALOG_DIGITALIST_V1.0 // LIGHT_ARCHIVE">
+  <div id="top">
     <TopNavigation />
+    <main class="mx-auto max-w-7xl space-y-16 px-6 pb-32 pt-24">
+      <section
+        id="system"
+        class="grid grid-cols-1 gap-0 border-4 border-ink bg-panel lg:grid-cols-12"
+      >
+        <div
+          class="flex flex-col justify-between border-b-4 border-ink p-8 lg:col-span-8 lg:border-r-4 lg:border-b-0"
+        >
+          <div class="space-y-4">
+            <div
+              class="flex items-center gap-2 font-label text-xs uppercase tracking-widest text-ink-muted"
+            >
+              <span class="h-2 w-2 animate-pulse bg-accent"></span>
+              SYSTEM_STATUS: OPERATIONAL
+            </div>
+            <h1
+              class="font-headline text-5xl leading-[0.85] font-bold uppercase tracking-tighter md:text-7xl lg:text-8xl"
+            >
+              ENGINEERING<br />THE FUTURE<br /><span class="text-ink-muted">
+                _ANALOG
+              </span>
+            </h1>
+          </div>
 
-    <h1>Astro</h1>
-  </body>
-</html>
+          <div class="mt-12 flex flex-wrap gap-4 font-label text-sm">
+            <a class="border border-ink bg-ink px-4 py-2 text-canvas" href="#">
+              INITIATE_PROTOCOL
+            </a>
+            <a
+              class="cursor-pointer border-2 border-ink px-4 py-2 transition-colors hover:bg-accent hover:text-accent-foreground"
+              href="#archive"
+            >
+              VIEW_ARCHIVE.SH
+            </a>
+          </div>
+        </div>
+
+        <div class="relative min-h-[400px] overflow-hidden lg:col-span-4">
+          <img
+            class="absolute inset-0 h-full w-full object-cover grayscale contrast-125 brightness-110"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDh-IQ2TQWu8UpSaotTyPg-g8Pawcn36kQoSizPMolWLc_4eCGG70OTZh34AcI6iulGZcUpuxDRw9d6O9_aut3QAeepHlBzAzZh3zz4IzNZQ3pXWdGmhJy8mfvzE5JK_ubJnPIxV-UUOlPq6OLfin0z7LHJSyx5jex8QUKpemAX14xRtMJkp6mADjWISlTO1mnWJpnDMeyEeefj8i_4uw-wbnQyB6XJMKFBoOevwcG9IB0KPhEJZz4LShAu86Dwuc8Latl5J2QPd4U"
+            alt="Close-up portrait of a professional engineer in a high-contrast black and white aesthetic with dramatic technical lighting"
+          />
+          <div class="absolute inset-0 bg-accent/10 mix-blend-multiply"></div>
+          <div class="absolute bottom-4 left-4 bg-ink px-2 py-1 font-label text-[10px] text-canvas">
+            UID: 0x882A_PRFL
+          </div>
+        </div>
+      </section>
+
+      <section id="stack" class="space-y-6">
+        <SectionHeading title="01_CORE_MODULES" meta="[LOAD_SEQUENCE: 100%]" />
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {
+            moduleCards.map((card) => (
+              <ModuleCard {...card} />
+            ))
+          }
+        </div>
+      </section>
+
+      <div class="grid grid-cols-1 gap-12 lg:grid-cols-12">
+        <section id="archive" class="space-y-6 lg:col-span-8">
+          <SectionHeading title="02_WORK_ARCHIVE" />
+          <div class="divide-y-2 divide-ink border-2 border-ink">
+            {
+              archiveItems.map((item) => (
+                <ArchiveItem {...item} />
+              ))
+            }
+          </div>
+        </section>
+
+        <section class="space-y-6 lg:col-span-4">
+          <SectionHeading title="03_CREDENTIALS" />
+
+          <article
+            class="border-2 border-ink bg-secondary-panel p-6 text-secondary-panel-foreground"
+          >
+            <div class="mb-6 flex items-center gap-4">
+              <span class="material-symbols-outlined text-4xl">school</span>
+              <div>
+                <div class="font-label text-[10px] uppercase opacity-80">Institution</div>
+                <div class="text-lg font-bold leading-tight">
+                  POLYTECHNIC INSTITUTE OF TECH
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <div class="border-t border-secondary-panel-foreground/30 pt-4">
+                <div class="font-label text-[10px] uppercase opacity-80">Degree</div>
+                <div class="font-medium">M.SC. COMPUTER SCIENCE & DISTRIBUTED SYSTEMS</div>
+              </div>
+              <div class="border-t border-secondary-panel-foreground/30 pt-4">
+                <div class="font-label text-[10px] uppercase opacity-80">Specialization</div>
+                <div class="font-medium">QUANTUM CRYPTOGRAPHY & HEURISTIC ANALYSIS</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="border-2 border-ink bg-panel-strong p-6">
+            <h4 class="mb-4 flex items-center gap-2 font-label text-xs">
+              <span class="material-symbols-outlined text-sm">verified</span>
+              CERTIFICATIONS_LIST
+            </h4>
+            <ul class="space-y-2 font-label text-xs">
+              {
+                certifications.map(({ label, year }) => (
+                  <li class="flex justify-between">
+                    <span>{label}</span>
+                    <span class="text-ink-muted">{year}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </article>
+        </section>
+      </div>
+
+      <section
+        id="contact"
+        class="flex flex-col items-center space-y-8 border-t-4 border-ink pt-16 text-center"
+      >
+        <div class="max-w-2xl">
+          <h2 class="font-headline text-4xl font-bold uppercase tracking-tighter md:text-5xl">
+            ESTABLISH_UPLINK
+          </h2>
+          <p class="mt-4 font-body text-ink-muted">
+            Available for strategic partnerships and high-impact engineering consultations.
+            Query system for availability.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-0 border-2 border-ink">
+          <a
+            class="flex items-center gap-2 border-r-2 border-ink bg-accent px-8 py-4 font-bold text-accent-foreground transition-colors hover:bg-ink hover:text-accent"
+            href="#"
+          >
+            <span class="material-symbols-outlined">mail</span>
+            SEND_MESSAGE
+          </a>
+          <a
+            class="flex items-center gap-2 border-r-2 border-ink bg-canvas px-8 py-4 font-bold text-ink transition-colors hover:bg-accent"
+            href="#"
+          >
+            <span class="material-symbols-outlined">terminal</span>
+            GITHUB.LOG
+          </a>
+          <a
+            class="flex items-center gap-2 bg-canvas px-8 py-4 font-bold text-ink transition-colors hover:bg-secondary"
+            href="#"
+          >
+            <span class="material-symbols-outlined">lan</span>
+            LINKEDIN_PROF
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </div>
+</BaseLayout>

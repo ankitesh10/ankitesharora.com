@@ -1,0 +1,44 @@
+---
+interface Props {
+  code: string;
+  title: string;
+  description: string;
+  icon: string;
+  accent?: "primary" | "secondary";
+}
+
+const {
+  code,
+  title,
+  description,
+  icon,
+  accent = "primary",
+} = Astro.props;
+
+const accentClass =
+  accent === "secondary"
+    ? "group-hover:text-secondary"
+    : "group-hover:text-accent";
+---
+
+<article
+  class="group border-2 border-ink bg-panel-soft px-6 py-6 transition-colors duration-150 hover:bg-ink"
+>
+  <div class="mb-8 flex items-start justify-between">
+    <span class={`material-symbols-outlined text-4xl transition-colors ${accentClass}`}>
+      {icon}
+    </span>
+    <span class={`font-label text-[10px] text-ink-muted transition-colors ${accentClass}`}>
+      {code}
+    </span>
+  </div>
+
+  <h3 class="font-headline text-xl font-bold transition-colors group-hover:text-canvas">
+    {title}
+  </h3>
+  <p
+    class="mt-4 font-body text-sm leading-relaxed text-ink-muted transition-colors group-hover:text-canvas/80"
+  >
+    {description}
+  </p>
+</article>

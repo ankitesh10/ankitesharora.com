@@ -1,53 +1,47 @@
 ---
+const links = [
+  { href: "#system", label: "SYSTEM", active: true },
+  { href: "#archive", label: "ARCHIVE" },
+  { href: "#stack", label: "STACK" },
+  { href: "#contact", label: "CONTACT" },
+];
 
+const icons = ["terminal", "settings_ethernet"];
 ---
 
 <nav
-  class="fixed top-0 left-0 right-0 z-50 flex h-12 items-center justify-between border-b-2 border-primary bg-inverse-surface px-6"
+  class="fixed top-0 left-0 right-0 z-50 flex h-12 items-center justify-between border-b-2 border-accent bg-ink px-4 md:px-6"
 >
-  <div class="font-headline text-primary uppercase tracking-widest font-bold">
+  <a
+    href="#top"
+    class="font-headline text-accent font-bold uppercase tracking-widest"
+  >
     ANALOG_DIGITALIST_V1.0
-  </div>
+  </a>
 
   <div class="hidden gap-4 md:flex">
-    <a
-      class="bg-primary px-2 py-1 font-label text-sm uppercase tracking-tighter text-inverse-surface transition-colors duration-75"
-      href="#"
-    >
-      SYSTEM
-    </a>
-    <a
-      class="px-2 py-1 font-label text-sm uppercase tracking-tighter text-primary transition-colors duration-75 hover:bg-primary/10"
-      href="#"
-    >
-      ARCHIVE
-    </a>
-    <a
-      class="px-2 py-1 font-label text-sm uppercase tracking-tighter text-primary transition-colors duration-75 hover:bg-primary/10"
-      href="#"
-    >
-      STACK
-    </a>
-    <a
-      class="px-2 py-1 font-label text-sm uppercase tracking-tighter text-primary transition-colors duration-75 hover:bg-primary/10"
-      href="#"
-    >
-      CONTACT
-    </a>
+    {
+      links.map(({ href, label, active }) => (
+        <a
+          href={href}
+          class:list={[
+            "px-2 py-1 font-label text-sm uppercase tracking-tighter transition-colors duration-75",
+            active ? "bg-accent text-ink" : "text-accent hover:bg-accent/20",
+          ]}
+        >
+          {label}
+        </a>
+      ))
+    }
   </div>
 
-  <div class="flex items-center gap-4 text-primary">
-    <span
-      class="material-symbols-outlined cursor-pointer px-1 transition-colors duration-75 hover:bg-primary hover:text-inverse-surface"
-      data-icon="terminal"
-    >
-      terminal
-    </span>
-    <span
-      class="material-symbols-outlined cursor-pointer px-1 transition-colors duration-75 hover:bg-primary hover:text-inverse-surface"
-      data-icon="settings_ethernet"
-    >
-      settings_ethernet
-    </span>
+  <div class="flex items-center gap-4 text-accent">
+    {
+      icons.map((icon) => (
+        <span class="material-symbols-outlined cursor-pointer px-1 transition-colors duration-75 hover:bg-accent hover:text-ink">
+          {icon}
+        </span>
+      ))
+    }
   </div>
 </nav>

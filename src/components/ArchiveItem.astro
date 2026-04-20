@@ -1,0 +1,35 @@
+---
+interface Props {
+  period: string;
+  title: string;
+  description: string;
+  highlighted?: boolean;
+}
+
+const { period, title, description, highlighted = false } = Astro.props;
+---
+
+<article
+  class:list={[
+    "flex flex-col items-start gap-6 p-6 md:flex-row",
+    highlighted ? "bg-panel" : "bg-panel-soft",
+  ]}
+>
+  <div
+    class:list={[
+      "font-label whitespace-nowrap px-2 py-1 text-xs",
+      highlighted
+        ? "bg-accent text-accent-foreground"
+        : "border border-ink text-ink",
+    ]}
+  >
+    {period}
+  </div>
+
+  <div class="flex-1 space-y-2">
+    <h4 class="text-lg font-bold">{title}</h4>
+    <p class="text-sm text-ink-muted">{description}</p>
+  </div>
+
+  <span class="material-symbols-outlined text-ink-muted">north_east</span>
+</article>
