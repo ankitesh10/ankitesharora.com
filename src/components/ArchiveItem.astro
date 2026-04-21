@@ -1,35 +1,61 @@
 ---
 interface Props {
   period: string;
+  company: string;
+  location?: string;
   title: string;
-  description: string;
+  summary?: string;
+  bullets?: string[];
   highlighted?: boolean;
 }
 
-const { period, title, description, highlighted = false } = Astro.props;
+const {
+  period,
+  company,
+  location,
+  title,
+  summary,
+  bullets = [],
+  highlighted = false,
+} = Astro.props;
 ---
 
 <article
   class:list={[
-    "flex flex-col items-start gap-6 p-6 md:flex-row",
+    "flex flex-col gap-5 p-6",
     highlighted ? "bg-panel" : "bg-panel-soft",
   ]}
 >
-  <div
-    class:list={[
-      "font-label whitespace-nowrap px-2 py-1 text-xs",
-      highlighted
-        ? "bg-accent text-accent-foreground"
-        : "border border-ink text-ink",
-    ]}
-  >
-    {period}
+  <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+    <div class="space-y-1">
+      <h4 class="text-lg font-bold uppercase tracking-wide">
+        {company}
+        {location && <span class="font-normal text-ink-muted"> // {location}</span>}
+      </h4>
+      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted">
+        {title}
+      </p>
+    </div>
+
+    <div
+      class:list={[
+        "font-label whitespace-nowrap px-2 py-1 text-xs",
+        highlighted
+          ? "bg-accent text-accent-foreground"
+          : "border border-ink text-ink",
+      ]}
+    >
+      {period}
+    </div>
   </div>
 
-  <div class="flex-1 space-y-2">
-    <h4 class="text-lg font-bold">{title}</h4>
-    <p class="text-sm text-ink-muted">{description}</p>
-  </div>
+  {summary && <p class="max-w-3xl text-sm text-ink-muted">{summary}</p>}
 
-  <span class="material-symbols-outlined text-ink-muted">north_east</span>
+  {
+    bullets.length > 0 && (
+      <ul class="space-y-3 pl-5 text-sm text-ink-muted">
+        {bullets.map((bullet) => <li class="list-disc">{bullet}</li>)}
+      </ul>
+    )
+  }
 </article>

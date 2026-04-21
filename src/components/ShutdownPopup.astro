@@ -26,7 +26,7 @@ const modalButtonClass =
     <div class="space-y-6 px-5 py-6">
       <div class="flex items-start gap-4">
         <div
-          class="flex h-14 w-14 shrink-0 items-center justify-center border-2 border-ink bg-ink text-danger"
+          class="flex h-14 w-14 shrink-0 items-center justify-center border-2 border-ink bg-ink text-danger dark:bg-accent-strong-foreground"
         >
           <span class="material-symbols-outlined text-4xl"
             >power_settings_new</span
@@ -68,7 +68,7 @@ const modalButtonClass =
           data-shutdown-confirm
           class:list={[
             modalButtonClass,
-            "bg-danger text-accent-foreground hover:bg-ink hover:text-accent",
+            "bg-danger text-danger-foreground hover:bg-ink hover:text-accent",
           ]}
         >
           Shut Down
