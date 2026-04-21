@@ -117,7 +117,9 @@ const certifications = [
             alt="Close-up portrait of a professional engineer in a high-contrast black and white aesthetic with dramatic technical lighting"
           />
           <div class="absolute inset-0 bg-accent/10 mix-blend-multiply"></div>
-          <div class="absolute bottom-4 left-4 bg-ink px-2 py-1 font-label text-[10px] text-canvas">
+          <div
+            class="absolute bottom-4 left-4 bg-ink px-2 py-1 font-label text-[10px] text-canvas"
+          >
             UID: 0x882A_PRFL
           </div>
         </div>
@@ -126,11 +128,7 @@ const certifications = [
       <section id="stack" class="space-y-6">
         <SectionHeading title="01_CORE_MODULES" meta="[LOAD_SEQUENCE: 100%]" />
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {
-            moduleCards.map((card) => (
-              <ModuleCard {...card} />
-            ))
-          }
+          {moduleCards.map((card) => <ModuleCard {...card} />)}
         </div>
       </section>
 
@@ -138,11 +136,7 @@ const certifications = [
         <section id="archive" class="space-y-6 lg:col-span-8">
           <SectionHeading title="02_WORK_ARCHIVE" />
           <div class="divide-y-2 divide-ink border-2 border-ink">
-            {
-              archiveItems.map((item) => (
-                <ArchiveItem {...item} />
-              ))
-            }
+            {archiveItems.map((item) => <ArchiveItem {...item} />)}
           </div>
         </section>
 
@@ -155,7 +149,9 @@ const certifications = [
             <div class="mb-6 flex items-center gap-4">
               <span class="material-symbols-outlined text-4xl">school</span>
               <div>
-                <div class="font-label text-[10px] uppercase opacity-80">Institution</div>
+                <div class="font-label text-[10px] uppercase opacity-80">
+                  Institution
+                </div>
                 <div class="text-lg font-bold leading-tight">
                   POLYTECHNIC INSTITUTE OF TECH
                 </div>
@@ -164,12 +160,20 @@ const certifications = [
 
             <div class="space-y-4">
               <div class="border-t border-secondary-panel-foreground/30 pt-4">
-                <div class="font-label text-[10px] uppercase opacity-80">Degree</div>
-                <div class="font-medium">M.SC. COMPUTER SCIENCE & DISTRIBUTED SYSTEMS</div>
+                <div class="font-label text-[10px] uppercase opacity-80">
+                  Degree
+                </div>
+                <div class="font-medium">
+                  M.SC. COMPUTER SCIENCE & DISTRIBUTED SYSTEMS
+                </div>
               </div>
               <div class="border-t border-secondary-panel-foreground/30 pt-4">
-                <div class="font-label text-[10px] uppercase opacity-80">Specialization</div>
-                <div class="font-medium">QUANTUM CRYPTOGRAPHY & HEURISTIC ANALYSIS</div>
+                <div class="font-label text-[10px] uppercase opacity-80">
+                  Specialization
+                </div>
+                <div class="font-medium">
+                  QUANTUM CRYPTOGRAPHY & HEURISTIC ANALYSIS
+                </div>
               </div>
             </div>
           </article>
@@ -198,19 +202,21 @@ const certifications = [
         class="flex flex-col items-center space-y-8 border-t-4 border-ink pt-16 text-center"
       >
         <div class="max-w-2xl">
-          <h2 class="font-headline text-4xl font-bold uppercase tracking-tighter md:text-5xl">
+          <h2
+            class="font-headline text-4xl font-bold uppercase tracking-tighter md:text-5xl"
+          >
             ESTABLISH_UPLINK
           </h2>
           <p class="mt-4 font-body text-ink-muted">
-            Available for strategic partnerships and high-impact engineering consultations.
-            Query system for availability.
+            Available for strategic partnerships and high-impact engineering
+            consultations. Query system for availability.
           </p>
         </div>
 
         <div class="flex flex-wrap justify-center gap-0 border-2 border-ink">
           <a
             class="flex items-center gap-2 border-r-2 border-ink bg-accent px-8 py-4 font-bold text-accent-foreground transition-colors hover:bg-ink hover:text-accent"
-            href="#"
+            href="mailto:ankitesh4@gmail.com"
           >
             <span class="material-symbols-outlined">mail</span>
             SEND_MESSAGE

@@ -1,15 +1,40 @@
 ---
 import ShutdownPopup from "./ShutdownPopup.astro";
 
+const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const currentHash = Astro.url.hash;
+
 const links = [
-  { href: "#system", label: "SYSTEM", active: true },
-  { href: "#archive", label: "ARCHIVE" },
-  { href: "#stack", label: "STACK" },
-  { href: "#contact", label: "CONTACT" },
-];
+  { href: "/#system", label: "SYSTEM" },
+  { href: "/blog", label: "BLOG" },
+  { href: "/resume", label: "RESUME" },
+  { href: "/#contact", label: "CONTACT" },
+].map((link) => {
+  const url = new URL(link.href, Astro.url);
+  const linkPath = url.pathname.replace(/\/+$/, "") || "/";
+  const isActive = url.hash
+    ? currentPath === linkPath &&
+      (currentHash ? currentHash === url.hash : url.hash === "#system")
+    : currentPath === linkPath;
+
+  return {
+    ...link,
+    active: isActive,
+  };
+});
+
+const baseNavLinkClass =
+  "px-2 py-1 font-label text-sm uppercase tracking-tighter transition-colors duration-75";
+const activeNavLinkClass = "bg-accent text-ink";
+const inactiveNavLinkClass = "text-accent hover:bg-accent/20";
 
 const icons = [
   { icon: "terminal", href: "/bot", label: "Open bot page" },
+  {
+    icon: "fullscreen",
+    label: "Enter fullscreen",
+    action: "toggle-fullscreen",
+  },
   { icon: "power_settings_new", label: "Power off", action: "close-window" },
 ];
 
@@ -32,9 +57,12 @@ const iconButtonClass =
       links.map(({ href, label, active }) => (
         <a
           href={href}
+          data-nav-link
+          data-active-class={activeNavLinkClass}
+          data-inactive-class={inactiveNavLinkClass}
           class:list={[
-            "px-2 py-1 font-label text-sm uppercase tracking-tighter transition-colors duration-75",
-            active ? "bg-accent text-ink" : "text-accent hover:bg-accent/20",
+            baseNavLinkClass,
+            active ? activeNavLinkClass : inactiveNavLinkClass,
           ]}
         >
           {label}
@@ -69,6 +97,9 @@ const iconButtonClass =
 </nav>
 
 <script>
+  const fullscreenButton = document.querySelector(
+    '[data-action="toggle-fullscreen"]',
+  );
   const closeButton = document.querySelector('[data-action="close-window"]');
   const shutdownOverlay = document.querySelector("[data-shutdown-overlay]");
   const shutdownScreen = document.querySelector("[data-shutdown-screen]");
@@ -85,6 +116,34 @@ const iconButtonClass =
     element.classList.toggle("hidden", !isVisible);
     element.classList.toggle(displayClass, isVisible);
     element.setAttribute("aria-hidden", String(!isVisible));
+  }
+
+  function syncFullscreenButton() {
+    if (!(fullscreenButton instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    const isFullscreen = Boolean(document.fullscreenElement);
+    const label = isFullscreen ? "Exit fullscreen" : "Enter fullscreen";
+
+    fullscreenButton.textContent = isFullscreen
+      ? "fullscreen_exit"
+      : "fullscreen";
+    fullscreenButton.setAttribute("aria-label", label);
+    fullscreenButton.title = label;
+  }
+
+  async function toggleFullscreen() {
+    if (!document.fullscreenEnabled) {
+      return;
+    }
+
+    if (document.fullscreenElement) {
+      await document.exitFullscreen();
+      return;
+    }
+
+    await document.documentElement.requestFullscreen();
   }
 
   function renderShutdownScreen() {
@@ -123,6 +182,11 @@ const iconButtonClass =
   }
 
   closeButton?.addEventListener("click", () => toggleShutdownOverlay(true));
+  fullscreenButton?.addEventListener("click", () => {
+    toggleFullscreen().catch(() => {
+      syncFullscreenButton();
+    });
+  });
   shutdownCancelButton?.addEventListener("click", () =>
     toggleShutdownOverlay(false),
   );
@@ -139,4 +203,42 @@ const iconButtonClass =
       toggleShutdownOverlay(false);
     }
   });
+
+  function syncActiveNavigation() {
+    const navLinks = document.querySelectorAll("[data-nav-link]");
+
+    navLinks.forEach((link) => {
+      if (!(link instanceof HTMLAnchorElement)) {
+        return;
+      }
+
+      const linkUrl = new URL(link.href, window.location.origin);
+      const currentPathname = window.location.pathname.replace(/\/+$/, "") || "/";
+      const linkPathname = linkUrl.pathname.replace(/\/+$/, "") || "/";
+      const currentHashname = window.location.hash;
+      const isActive = linkUrl.hash
+        ? currentPathname === linkPathname &&
+          (currentHashname
+            ? currentHashname === linkUrl.hash
+            : linkUrl.hash === "#system")
+        : currentPathname === linkPathname;
+
+      const activeClasses =
+        link.dataset.activeClass?.split(" ").filter(Boolean) ?? [];
+      const inactiveClasses =
+        link.dataset.inactiveClass?.split(" ").filter(Boolean) ?? [];
+
+      activeClasses.forEach((className) => {
+        link.classList.toggle(className, isActive);
+      });
+      inactiveClasses.forEach((className) => {
+        link.classList.toggle(className, !isActive);
+      });
+    });
+  }
+
+  document.addEventListener("fullscreenchange", syncFullscreenButton);
+  window.addEventListener("hashchange", syncActiveNavigation);
+  syncFullscreenButton();
+  syncActiveNavigation();
 </script>

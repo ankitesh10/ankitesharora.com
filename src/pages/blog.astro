@@ -1,0 +1,108 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import TopNavigation from "../components/TopNavigation.astro";
+
+const statusRows = [
+  { label: "CHANNEL", value: "BLOG_TRANSMISSION" },
+  { label: "STATE", value: "COMING_SOON" },
+  { label: "ETA", value: "CALIBRATING" },
+];
+
+const previewTopics = [
+  "Frontend engineering notes",
+  "Product experiments and build logs",
+  "Systems, tooling, and workflow write-ups",
+];
+---
+
+<BaseLayout title="BLOG // COMING_SOON">
+  <TopNavigation />
+
+  <main class="mx-auto flex min-h-dvh max-w-6xl items-center px-6 pb-20 pt-24">
+    <section
+      class="grid w-full overflow-hidden border-4 border-ink bg-panel shadow-[12px_12px_0_0_var(--color-ink)] lg:grid-cols-[1.3fr_0.7fr]"
+    >
+      <div class="border-b-4 border-ink p-8 md:p-10 lg:border-r-4 lg:border-b-0">
+        <div class="mb-8 flex items-center gap-3 font-label text-xs uppercase tracking-[0.3em] text-ink-muted">
+          <span class="h-3 w-3 animate-pulse bg-accent"></span>
+          Signal detected
+        </div>
+
+        <div class="space-y-6">
+          <p class="font-label text-xs uppercase tracking-[0.3em] text-secondary">
+            /blog
+          </p>
+          <h1
+            class="font-headline text-5xl leading-[0.9] font-bold uppercase tracking-[-0.06em] md:text-7xl"
+          >
+            Journal
+            <br />
+            uplink
+            <br />
+            pending
+          </h1>
+          <p class="max-w-2xl text-base leading-7 text-ink-muted md:text-lg">
+            Long-form notes, experiments, and behind-the-build writing are on
+            the way. This terminal is reserved for future transmissions.
+          </p>
+        </div>
+
+        <div class="mt-10 flex flex-wrap gap-4 font-label text-sm uppercase tracking-[0.2em]">
+          <a
+            href="/"
+            class="border-2 border-ink bg-ink px-5 py-3 text-canvas transition-colors hover:bg-accent hover:text-accent-foreground"
+          >
+            Return home
+          </a>
+          <a
+            href="/resume"
+            class="border-2 border-ink px-5 py-3 transition-colors hover:bg-panel-strong"
+          >
+            View resume
+          </a>
+        </div>
+      </div>
+
+      <aside class="bg-panel-muted p-8 md:p-10">
+        <div class="space-y-6">
+          <div class="border-2 border-ink bg-canvas p-5">
+            <div class="mb-4 font-label text-[11px] uppercase tracking-[0.3em] text-ink-muted">
+              Status monitor
+            </div>
+            <div class="space-y-3 font-label text-xs uppercase tracking-[0.2em]">
+              {
+                statusRows.map(({ label, value }) => (
+                  <div class="flex items-center justify-between gap-4 border-b border-border-muted pb-3 last:border-b-0 last:pb-0">
+                    <span class="text-ink-muted">{label}</span>
+                    <span class="text-right font-bold text-ink">{value}</span>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+
+          <div class="border-2 border-ink bg-secondary-panel p-5 text-secondary-panel-foreground">
+            <div class="mb-4 font-label text-[11px] uppercase tracking-[0.3em]">
+              Incoming topics
+            </div>
+            <ul class="space-y-3 text-sm leading-6">
+              {
+                previewTopics.map((topic, index) => (
+                  <li class="flex gap-3 border-b border-secondary-panel-foreground/20 pb-3 last:border-b-0 last:pb-0">
+                    <span class="font-label text-xs uppercase tracking-[0.2em]">
+                      0{index + 1}
+                    </span>
+                    <span>{topic}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>
