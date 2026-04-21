@@ -36,8 +36,7 @@ import "@xterm/xterm/css/xterm.css";
         <span>SESSION: LOCALHOST / PROTOCOL: XTERM;</span>
       </div>
 
-      <div class="overflow-hidden bg-ink px-5 h-[calc(100dvh-17rem)]">
-        >
+      <div class="terminal-shell overflow-hidden px-5 h-[calc(100dvh-17rem)]">
         <div id="terminal" class="h-full w-full"></div>
       </div>
     </section>
@@ -45,6 +44,10 @@ import "@xterm/xterm/css/xterm.css";
 </BaseLayout>
 
 <style>
+  .terminal-shell {
+    background: hsl(0 0% 5.5%);
+  }
+
   #terminal {
     overflow: hidden;
   }
@@ -66,44 +69,36 @@ import "@xterm/xterm/css/xterm.css";
 <script>
   import { Terminal } from "@xterm/xterm";
 
+  const terminalPalette = {
+    background: "hsl(0 0% 5.5%)",
+    foreground: "hsl(0 0% 97.6%)",
+    cursor: "hsl(115 100% 78.8%)",
+    cursorAccent: "hsl(0 0% 5.5%)",
+    selectionBackground:
+      "color-mix(in srgb, hsl(115 100% 78.8%) 28%, transparent)",
+    black: "hsl(0 0% 5.5%)",
+    red: "hsl(12 100% 65.9%)",
+    green: "hsl(115 100% 78.8%)",
+    yellow: "color-mix(in srgb, hsl(115 100% 78.8%) 55%, hsl(0 0% 97.6%))",
+    blue: "hsl(186 100% 49.6%)",
+    magenta: "color-mix(in srgb, hsl(12 100% 65.9%) 45%, hsl(0 0% 97.6%))",
+    cyan: "hsl(186 100% 49.6%)",
+    white: "hsl(0 0% 97.6%)",
+    brightBlack: "hsl(0 0% 33.3%)",
+    brightRed: "color-mix(in srgb, hsl(12 100% 65.9%) 70%, hsl(0 0% 97.6%))",
+    brightGreen: "color-mix(in srgb, hsl(115 100% 78.8%) 70%, hsl(0 0% 97.6%))",
+    brightYellow:
+      "color-mix(in srgb, hsl(115 100% 78.8%) 40%, hsl(0 0% 97.6%))",
+    brightBlue: "color-mix(in srgb, hsl(186 100% 49.6%) 70%, hsl(0 0% 97.6%))",
+    brightMagenta:
+      "color-mix(in srgb, hsl(12 100% 65.9%) 30%, hsl(0 0% 97.6%))",
+    brightCyan: "color-mix(in srgb, hsl(186 100% 49.6%) 40%, hsl(0 0% 97.6%))",
+    brightWhite: "hsl(0 0% 97.6%)",
+  };
+
   const terminalElement = document.getElementById("terminal");
 
   if (terminalElement) {
-    const createTheme = () => {
-      const rootStyles = getComputedStyle(document.documentElement);
-      const token = (name: string) => rootStyles.getPropertyValue(name).trim();
-      const ink = token("--color-ink");
-      const canvas = token("--color-canvas");
-      const accent = token("--color-accent");
-      const secondary = token("--color-secondary");
-      const danger = token("--color-danger");
-      const muted = token("--color-ink-muted");
-
-      return {
-        background: ink,
-        foreground: canvas,
-        cursor: accent,
-        cursorAccent: ink,
-        selectionBackground: `color-mix(in srgb, ${accent} 28%, transparent)`,
-        black: ink,
-        red: danger,
-        green: accent,
-        yellow: `color-mix(in srgb, ${accent} 55%, ${canvas})`,
-        blue: secondary,
-        magenta: `color-mix(in srgb, ${danger} 45%, ${canvas})`,
-        cyan: secondary,
-        white: canvas,
-        brightBlack: muted,
-        brightRed: `color-mix(in srgb, ${danger} 70%, ${canvas})`,
-        brightGreen: `color-mix(in srgb, ${accent} 70%, ${canvas})`,
-        brightYellow: `color-mix(in srgb, ${accent} 40%, ${canvas})`,
-        brightBlue: `color-mix(in srgb, ${secondary} 70%, ${canvas})`,
-        brightMagenta: `color-mix(in srgb, ${danger} 30%, ${canvas})`,
-        brightCyan: `color-mix(in srgb, ${secondary} 40%, ${canvas})`,
-        brightWhite: canvas,
-      };
-    };
-
     function convertStringToBlue(text: string) {
       return `\x1B[3;34m${text}\x1B[0m`;
     }
@@ -114,7 +109,7 @@ import "@xterm/xterm/css/xterm.css";
       fontFamily: '"Space Grotesk", monospace',
       fontSize: 13,
       lineHeight: 1.2,
-      theme: createTheme(),
+      theme: terminalPalette,
     });
 
     const botuser = `${convertStringToBlue("aa_bot@ ankitesharora.com:~$ ")}`;
@@ -133,7 +128,7 @@ import "@xterm/xterm/css/xterm.css";
         // Enter key
         input = "";
         term.write("\r\n");
-        term.write(`${vistor} I am still under development :(`);
+        term.write(`${vistor}I am still under development :(`);
         term.writeln("");
         term.write(vistor);
       } else if (e === "\x7f") {
@@ -150,7 +145,7 @@ import "@xterm/xterm/css/xterm.css";
     });
 
     document.addEventListener("themechange", () => {
-      term.options.theme = createTheme();
+      term.options.theme = terminalPalette;
       term.refresh(0, term.rows - 1);
     });
   }
