@@ -6,7 +6,7 @@ const footerLinks = [
   { href: "/blog", label: "DEBUG_LOGS" },
   { href: "/#system", label: "SYSTEM_STATUS" },
   { href: "/resume", label: "LICENSE.TXT" },
-  { href: "/bot", label: "BOT_SHELL" },
+  { href: "/bot", label: "BOT_SHELL", className: "hidden md:inline" },
 ].map((link) => {
   const url = new URL(link.href, Astro.url);
   const linkPath = url.pathname.replace(/\/+$/, "") || "/";
@@ -36,10 +36,11 @@ const footerLinks = [
 
   <div class="flex gap-4 font-label text-[10px] uppercase md:gap-6">
     {
-      footerLinks.map(({ href, label, active }) => (
+      footerLinks.map(({ href, label, active, className }) => (
         <a
           href={href}
           class:list={[
+            className,
             active
               ? "text-accent underline underline-offset-2"
               : "text-chrome-muted hover:text-accent",
