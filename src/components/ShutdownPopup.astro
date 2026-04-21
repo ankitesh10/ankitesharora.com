@@ -1,0 +1,79 @@
+---
+const modalButtonClass =
+  "border-2 border-ink px-4 py-3 font-label text-xs uppercase tracking-[0.25em] transition-colors duration-75";
+---
+
+<div
+  class="fixed inset-0 z-60 hidden items-center justify-center bg-ink/60 p-4"
+  data-shutdown-overlay
+  aria-hidden="true"
+>
+  <div
+    class="w-full max-w-lg overflow-hidden border-4 border-ink bg-panel shadow-[12px_12px_0_0_var(--color-ink)]"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="shutdown-title"
+    aria-describedby="shutdown-description"
+  >
+    <div
+      class="border-b-4 border-ink bg-danger px-5 py-3 text-accent-foreground"
+    >
+      <div class="font-label text-[10px] uppercase tracking-[0.35em]">
+        Power Control
+      </div>
+    </div>
+
+    <div class="space-y-6 px-5 py-6">
+      <div class="flex items-start gap-4">
+        <div
+          class="flex h-14 w-14 shrink-0 items-center justify-center border-2 border-ink bg-ink text-danger"
+        >
+          <span class="material-symbols-outlined text-4xl"
+            >power_settings_new</span
+          >
+        </div>
+
+        <div class="space-y-3">
+          <h2
+            id="shutdown-title"
+            class="font-headline text-2xl font-bold uppercase tracking-tight text-ink"
+          >
+            Shutdown Session
+          </h2>
+          <p
+            id="shutdown-description"
+            class="font-body text-sm leading-6 text-ink-muted"
+          >
+            Close this window if the browser allows it. If not, the page will
+            switch to a safe shutdown state.
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="flex flex-col gap-3 border-t-2 border-ink pt-4 sm:flex-row sm:justify-end"
+      >
+        <button
+          type="button"
+          data-shutdown-cancel
+          class:list={[
+            modalButtonClass,
+            "bg-panel text-ink hover:bg-panel-strong",
+          ]}
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          data-shutdown-confirm
+          class:list={[
+            modalButtonClass,
+            "bg-danger text-accent-foreground hover:bg-ink hover:text-accent",
+          ]}
+        >
+          Shut Down
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

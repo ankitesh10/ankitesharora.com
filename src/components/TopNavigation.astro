@@ -1,4 +1,6 @@
 ---
+import ShutdownPopup from "./ShutdownPopup.astro";
+
 const links = [
   { href: "#system", label: "SYSTEM", active: true },
   { href: "#archive", label: "ARCHIVE" },
@@ -8,8 +10,11 @@ const links = [
 
 const icons = [
   { icon: "terminal", href: "/bot", label: "Open bot page" },
-  { icon: "power_settings_new", label: "Power off" },
+  { icon: "power_settings_new", label: "Power off", action: "close-window" },
 ];
+
+const iconButtonClass =
+  "material-symbols-outlined cursor-pointer px-1 transition-colors duration-75 hover:bg-accent hover:text-ink";
 ---
 
 <nav
@@ -43,18 +48,15 @@ const icons = [
       icons.map((item) => (
         <>
           {item.href ? (
-            <a
-              href={item.href}
-              aria-label={item.label}
-              class="material-symbols-outlined cursor-pointer px-1 transition-colors duration-75 hover:bg-accent hover:text-ink"
-            >
+            <a href={item.href} aria-label={item.label} class={iconButtonClass}>
               {item.icon}
             </a>
           ) : (
             <button
               type="button"
               aria-label={item.label}
-              class="material-symbols-outlined cursor-pointer px-1 transition-colors duration-75 hover:bg-accent hover:text-ink"
+              data-action={item.action}
+              class:list={[iconButtonClass, "text-danger hover:bg-danger"]}
             >
               {item.icon}
             </button>
@@ -62,19 +64,79 @@ const icons = [
         </>
       ))
     }
+    <ShutdownPopup />
   </div>
 </nav>
 
 <script>
-  const buttons = document.querySelectorAll("button");
+  const closeButton = document.querySelector('[data-action="close-window"]');
+  const shutdownOverlay = document.querySelector("[data-shutdown-overlay]");
+  const shutdownScreen = document.querySelector("[data-shutdown-screen]");
+  const shutdownCancelButton = document.querySelector("[data-shutdown-cancel]");
+  const shutdownConfirmButton = document.querySelector(
+    "[data-shutdown-confirm]",
+  );
 
-  buttons.forEach((button) => {
-    button.addEventListener("click", (e) => {
-      if (e.target instanceof HTMLElement && e.target.innerText === "") {
-        console.log("e.target.innerText", e.target.innerText);
-        window.close();
+  function toggleVisibility(element, isVisible, displayClass = "flex") {
+    if (!(element instanceof HTMLElement)) {
+      return;
+    }
+
+    element.classList.toggle("hidden", !isVisible);
+    element.classList.toggle(displayClass, isVisible);
+    element.setAttribute("aria-hidden", String(!isVisible));
+  }
+
+  function renderShutdownScreen() {
+    toggleVisibility(shutdownOverlay, false);
+    toggleVisibility(shutdownScreen, true);
+    document.title = "SESSION_TERMINATED";
+  }
+
+  function toggleShutdownOverlay(isOpen) {
+    toggleVisibility(shutdownOverlay, isOpen);
+
+    if (isOpen) {
+      shutdownConfirmButton?.focus();
+    } else {
+      closeButton?.focus();
+    }
+  }
+
+  function attemptWindowClose() {
+    toggleShutdownOverlay(false);
+    window.close();
+
+    // Some browsers only allow closing a tab after it has been script-targeted.
+    setTimeout(() => {
+      window.open("", "_self");
+      window.close();
+    }, 25);
+
+    // Last-resort fallback when the browser refuses to close user-opened tabs.
+    setTimeout(() => {
+      if (!document.hidden) {
+        renderShutdownScreen();
+        window.location.replace("about:blank");
       }
-    });
+    }, 150);
+  }
+
+  closeButton?.addEventListener("click", () => toggleShutdownOverlay(true));
+  shutdownCancelButton?.addEventListener("click", () =>
+    toggleShutdownOverlay(false),
+  );
+  shutdownConfirmButton?.addEventListener("click", attemptWindowClose);
+
+  shutdownOverlay?.addEventListener("click", (event) => {
+    if (event.target === shutdownOverlay) {
+      toggleShutdownOverlay(false);
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      toggleShutdownOverlay(false);
+    }
   });
 </script>
-prettier error 15:09
