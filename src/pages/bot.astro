@@ -1,0 +1,148 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import TopNavigation from "../components/TopNavigation.astro";
+import "@xterm/xterm/css/xterm.css";
+---
+
+<BaseLayout title="ANALOG_DIGITALIST_V1.0 // LIGHT_ARCHIVE">
+  <main
+    class="mx-auto flex min-h-dvh max-w-7xl items-center px-6 pt-8 pb-0 md:pt-9"
+  >
+    <section
+      class="w-full overflow-hidden border-4 border-ink bg-panel shadow-[12px_12px_0_0_var(--color-ink)]"
+    >
+      <TopNavigation />
+
+      <header
+        class="flex items-center justify-between gap-4 border-b-4 border-ink bg-accent px-5 py-4 text-accent-foreground"
+      >
+        <div>
+          <p class="font-label text-xs uppercase tracking-[0.3em]">
+            TERMINAL_NODE;
+          </p>
+          <h1 class="font-headline text-xl font-bold uppercase tracking-tight">
+            AA_BOT_INTERFACE;
+          </h1>
+        </div>
+        <div class="font-label text-xs tracking-[0.25em]">
+          STATUS: UNDER_DEVELOPMENT;
+        </div>
+      </header>
+
+      <div
+        class="border-b-4 border-ink bg-panel-muted px-5 py-3 font-label text-xs uppercase tracking-[0.2em] text-ink-muted flex justify-between"
+      >
+        <span>BOOT_SEQUENCE: OK;</span>
+        <span>SESSION: LOCALHOST / PROTOCOL: XTERM;</span>
+      </div>
+
+      <div class="overflow-hidden bg-ink px-5 h-[calc(100dvh-17rem)]">
+        >
+        <div id="terminal" class="h-full w-full"></div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  #terminal {
+    overflow: hidden;
+  }
+
+  #terminal :global(.xterm) {
+    height: 100%;
+  }
+
+  #terminal :global(.xterm-screen),
+  #terminal :global(.xterm-viewport) {
+    height: 100% !important;
+  }
+
+  #terminal :global(.xterm-viewport) {
+    overflow-y: auto;
+  }
+</style>
+
+<script>
+  import { Terminal } from "@xterm/xterm";
+
+  const terminalElement = document.getElementById("terminal");
+
+  if (terminalElement) {
+    const rootStyles = getComputedStyle(document.documentElement);
+    const token = (name: string) => rootStyles.getPropertyValue(name).trim();
+    const ink = token("--color-ink");
+    const canvas = token("--color-canvas");
+    const accent = token("--color-accent");
+    const secondary = token("--color-secondary");
+    const danger = token("--color-danger");
+    const muted = token("--color-ink-muted");
+
+    function convertStringToBlue(text: string) {
+      return `\x1B[3;34m${text}\x1B[0m`;
+    }
+
+    const term = new Terminal({
+      cursorBlink: true,
+      convertEol: true,
+      fontFamily: '"Space Grotesk", monospace',
+      fontSize: 13,
+      lineHeight: 1.2,
+      theme: {
+        background: ink,
+        foreground: canvas,
+        cursor: accent,
+        cursorAccent: ink,
+        selectionBackground: `color-mix(in srgb, ${accent} 28%, transparent)`,
+        black: ink,
+        red: danger,
+        green: accent,
+        yellow: `color-mix(in srgb, ${accent} 55%, ${canvas})`,
+        blue: secondary,
+        magenta: `color-mix(in srgb, ${danger} 45%, ${canvas})`,
+        cyan: secondary,
+        white: canvas,
+        brightBlack: muted,
+        brightRed: `color-mix(in srgb, ${danger} 70%, ${canvas})`,
+        brightGreen: `color-mix(in srgb, ${accent} 70%, ${canvas})`,
+        brightYellow: `color-mix(in srgb, ${accent} 40%, ${canvas})`,
+        brightBlue: `color-mix(in srgb, ${secondary} 70%, ${canvas})`,
+        brightMagenta: `color-mix(in srgb, ${danger} 30%, ${canvas})`,
+        brightCyan: `color-mix(in srgb, ${secondary} 40%, ${canvas})`,
+        brightWhite: canvas,
+      },
+    });
+
+    const botuser = `${convertStringToBlue("aa_bot@ ankitesharora.com:~$ ")}`;
+    const vistor = `${convertStringToBlue("visitor@ ankitesharora.com:~$ ")}`;
+
+    term.open(terminalElement);
+    term.write(botuser);
+    term.write(`Hello from \x1B[1;3;31maa_bot\x1B[0m. Ask anything about me!`);
+    term.writeln("");
+    term.write(vistor);
+
+    let input = "";
+
+    term.onData((e) => {
+      if (e === "\r") {
+        // Enter key
+        input = "";
+        term.write("\r\n");
+        term.write(`${vistor} I am still under development :(`);
+        term.writeln("");
+        term.write(vistor);
+      } else if (e === "\x7f") {
+        // Backspace (ASCII DEL)
+        // Check if there is text to delete before calling
+        if (input.length > 0) {
+          input = input.slice(0, -1);
+          term.write("\b \b");
+        }
+      } else {
+        input += e;
+        term.write(e);
+      }
+    });
+  }
+</script>

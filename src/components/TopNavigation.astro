@@ -6,14 +6,17 @@ const links = [
   { href: "#contact", label: "CONTACT" },
 ];
 
-const icons = ["terminal", "settings_ethernet"];
+const icons = [
+  { icon: "terminal", href: "/bot", label: "Open bot page" },
+  { icon: "power_settings_new", label: "Power off" },
+];
 ---
 
 <nav
   class="fixed top-0 left-0 right-0 z-50 flex h-12 items-center justify-between border-b-2 border-accent bg-ink px-4 md:px-6"
 >
   <a
-    href="#top"
+    href="/"
     class="font-headline text-accent font-bold uppercase tracking-widest"
   >
     ANALOG_DIGITALIST_V1.0
@@ -37,11 +40,41 @@ const icons = ["terminal", "settings_ethernet"];
 
   <div class="flex items-center gap-4 text-accent">
     {
-      icons.map((icon) => (
-        <span class="material-symbols-outlined cursor-pointer px-1 transition-colors duration-75 hover:bg-accent hover:text-ink">
-          {icon}
-        </span>
+      icons.map((item) => (
+        <>
+          {item.href ? (
+            <a
+              href={item.href}
+              aria-label={item.label}
+              class="material-symbols-outlined cursor-pointer px-1 transition-colors duration-75 hover:bg-accent hover:text-ink"
+            >
+              {item.icon}
+            </a>
+          ) : (
+            <button
+              type="button"
+              aria-label={item.label}
+              class="material-symbols-outlined cursor-pointer px-1 transition-colors duration-75 hover:bg-accent hover:text-ink"
+            >
+              {item.icon}
+            </button>
+          )}
+        </>
       ))
     }
   </div>
 </nav>
+
+<script>
+  const buttons = document.querySelectorAll("button");
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      if (e.target instanceof HTMLElement && e.target.innerText === "") {
+        console.log("e.target.innerText", e.target.innerText);
+        window.close();
+      }
+    });
+  });
+</script>
+prettier error 15:09
