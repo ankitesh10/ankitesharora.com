@@ -1,12 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 import TopNavigation from "../components/TopNavigation.astro";
 import "@xterm/xterm/css/xterm.css";
 ---
 
 <BaseLayout title="ANKITESH_ARORA_V1.0 // LIGHT_ARCHIVE">
   <main
-    class="mx-auto flex min-h-dvh max-w-7xl items-center px-6 pt-8 pb-0 md:pt-9"
+    class="mx-auto flex min-h-[calc(100dvh-3rem)] max-w-7xl items-center px-6 pt-12 pb-16 md:pt-16"
   >
     <section
       class="w-full overflow-hidden border-4 border-ink bg-panel shadow-[12px_12px_0_0_var(--color-ink)]"
@@ -41,24 +42,29 @@ import "@xterm/xterm/css/xterm.css";
       </div>
     </section>
   </main>
+
+  <SiteFooter />
 </BaseLayout>
 
 <style>
   .terminal-shell {
-    background: hsl(0 0% 5.5%);
+    background: var(--color-chrome);
   }
 
   #terminal {
     overflow: hidden;
+    background: var(--color-chrome);
   }
 
   #terminal :global(.xterm) {
     height: 100%;
+    background: var(--color-chrome);
   }
 
   #terminal :global(.xterm-screen),
   #terminal :global(.xterm-viewport) {
     height: 100% !important;
+    background: var(--color-chrome);
   }
 
   #terminal :global(.xterm-viewport) {
@@ -69,14 +75,19 @@ import "@xterm/xterm/css/xterm.css";
 <script>
   import { Terminal } from "@xterm/xterm";
 
-  const terminalPalette = {
-    background: "hsl(0 0% 5.5%)",
+  const getTerminalBackground = () =>
+    getComputedStyle(document.documentElement)
+      .getPropertyValue("--color-chrome")
+      .trim() || "hsl(0 0% 5.5%)";
+
+  const getTerminalPalette = () => ({
+    background: getTerminalBackground(),
     foreground: "hsl(0 0% 97.6%)",
     cursor: "hsl(115 100% 78.8%)",
-    cursorAccent: "hsl(0 0% 5.5%)",
+    cursorAccent: getTerminalBackground(),
     selectionBackground:
       "color-mix(in srgb, hsl(115 100% 78.8%) 28%, transparent)",
-    black: "hsl(0 0% 5.5%)",
+    black: getTerminalBackground(),
     red: "hsl(12 100% 65.9%)",
     green: "hsl(115 100% 78.8%)",
     yellow: "color-mix(in srgb, hsl(115 100% 78.8%) 55%, hsl(0 0% 97.6%))",
@@ -94,7 +105,7 @@ import "@xterm/xterm/css/xterm.css";
       "color-mix(in srgb, hsl(12 100% 65.9%) 30%, hsl(0 0% 97.6%))",
     brightCyan: "color-mix(in srgb, hsl(186 100% 49.6%) 40%, hsl(0 0% 97.6%))",
     brightWhite: "hsl(0 0% 97.6%)",
-  };
+  });
 
   const terminalElement = document.getElementById("terminal");
 
@@ -109,7 +120,7 @@ import "@xterm/xterm/css/xterm.css";
       fontFamily: '"Space Grotesk", monospace',
       fontSize: 13,
       lineHeight: 1.2,
-      theme: terminalPalette,
+      theme: getTerminalPalette(),
     });
 
     const botuser = `${convertStringToBlue("aa_bot@ ankitesharora.com:~$ ")}`;
@@ -145,7 +156,7 @@ import "@xterm/xterm/css/xterm.css";
     });
 
     document.addEventListener("themechange", () => {
-      term.options.theme = terminalPalette;
+      term.options.theme = getTerminalPalette();
       term.refresh(0, term.rows - 1);
     });
   }

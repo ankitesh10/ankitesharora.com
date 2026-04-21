@@ -1,9 +1,25 @@
 ---
+const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const currentHash = Astro.url.hash;
+
 const footerLinks = [
-  { href: "#", label: "DEBUG_LOGS", active: true },
-  { href: "#", label: "SYSTEM_STATUS" },
-  { href: "#", label: "LICENSE.TXT" },
-];
+  { href: "/blog", label: "DEBUG_LOGS" },
+  { href: "/#system", label: "SYSTEM_STATUS" },
+  { href: "/resume", label: "LICENSE.TXT" },
+  { href: "/bot", label: "BOT_SHELL" },
+].map((link) => {
+  const url = new URL(link.href, Astro.url);
+  const linkPath = url.pathname.replace(/\/+$/, "") || "/";
+  const active = url.hash
+    ? currentPath === linkPath &&
+      (currentHash ? currentHash === url.hash : url.hash === "#system")
+    : currentPath === linkPath;
+
+  return {
+    ...link,
+    active,
+  };
+});
 ---
 
 <footer
