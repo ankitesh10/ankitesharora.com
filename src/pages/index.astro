@@ -248,29 +248,33 @@ const archiveItems = [
 
       <section
         id="contact"
-        class="flex flex-col items-center space-y-8 border-t-4 border-ink pt-16 text-center"
+        class="flex flex-col items-center space-y-8 border-t-4 border-ink pt-12 text-center sm:pt-16"
       >
-        <div class="max-w-2xl">
+        <div class="max-w-2xl px-4 sm:px-0">
           <h2
-            class="font-headline text-4xl font-bold uppercase tracking-tighter md:text-5xl"
+            class="font-headline text-[clamp(2.5rem,10vw,4rem)] leading-[0.9] font-bold uppercase tracking-[-0.06em] sm:tracking-tighter"
           >
             ESTABLISH_UPLINK
           </h2>
-          <p class="mt-4 font-body text-ink-muted">
+          <p
+            class="mt-4 text-pretty font-body text-lg leading-relaxed text-ink-muted sm:text-xl"
+          >
             Have an exicting project you need help with? Drop a email!
           </p>
         </div>
 
-        <div class="flex flex-wrap justify-center gap-0 border-2 border-ink">
+        <div
+          class="flex w-full max-w-4xl flex-col border-2 border-ink sm:flex-row"
+        >
           <a
-            class="flex items-center gap-2 border-r-2 border-ink bg-secondary px-8 py-4 font-bold text-secondary-foreground transition-colors hover:bg-ink hover:text-accent"
+            class="flex min-h-20 w-full items-center justify-center gap-3 border-b-2 border-ink bg-secondary px-6 py-5 text-center font-bold text-secondary-foreground transition-colors hover:bg-ink hover:text-accent sm:min-h-0 sm:flex-1 sm:border-r-2 sm:border-b-0 sm:px-8 sm:py-4"
             href="mailto:ankitesh4@gmail.com"
           >
             <span class="material-symbols-outlined">mail</span>
             SEND_MAIL
           </a>
           <a
-            class="flex items-center gap-2 border-r-2 border-ink bg-canvas px-8 py-4 font-bold text-ink transition-colors hover:bg-accent dark:hover:bg-accent-foreground"
+            class="flex min-h-20 w-full items-center justify-center gap-3 border-b-2 border-ink bg-canvas px-6 py-5 text-center font-bold text-ink transition-colors hover:bg-accent dark:hover:bg-accent-foreground sm:min-h-0 sm:flex-1 sm:border-r-2 sm:border-b-0 sm:px-8 sm:py-4"
             href="https://github.com/ankitesh10"
             target="_blank"
           >
@@ -278,7 +282,7 @@ const archiveItems = [
             GITHUB.LOG
           </a>
           <a
-            class="flex items-center gap-2 bg-canvas px-8 py-4 font-bold text-ink transition-colors hover:bg-secondary"
+            class="flex min-h-20 w-full items-center justify-center gap-3 bg-canvas px-6 py-5 text-center font-bold text-ink transition-colors hover:bg-secondary sm:min-h-0 sm:flex-1 sm:px-8 sm:py-4"
             href="https://www.linkedin.com/in/ankitesharora/"
             target="_blank"
           >
