@@ -25,10 +25,16 @@ const links = [
 
 const baseNavLinkClass =
   "px-2 py-1 font-label text-sm uppercase tracking-tighter transition-colors duration-75";
-const activeNavLinkClass = "bg-accent text-ink";
-const inactiveNavLinkClass = "text-accent hover:bg-accent/20";
+const activeNavLinkClass = "bg-accent text-accent-foreground";
+const inactiveNavLinkClass =
+  "text-accent hover:bg-secondary/80 hover:text-chrome-foreground";
 
 const icons = [
+  {
+    icon: "contrast",
+    label: "Switch to dark mode",
+    action: "toggle-theme",
+  },
   { icon: "terminal", href: "/bot", label: "Open bot page" },
   {
     icon: "fullscreen",
@@ -39,11 +45,11 @@ const icons = [
 ];
 
 const iconButtonClass =
-  "material-symbols-outlined cursor-pointer px-1 transition-colors duration-75 hover:bg-accent hover:text-ink";
+  "material-symbols-outlined cursor-pointer rounded-sm px-1 transition-colors duration-75 hover:bg-accent hover:text-accent-foreground";
 ---
 
 <nav
-  class="fixed top-0 left-0 right-0 z-50 flex h-12 items-center justify-between border-b-2 border-accent bg-ink px-4 md:px-6"
+  class="fixed top-0 left-0 right-0 z-50 flex h-12 items-center justify-between border-b-2 border-chrome-border bg-chrome px-4 md:px-6 text-chrome-foreground shadow-[0_1px_0_0_var(--color-border-muted)]"
 >
   <a
     href="/"
@@ -84,7 +90,10 @@ const iconButtonClass =
               type="button"
               aria-label={item.label}
               data-action={item.action}
-              class:list={[iconButtonClass, "text-danger hover:bg-danger"]}
+              class:list={[
+                iconButtonClass,
+                "text-danger hover:bg-danger hover:text-danger-foreground",
+              ]}
             >
               {item.icon}
             </button>
@@ -97,6 +106,7 @@ const iconButtonClass =
 </nav>
 
 <script>
+  const themeButton = document.querySelector('[data-action="toggle-theme"]');
   const fullscreenButton = document.querySelector(
     '[data-action="toggle-fullscreen"]',
   );
@@ -107,6 +117,8 @@ const iconButtonClass =
   const shutdownConfirmButton = document.querySelector(
     "[data-shutdown-confirm]",
   );
+  const themeStorageKey = "theme-preference";
+  const systemThemeQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
   function toggleVisibility(element, isVisible, displayClass = "flex") {
     if (!(element instanceof HTMLElement)) {
@@ -116,6 +128,42 @@ const iconButtonClass =
     element.classList.toggle("hidden", !isVisible);
     element.classList.toggle(displayClass, isVisible);
     element.setAttribute("aria-hidden", String(!isVisible));
+  }
+
+  function getPreferredTheme() {
+    const storedTheme = localStorage.getItem(themeStorageKey);
+
+    if (storedTheme === "light" || storedTheme === "dark") {
+      return storedTheme;
+    }
+
+    return systemThemeQuery.matches ? "dark" : "light";
+  }
+
+  function applyTheme(theme) {
+    const root = document.documentElement;
+    root.classList.toggle("dark", theme === "dark");
+    root.classList.toggle("light", theme === "light");
+    root.dataset.theme = theme;
+    document.dispatchEvent(
+      new CustomEvent("themechange", {
+        detail: { theme },
+      }),
+    );
+  }
+
+  function syncThemeButton() {
+    if (!(themeButton instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    const theme = document.documentElement.dataset.theme ?? getPreferredTheme();
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    const label = `Switch to ${nextTheme} mode`;
+
+    themeButton.textContent = theme === "dark" ? "light_mode" : "dark_mode";
+    themeButton.setAttribute("aria-label", label);
+    themeButton.title = label;
   }
 
   function syncFullscreenButton() {
@@ -181,6 +229,15 @@ const iconButtonClass =
     }, 150);
   }
 
+  themeButton?.addEventListener("click", () => {
+    const currentTheme =
+      document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+    const nextTheme = currentTheme === "dark" ? "light" : "dark";
+
+    localStorage.setItem(themeStorageKey, nextTheme);
+    applyTheme(nextTheme);
+    syncThemeButton();
+  });
   closeButton?.addEventListener("click", () => toggleShutdownOverlay(true));
   fullscreenButton?.addEventListener("click", () => {
     toggleFullscreen().catch(() => {
@@ -213,7 +270,8 @@ const iconButtonClass =
       }
 
       const linkUrl = new URL(link.href, window.location.origin);
-      const currentPathname = window.location.pathname.replace(/\/+$/, "") || "/";
+      const currentPathname =
+        window.location.pathname.replace(/\/+$/, "") || "/";
       const linkPathname = linkUrl.pathname.replace(/\/+$/, "") || "/";
       const currentHashname = window.location.hash;
       const isActive = linkUrl.hash
@@ -238,7 +296,18 @@ const iconButtonClass =
   }
 
   document.addEventListener("fullscreenchange", syncFullscreenButton);
+  document.addEventListener("themechange", syncThemeButton);
+  systemThemeQuery.addEventListener("change", (event) => {
+    if (localStorage.getItem(themeStorageKey)) {
+      return;
+    }
+
+    applyTheme(event.matches ? "dark" : "light");
+    syncThemeButton();
+  });
   window.addEventListener("hashchange", syncActiveNavigation);
+  applyTheme(getPreferredTheme());
+  syncThemeButton();
   syncFullscreenButton();
   syncActiveNavigation();
 </script>

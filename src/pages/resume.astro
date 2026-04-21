@@ -15,14 +15,17 @@ const resumePreviewUrl =
     class="mx-auto px-6 pb-10 pt-10 my-auto max-w-5xl 2xl:max-w-6xl h-dvh flex items-center justify-center"
   >
     <section
-      class="overflow-hidden border-4 border-ink bg-panel shadow-[12px_12px_0_0_var(--color-ink)]"
+      class="overflow-hidden border-4 border-ink bg-panel shadow-[12px_12px_0_0_var(--color-ink)] dark:shadow-[12px_12px_0_0_var(--color-secondary-panel)]"
     >
       <header
-        class="flex flex-col gap-6 border-b-4 border-ink bg-accent px-6 py-3 text-accent-foreground md:flex-row md:items-center md:justify-between"
+        class="flex flex-col gap-6 border-b-4 border-ink bg-panel-soft px-6 py-4 text-ink md:flex-row md:items-center md:justify-between"
       >
         <div class="space-y-2">
-          <p class="font-label text-xs tracking-[0.3em] break-all">
-            Preview source: <span class="text-ink">{resumeUrl}</span>
+          <p
+            class="font-label text-[11px] tracking-[0.3em] break-all text-ink-muted uppercase"
+          >
+            Preview source:
+            <span class="text-accent">{resumeUrl}</span>
           </p>
         </div>
 
@@ -31,26 +34,28 @@ const resumePreviewUrl =
             href={resumeUrl}
             target="_blank"
             rel="noreferrer"
-            class="border-2 border-accent-foreground bg-ink px-4 py-3 text-canvas transition-colors hover:bg-canvas hover:text-ink"
+            class="border-2 border-chrome-border bg-chrome px-4 py-3 text-chrome-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
           >
             open_pdf
           </a>
           <a
             href={resumeUrl}
             download
-            class="border-2 border-accent-foreground px-4 py-3 transition-colors hover:bg-accent-foreground hover:text-ink"
+            class="border-2 border-accent px-4 py-3 text-accent transition-colors hover:bg-accent hover:text-accent-foreground"
           >
             download
           </a>
         </div>
       </header>
 
-      <div class="bg-canvas">
-        <div class="overflow-hidden border-2 border-ink bg-white">
+      <div class="bg-panel-muted p-2">
+        <div
+          class="overflow-hidden border-2 border-ink bg-white shadow-[0_0_0_1px_var(--color-panel-strong)]"
+        >
           <iframe
             src={resumePreviewUrl}
             title="Resume PDF Preview"
-            class="h-[60dvh] w-full lg:h-[70dvh]"></iframe>
+            class="h-[60dvh] w-full lg:h-[67dvh]"></iframe>
         </div>
       </div>
     </section>

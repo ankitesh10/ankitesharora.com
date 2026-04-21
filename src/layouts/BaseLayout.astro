@@ -9,7 +9,7 @@ const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html class="light" lang="en">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,6 +29,22 @@ const { title } = Astro.props;
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
       rel="stylesheet"
     />
+    <script is:inline>
+      const storageKey = "theme-preference";
+      const root = document.documentElement;
+      const getSystemTheme = () =>
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      const storedTheme = localStorage.getItem(storageKey);
+      const theme = storedTheme === "light" || storedTheme === "dark"
+        ? storedTheme
+        : getSystemTheme();
+
+      root.classList.toggle("dark", theme === "dark");
+      root.classList.toggle("light", theme === "light");
+      root.dataset.theme = theme;
+    </script>
     <title>{title}</title>
   </head>
 

@@ -31,6 +31,12 @@
   --color-border: hsl(0 0% 45.9%);
   --color-border-muted: hsl(0 0% 82%);
 
+  /* App chrome */
+  --color-chrome: hsl(0 0% 5.5%);
+  --color-chrome-foreground: hsl(0 0% 97.6%);
+  --color-chrome-muted: hsl(0 0% 62%);
+  --color-chrome-border: hsl(115 100% 78.8%);
+
   /* Status */
   --color-danger: hsl(12 100% 65.9%);
   --color-danger-foreground: hsl(0 0% 100%);
@@ -51,12 +57,47 @@
 
 @layer base {
   :root {
+    color-scheme: light;
     --app-grid-size: 40px;
     --app-grid-line: rgb(224 224 224 / 1);
     --app-scanline-dark: rgb(0 0 0 / 0.03);
     --app-scanline-red: rgb(255 0 0 / 0.01);
     --app-scanline-green: rgb(0 255 0 / 0.005);
     --app-scanline-blue: rgb(0 0 255 / 0.01);
+  }
+
+  html.dark {
+    color-scheme: dark;
+    --color-accent: hsl(115 100% 75%);
+    --color-: hsl(126 100% 9%);
+    --color-accent-strong: hsl(131 100% 56%);
+    --color-accent-strong-foreground: hsl(131 100% 12%);
+    --color-secondary: hsl(187 100% 60%);
+    --color-secondary-panel: hsl(192 100% 16%);
+    --color-secondary-panel-foreground: hsl(186 90% 84%);
+    --color-canvas: hsl(0 0% 4%);
+    --color-panel: hsl(0 0% 7%);
+    --color-panel-soft: hsl(0 0% 9%);
+    --color-panel-muted: hsl(0 0% 11%);
+    --color-panel-strong: hsl(0 0% 16%);
+    --color-ink: hsl(0 0% 94%);
+    --color-ink-muted: hsl(0 0% 72%);
+    --color-ink-subtle: hsl(0 0% 48%);
+    --color-border: hsl(0 0% 52%);
+    --color-border-muted: hsl(0 0% 24%);
+    --color-chrome: hsl(0 0% 2%);
+    --color-chrome-foreground: hsl(0 0% 94%);
+    --color-chrome-muted: hsl(0 0% 74%);
+    --color-chrome-border: hsl(115 100% 75%);
+    --color-danger: hsl(12 100% 67%);
+    --color-danger-foreground: hsl(0 0% 8%);
+    --color-danger-panel: hsl(10 72% 25%);
+    --color-danger-panel-foreground: hsl(15 80% 86%);
+    --app-grid-line: rgb(255 255 255 / 0.08);
+    --app-scanline-dark: rgb(255 255 255 / 0.04);
+    --app-scanline-red: rgb(255 0 0 / 0.03);
+    --app-scanline-green: rgb(0 255 0 / 0.015);
+    --app-scanline-blue: rgb(0 0 255 / 0.025);
   }
 
   html {
@@ -103,6 +144,8 @@
         var(--app-scanline-green),
         var(--app-scanline-blue)
       );
-    background-size: 100% 2px, 3px 100%;
+    background-size:
+      100% 2px,
+      3px 100%;
   }
 }

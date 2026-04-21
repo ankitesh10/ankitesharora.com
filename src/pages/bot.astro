@@ -69,26 +69,17 @@ import "@xterm/xterm/css/xterm.css";
   const terminalElement = document.getElementById("terminal");
 
   if (terminalElement) {
-    const rootStyles = getComputedStyle(document.documentElement);
-    const token = (name: string) => rootStyles.getPropertyValue(name).trim();
-    const ink = token("--color-ink");
-    const canvas = token("--color-canvas");
-    const accent = token("--color-accent");
-    const secondary = token("--color-secondary");
-    const danger = token("--color-danger");
-    const muted = token("--color-ink-muted");
+    const createTheme = () => {
+      const rootStyles = getComputedStyle(document.documentElement);
+      const token = (name: string) => rootStyles.getPropertyValue(name).trim();
+      const ink = token("--color-ink");
+      const canvas = token("--color-canvas");
+      const accent = token("--color-accent");
+      const secondary = token("--color-secondary");
+      const danger = token("--color-danger");
+      const muted = token("--color-ink-muted");
 
-    function convertStringToBlue(text: string) {
-      return `\x1B[3;34m${text}\x1B[0m`;
-    }
-
-    const term = new Terminal({
-      cursorBlink: true,
-      convertEol: true,
-      fontFamily: '"Space Grotesk", monospace',
-      fontSize: 13,
-      lineHeight: 1.2,
-      theme: {
+      return {
         background: ink,
         foreground: canvas,
         cursor: accent,
@@ -110,7 +101,20 @@ import "@xterm/xterm/css/xterm.css";
         brightMagenta: `color-mix(in srgb, ${danger} 30%, ${canvas})`,
         brightCyan: `color-mix(in srgb, ${secondary} 40%, ${canvas})`,
         brightWhite: canvas,
-      },
+      };
+    };
+
+    function convertStringToBlue(text: string) {
+      return `\x1B[3;34m${text}\x1B[0m`;
+    }
+
+    const term = new Terminal({
+      cursorBlink: true,
+      convertEol: true,
+      fontFamily: '"Space Grotesk", monospace',
+      fontSize: 13,
+      lineHeight: 1.2,
+      theme: createTheme(),
     });
 
     const botuser = `${convertStringToBlue("aa_bot@ ankitesharora.com:~$ ")}`;
@@ -143,6 +147,11 @@ import "@xterm/xterm/css/xterm.css";
         input += e;
         term.write(e);
       }
+    });
+
+    document.addEventListener("themechange", () => {
+      term.options.theme = createTheme();
+      term.refresh(0, term.rows - 1);
     });
   }
 </script>
