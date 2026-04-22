@@ -2,44 +2,16 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import TopNavigation from "../components/TopNavigation.astro";
-import { SITE_URL, pageMetadata } from "../data/pageMetadata";
+import { pageMetadata } from "../data/pageMetadata";
 import "@xterm/xterm/css/xterm.css";
 
 const botPage = pageMetadata.bot;
-const botStructuredData = [
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: botPage.title,
-    url: `${SITE_URL}${botPage.path}`,
-    description: botPage.description,
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: `${SITE_URL}${pageMetadata.home.path}`,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Bot Interface",
-        item: `${SITE_URL}${botPage.path}`,
-      },
-    ],
-  },
-];
 ---
 
 <BaseLayout
   title={botPage.title}
   description={botPage.description}
   canonicalPath={botPage.path}
-  structuredData={botStructuredData}
 >
   <main
     id="main-content"

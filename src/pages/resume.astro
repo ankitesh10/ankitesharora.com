@@ -2,46 +2,18 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import TopNavigation from "../components/TopNavigation.astro";
 import SiteFooter from "../components/SiteFooter.astro";
-import { SITE_URL, pageMetadata } from "../data/pageMetadata";
+import { pageMetadata } from "../data/pageMetadata";
 
 const resumeUrl = "resume_frontend_engineer_ankitesh.pdf";
 const resumePreviewUrl =
   "resume_frontend_engineer_ankitesh.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH";
 const resumePage = pageMetadata.resume;
-const resumeStructuredData = [
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: resumePage.title,
-    url: `${SITE_URL}${resumePage.path}`,
-    description: resumePage.description,
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: `${SITE_URL}${pageMetadata.home.path}`,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Resume",
-        item: `${SITE_URL}${resumePage.path}`,
-      },
-    ],
-  },
-];
 ---
 
 <BaseLayout
   title={resumePage.title}
   description={resumePage.description}
   canonicalPath={resumePage.path}
-  structuredData={resumeStructuredData}
 >
   <TopNavigation />
 

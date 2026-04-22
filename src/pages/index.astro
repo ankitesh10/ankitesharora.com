@@ -7,7 +7,7 @@ import SectionHeading from "../components/SectionHeading.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import TopNavigation from "../components/TopNavigation.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { SITE_URL, pageMetadata } from "../data/pageMetadata";
+import { pageMetadata } from "../data/pageMetadata";
 import heroImage from "../assets/aa_web.webp";
 
 const moduleCards = [
@@ -116,34 +116,12 @@ const archiveItems = [
 ];
 
 const homePage = pageMetadata.home;
-const homeStructuredData = [
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: homePage.title,
-    url: `${SITE_URL}${homePage.path}`,
-    description: homePage.description,
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: `${SITE_URL}${homePage.path}`,
-      },
-    ],
-  },
-];
 ---
 
 <BaseLayout
   title={homePage.title}
   description={homePage.description}
   canonicalPath={homePage.path}
-  structuredData={homeStructuredData}
 >
   <div id="top">
     <TopNavigation />

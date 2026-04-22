@@ -1,5 +1,3 @@
-export const SITE_URL = "https://ankitesharora.com";
-
 export const DEFAULT_PAGE_DESCRIPTION =
   "Portfolio of Ankitesh Arora, a senior software engineer focused on frontend architecture, web performance, and production-grade product engineering.";
 

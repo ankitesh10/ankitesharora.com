@@ -2,25 +2,15 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import TopNavigation from "../components/TopNavigation.astro";
-import { SITE_URL, pageMetadata } from "../data/pageMetadata";
+import { pageMetadata } from "../data/pageMetadata";
 
 const notFoundPage = pageMetadata.notFound;
-const notFoundStructuredData = [
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: notFoundPage.title,
-    url: `${SITE_URL}${notFoundPage.path}`,
-    description: notFoundPage.description,
-  },
-];
 ---
 
 <BaseLayout
   title={notFoundPage.title}
   description={notFoundPage.description}
   canonicalPath={notFoundPage.path}
-  structuredData={notFoundStructuredData}
 >
   <TopNavigation />
 

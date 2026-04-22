@@ -6,51 +6,17 @@ interface Props {
   title: string;
   description?: string;
   canonicalPath?: string;
-  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
 const {
   title,
   description = DEFAULT_PAGE_DESCRIPTION,
   canonicalPath = Astro.url.pathname,
-  structuredData = [],
 } = Astro.props;
 
 const siteUrl = Astro.site ?? new URL("https://ankitesharora.com");
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
 const defaultSocialImage = new URL("/favicon.svg", siteUrl).toString();
-const defaultStructuredData = [
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "Ankitesh Arora",
-    url: siteUrl.toString(),
-    inLanguage: "en",
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: "Ankitesh Arora",
-    url: siteUrl.toString(),
-    image: defaultSocialImage,
-    jobTitle: "Senior Software Engineer",
-    knowsAbout: [
-      "Frontend engineering",
-      "React",
-      "TypeScript",
-      "Web performance",
-      "Node.js",
-    ],
-    sameAs: [
-      "https://github.com/ankitesh10",
-      "https://www.linkedin.com/in/ankitesharora/",
-    ],
-  },
-];
-const pageStructuredData = Array.isArray(structuredData)
-  ? structuredData
-  : [structuredData];
-const allStructuredData = [...defaultStructuredData, ...pageStructuredData];
 ---
 
 <!doctype html>
@@ -74,23 +40,7 @@ const allStructuredData = [...defaultStructuredData, ...pageStructuredData];
     <meta name="twitter:image" content={defaultSocialImage} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
-    <script type="application/ld+json" set:html={JSON.stringify(allStructuredData)} />
-    <script is:inline>
-      const storageKey = "theme-preference";
-      const root = document.documentElement;
-      const getSystemTheme = () =>
-        window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light";
-      const storedTheme = localStorage.getItem(storageKey);
-      const theme = storedTheme === "light" || storedTheme === "dark"
-        ? storedTheme
-        : getSystemTheme();
-
-      root.classList.toggle("dark", theme === "dark");
-      root.classList.toggle("light", theme === "light");
-      root.dataset.theme = theme;
-    </script>
+    <script is:inline src="/theme-init.js"></script>
     <title>{title}</title>
   </head>
 
