@@ -1,4 +1,11 @@
 ---
+import {
+  CloudUpload,
+  Database,
+  LayoutTemplate,
+  ServerCog,
+} from "@lucide/astro";
+
 interface Props {
   code: string;
   title: string;
@@ -13,17 +20,25 @@ const accentClass =
   accent === "secondary"
     ? "group-hover:text-secondary"
     : "group-hover:text-accent";
+
+const iconMap = {
+  architecture: LayoutTemplate,
+  developer_board: ServerCog,
+  database: Database,
+  cloud_upload: CloudUpload,
+} as const;
+
+const Icon = iconMap[icon as keyof typeof iconMap] ?? LayoutTemplate;
 ---
 
 <article
   class="group border-2 border-ink bg-panel-soft px-6 py-6 transition-colors duration-150 hover:bg-ink-subtle"
 >
   <div class="mb-8 flex items-start justify-between">
-    <span
-      class={`material-symbols-outlined text-4xl transition-colors ${accentClass}`}
-    >
-      {icon}
-    </span>
+    <Icon
+      class={`h-8 w-8 transition-colors ${accentClass}`}
+      aria-hidden="true"
+    />
     <span
       class={`font-label text-[10px] text-ink-muted transition-colors ${accentClass}`}
     >

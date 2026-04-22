@@ -1,4 +1,14 @@
 ---
+import {
+  Bot,
+  Maximize,
+  Menu,
+  Minimize,
+  Moon,
+  Power,
+  Sun,
+  X,
+} from "@lucide/astro";
 import ShutdownPopup from "./ShutdownPopup.astro";
 
 const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
@@ -31,12 +41,10 @@ const inactiveNavLinkClass =
 
 const icons = [
   {
-    icon: "contrast",
     label: "Switch to dark mode",
     action: "toggle-theme",
   },
   {
-    icon: "terminal",
     href: "/bot",
     label: "Open bot page",
     className: "hidden md:inline-block",
@@ -44,9 +52,9 @@ const icons = [
 ];
 
 const iconButtonClass =
-  "material-symbols-outlined cursor-pointer rounded-sm px-1 transition-colors duration-75 hover:bg-accent hover:text-accent-foreground";
+  "inline-flex cursor-pointer items-center justify-center rounded-sm p-1 text-accent transition-colors duration-75 hover:bg-accent hover:text-accent-foreground";
 const dangerIconButtonClass =
-  "material-symbols-outlined cursor-pointer rounded-sm px-1 text-danger transition-colors duration-75 hover:bg-danger hover:text-danger-foreground";
+  "inline-flex cursor-pointer items-center justify-center rounded-sm p-1 text-danger transition-colors duration-75 hover:bg-danger hover:text-danger-foreground";
 const mobileMenuActionClass =
   "flex min-h-16 w-full flex-col items-center justify-center gap-1 rounded-sm border border-chrome-border px-2 py-2 text-center font-label text-xs uppercase tracking-tighter text-accent transition-colors duration-75 hover:bg-secondary/80 hover:text-chrome-foreground";
 ---
@@ -90,19 +98,22 @@ const mobileMenuActionClass =
                 <a
                   href={item.href}
                   aria-label={item.label}
+                  title={item.label}
                   class={iconButtonClass}
                 >
-                  {item.icon}
+                  <Bot class="h-5 w-5" aria-hidden="true" />
                 </a>
               </div>
             ) : (
               <button
                 type="button"
                 aria-label={item.label}
+                title={item.label}
                 data-action={item.action}
                 class={iconButtonClass}
               >
-                {item.icon}
+                <Sun class="h-5 w-5" data-theme-icon="light" aria-hidden="true" />
+                <Moon class="hidden h-5 w-5" data-theme-icon="dark" aria-hidden="true" />
               </button>
             )}
           </>
@@ -112,20 +123,27 @@ const mobileMenuActionClass =
         <button
           type="button"
           aria-label="Enter fullscreen"
+          title="Enter fullscreen"
           data-action="toggle-fullscreen"
           class={iconButtonClass}
         >
-          fullscreen
+          <Maximize class="h-5 w-5" data-fullscreen-icon="enter" aria-hidden="true" />
+          <Minimize
+            class="hidden h-5 w-5"
+            data-fullscreen-icon="exit"
+            aria-hidden="true"
+          />
         </button>
       </div>
       <div class="hidden md:block">
         <button
           type="button"
           aria-label="Power off"
+          title="Power off"
           data-action="close-window"
           class={dangerIconButtonClass}
         >
-          power_settings_new
+          <Power class="h-5 w-5" aria-hidden="true" />
         </button>
       </div>
       <div class="md:hidden">
@@ -135,9 +153,10 @@ const mobileMenuActionClass =
           aria-expanded="false"
           aria-controls="mobile-navigation-menu"
           data-mobile-menu-button
-          class="material-symbols-outlined rounded-sm px-1 text-[20px] transition-colors duration-75 hover:bg-accent hover:text-accent-foreground"
+          class="inline-flex items-center justify-center rounded-sm p-1 text-accent transition-colors duration-75 hover:bg-accent hover:text-accent-foreground"
         >
-          menu
+          <Menu class="h-5 w-5" data-menu-icon="open" aria-hidden="true" />
+          <X class="hidden h-5 w-5" data-menu-icon="close" aria-hidden="true" />
         </button>
       </div>
 
@@ -179,7 +198,16 @@ const mobileMenuActionClass =
           data-action="toggle-fullscreen"
           class={mobileMenuActionClass}
         >
-          <span class="material-symbols-outlined text-[20px]">fullscreen</span>
+          <Maximize
+            class="h-5 w-5"
+            data-fullscreen-icon="enter"
+            aria-hidden="true"
+          />
+          <Minimize
+            class="hidden h-5 w-5"
+            data-fullscreen-icon="exit"
+            aria-hidden="true"
+          />
           <span>Fullscreen</span>
         </button>
         <button
@@ -191,9 +219,7 @@ const mobileMenuActionClass =
             "text-danger hover:bg-danger hover:text-danger-foreground",
           ]}
         >
-          <span class="material-symbols-outlined text-[20px]">
-            power_settings_new
-          </span>
+          <Power class="h-5 w-5" aria-hidden="true" />
           <span>Shutdown</span>
         </button>
       </div>
@@ -239,7 +265,11 @@ const mobileMenuActionClass =
     }
 
     mobileMenuButton.setAttribute("aria-expanded", String(isOpen));
-    mobileMenuButton.textContent = isOpen ? "close" : "menu";
+    const openIcon = mobileMenuButton.querySelector('[data-menu-icon="open"]');
+    const closeIcon = mobileMenuButton.querySelector('[data-menu-icon="close"]');
+
+    openIcon?.classList.toggle("hidden", isOpen);
+    closeIcon?.classList.toggle("hidden", !isOpen);
   }
 
   function getPreferredTheme() {
@@ -272,8 +302,11 @@ const mobileMenuActionClass =
     const theme = document.documentElement.dataset.theme ?? getPreferredTheme();
     const nextTheme = theme === "dark" ? "light" : "dark";
     const label = `Switch to ${nextTheme} mode`;
+    const lightIcon = themeButton.querySelector('[data-theme-icon="light"]');
+    const darkIcon = themeButton.querySelector('[data-theme-icon="dark"]');
 
-    themeButton.textContent = theme === "dark" ? "light_mode" : "dark_mode";
+    lightIcon?.classList.toggle("hidden", theme !== "dark");
+    darkIcon?.classList.toggle("hidden", theme === "dark");
     themeButton.setAttribute("aria-label", label);
     themeButton.title = label;
   }
@@ -290,13 +323,11 @@ const mobileMenuActionClass =
       button.setAttribute("aria-label", label);
       button.title = label;
 
-      const icon = button.querySelector(".material-symbols-outlined");
-      if (icon instanceof HTMLElement) {
-        icon.textContent = isFullscreen ? "fullscreen_exit" : "fullscreen";
-        return;
-      }
+      const enterIcon = button.querySelector('[data-fullscreen-icon="enter"]');
+      const exitIcon = button.querySelector('[data-fullscreen-icon="exit"]');
 
-      button.textContent = isFullscreen ? "fullscreen_exit" : "fullscreen";
+      enterIcon?.classList.toggle("hidden", isFullscreen);
+      exitIcon?.classList.toggle("hidden", !isFullscreen);
     });
   }
 

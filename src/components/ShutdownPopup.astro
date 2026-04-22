@@ -1,4 +1,6 @@
 ---
+import { Power } from "@lucide/astro";
+
 const modalButtonClass =
   "border-2 border-ink px-4 py-3 font-label text-xs uppercase tracking-[0.25em] transition-colors duration-75";
 ---
@@ -28,9 +30,7 @@ const modalButtonClass =
         <div
           class="flex h-14 w-14 shrink-0 items-center justify-center border-2 border-ink bg-ink text-danger dark:bg-accent-strong-foreground"
         >
-          <span class="material-symbols-outlined text-4xl"
-            >power_settings_new</span
-          >
+          <Power class="h-9 w-9" aria-hidden="true" />
         </div>
 
         <div class="space-y-3">

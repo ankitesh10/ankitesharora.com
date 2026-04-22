@@ -1,10 +1,13 @@
 ---
+import { Image } from "astro:assets";
+import { FolderGit2, Link, Mail } from "@lucide/astro";
 import ArchiveItem from "../components/ArchiveItem.astro";
 import ModuleCard from "../components/ModuleCard.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import TopNavigation from "../components/TopNavigation.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import heroImage from "../assets/aa_web.jpg";
 
 const moduleCards = [
   {
@@ -80,8 +83,8 @@ const archiveItems = [
   },
   {
     period: "MAY 2021 - MARCH 2024",
-    company: "JIO HAPTIK, RELIANCE JIO PLATFORM",
-    location: "Mumbai",
+    company: "",
+    location: "",
     title: "SOFTWARE ENGINEER II, FRONTEND",
     bullets: [
       "Worked on features including WhatsApp carousel card templates, Instagram, Announcement Hub, and Ad Performance, ensuring strong UX across desktop and mobile web platforms.",
@@ -158,10 +161,13 @@ const archiveItems = [
         </div>
 
         <div class="relative min-h-[400px] overflow-hidden lg:col-span-4">
-          <img
+          <Image
             class="absolute inset-0 h-full w-full object-cover grayscale contrast-125 brightness-110"
-            src="/aa_web.jpg"
+            src={heroImage}
             alt="Close-up portrait of a professional engineer in a high-contrast black and white aesthetic with dramatic technical lighting"
+            sizes="(min-width: 1024px) 33vw, 100vw"
+            loading="eager"
+            format="webp"
           />
           <div class="absolute inset-0 bg-accent/10 mix-blend-multiply"></div>
           <div
@@ -274,7 +280,7 @@ const archiveItems = [
             class="flex min-h-20 w-full items-center justify-center gap-3 border-b-2 border-ink bg-secondary px-6 py-5 text-center font-bold text-secondary-foreground transition-colors hover:bg-ink hover:text-accent sm:min-h-0 sm:flex-1 sm:border-r-2 sm:border-b-0 sm:px-8 sm:py-4"
             href="mailto:ankitesh4@gmail.com"
           >
-            <span class="material-symbols-outlined">mail</span>
+            <Mail class="h-5 w-5" aria-hidden="true" />
             SEND_MAIL
           </a>
           <a
@@ -282,7 +288,7 @@ const archiveItems = [
             href="https://github.com/ankitesh10"
             target="_blank"
           >
-            <span class="material-symbols-outlined">terminal</span>
+            <FolderGit2 class="h-5 w-5" aria-hidden="true" />
             GITHUB.LOG
           </a>
           <a
@@ -290,7 +296,7 @@ const archiveItems = [
             href="https://www.linkedin.com/in/ankitesharora/"
             target="_blank"
           >
-            <span class="material-symbols-outlined">lan</span>
+            <Link class="h-5 w-5" aria-hidden="true" />
             LINKEDIN_PROF
           </a>
         </div>
