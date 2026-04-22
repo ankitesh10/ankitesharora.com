@@ -3,9 +3,18 @@ import "../styles/global.css";
 
 interface Props {
   title: string;
+  description?: string;
+  canonicalPath?: string;
 }
 
-const { title } = Astro.props;
+const {
+  title,
+  description = "Portfolio of Ankitesh Arora, a senior software engineer focused on frontend architecture, web performance, and production-grade product engineering.",
+  canonicalPath = Astro.url.pathname,
+} = Astro.props;
+
+const siteUrl = Astro.site ?? new URL("https://ankitesharora.com");
+const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
 ---
 
 <!doctype html>
@@ -14,6 +23,17 @@ const { title } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="Ankitesh Arora" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <script is:inline>
