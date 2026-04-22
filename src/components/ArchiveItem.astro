@@ -20,6 +20,12 @@ const {
   highlighted = false,
   hideDivider = false,
 } = Astro.props;
+
+const normalizedCompany = company.trim();
+const normalizedTitle = title.trim();
+const headingText = normalizedCompany || normalizedTitle || period.trim();
+const subheadingText =
+  normalizedCompany && normalizedTitle ? normalizedTitle : undefined;
 ---
 
 <article
@@ -59,13 +65,17 @@ const {
           <h4
             class="font-headline text-2xl leading-none font-bold uppercase tracking-tight"
           >
-            {company}
+            {headingText}
           </h4>
-          <p
-            class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted"
-          >
-            {title}
-          </p>
+          {
+            subheadingText && (
+              <p
+                class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted"
+              >
+                {subheadingText}
+              </p>
+            )
+          }
         </div>
       </div>
 

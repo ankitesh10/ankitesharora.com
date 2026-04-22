@@ -6,12 +6,13 @@
 @theme {
   /* Accent */
   --color-accent: hsl(115 100% 78.8%);
-  --color-accent-foreground: hsl(131 100% 19.6%);
+  --color-accent-foreground: hsl(131 100% 12%);
   --color-accent-strong: hsl(135 100% 49.4%);
   --color-accent-strong-foreground: hsl(131 100% 17.6%);
 
   /* Supporting accent */
   --color-secondary: hsl(186 100% 49.6%);
+  --color-secondary-foreground: hsl(188 100% 10%);
   --color-secondary-panel: hsl(187 100% 22.9%);
   --color-secondary-panel-foreground: hsl(188 100% 7.1%);
 
@@ -69,10 +70,11 @@
   html.dark {
     color-scheme: dark;
     --color-accent: hsl(115 100% 75%);
-    --color-: hsl(126 100% 9%);
+    --color-accent-foreground: hsl(126 100% 9%);
     --color-accent-strong: hsl(131 100% 56%);
     --color-accent-strong-foreground: hsl(131 100% 12%);
     --color-secondary: hsl(187 100% 60%);
+    --color-secondary-foreground: hsl(190 100% 9%);
     --color-secondary-panel: hsl(192 100% 16%);
     --color-secondary-panel-foreground: hsl(186 90% 84%);
     --color-canvas: hsl(0 0% 4%);
@@ -110,6 +112,35 @@
     min-height: 100vh;
     background-color: var(--color-canvas);
     color: var(--color-ink);
+  }
+
+  .skip-link {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 10000;
+    transform: translateY(-200%);
+    border: 2px solid var(--color-ink);
+    background-color: var(--color-accent);
+    color: var(--color-accent-foreground);
+    padding: 0.75rem 1rem;
+    font-family: var(--font-label);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible,
+  [role="button"]:focus-visible {
+    outline: 3px solid var(--color-accent-strong);
+    outline-offset: 3px;
   }
 }
 

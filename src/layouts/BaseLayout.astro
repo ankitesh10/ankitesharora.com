@@ -1,20 +1,56 @@
 ---
 import "../styles/global.css";
+import { DEFAULT_PAGE_DESCRIPTION } from "../data/pageMetadata";
 
 interface Props {
   title: string;
   description?: string;
   canonicalPath?: string;
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
 const {
   title,
-  description = "Portfolio of Ankitesh Arora, a senior software engineer focused on frontend architecture, web performance, and production-grade product engineering.",
+  description = DEFAULT_PAGE_DESCRIPTION,
   canonicalPath = Astro.url.pathname,
+  structuredData = [],
 } = Astro.props;
 
 const siteUrl = Astro.site ?? new URL("https://ankitesharora.com");
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
+const defaultSocialImage = new URL("/favicon.svg", siteUrl).toString();
+const defaultStructuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Ankitesh Arora",
+    url: siteUrl.toString(),
+    inLanguage: "en",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Ankitesh Arora",
+    url: siteUrl.toString(),
+    image: defaultSocialImage,
+    jobTitle: "Senior Software Engineer",
+    knowsAbout: [
+      "Frontend engineering",
+      "React",
+      "TypeScript",
+      "Web performance",
+      "Node.js",
+    ],
+    sameAs: [
+      "https://github.com/ankitesh10",
+      "https://www.linkedin.com/in/ankitesharora/",
+    ],
+  },
+];
+const pageStructuredData = Array.isArray(structuredData)
+  ? structuredData
+  : [structuredData];
+const allStructuredData = [...defaultStructuredData, ...pageStructuredData];
 ---
 
 <!doctype html>
@@ -31,11 +67,14 @@ const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content="Ankitesh Arora" />
+    <meta property="og:image" content={defaultSocialImage} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={defaultSocialImage} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+    <script type="application/ld+json" set:html={JSON.stringify(allStructuredData)} />
     <script is:inline>
       const storageKey = "theme-preference";
       const root = document.documentElement;
@@ -56,6 +95,7 @@ const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
   </head>
 
   <body class="app-shell">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <div class="scanline"></div>
     <slot />
   </body>

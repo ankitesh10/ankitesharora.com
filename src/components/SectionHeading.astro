@@ -1,13 +1,14 @@
 ---
 interface Props {
+  id?: string;
   title: string;
   meta?: string;
 }
 
-const { title, meta } = Astro.props;
+const { id, title, meta } = Astro.props;
 ---
 
 <div class="flex items-baseline justify-between border-b-2 border-ink pb-2">
-  <h2 class="font-headline text-2xl font-bold uppercase tracking-tight">{title}</h2>
+  <h2 id={id} class="font-headline text-2xl font-bold uppercase tracking-tight">{title}</h2>
   {meta && <span class="font-label text-xs text-ink-muted">{meta}</span>}
 </div>

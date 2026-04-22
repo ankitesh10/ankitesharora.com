@@ -1,0 +1,78 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import TopNavigation from "../components/TopNavigation.astro";
+import { SITE_URL, pageMetadata } from "../data/pageMetadata";
+
+const notFoundPage = pageMetadata.notFound;
+const notFoundStructuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: notFoundPage.title,
+    url: `${SITE_URL}${notFoundPage.path}`,
+    description: notFoundPage.description,
+  },
+];
+---
+
+<BaseLayout
+  title={notFoundPage.title}
+  description={notFoundPage.description}
+  canonicalPath={notFoundPage.path}
+  structuredData={notFoundStructuredData}
+>
+  <TopNavigation />
+
+  <main
+    id="main-content"
+    class="mx-auto flex min-h-dvh max-w-5xl items-center px-6 pb-20 pt-24"
+  >
+    <section class="w-full border-4 border-ink bg-panel shadow-[12px_12px_0_0_var(--color-ink)]">
+      <div class="border-b-4 border-ink bg-accent px-6 py-4 text-accent-foreground">
+        <p class="font-label text-xs uppercase tracking-[0.3em]">Status code</p>
+        <h1 class="mt-2 font-headline text-4xl font-bold uppercase tracking-tight md:text-6xl">
+          404
+        </h1>
+      </div>
+
+      <div class="space-y-8 p-8 md:p-10">
+        <div class="space-y-4">
+          <p class="font-label text-xs uppercase tracking-[0.3em] text-ink-muted">
+            Destination unavailable
+          </p>
+          <h2 class="font-headline text-3xl font-bold uppercase tracking-tight md:text-5xl">
+            This route does not exist.
+          </h2>
+          <p class="max-w-2xl text-base leading-7 text-ink-muted md:text-lg">
+            The page may have moved, the URL may be incorrect, or the route was never published.
+            Use one of the verified paths below to continue browsing.
+          </p>
+        </div>
+
+        <nav aria-label="Helpful links" class="grid gap-4 md:grid-cols-3">
+          <a
+            href="/"
+            class="border-2 border-chrome-border bg-chrome px-5 py-4 font-label text-sm uppercase tracking-[0.2em] text-chrome-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+          >
+            Return home
+          </a>
+          <a
+            href="/resume"
+            class="border-2 border-accent bg-panel px-5 py-4 font-label text-sm uppercase tracking-[0.2em] text-accent-strong-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+          >
+            Open resume
+          </a>
+          <a
+            href="/blog"
+            class="border-2 border-ink bg-panel-soft px-5 py-4 font-label text-sm uppercase tracking-[0.2em] text-ink transition-colors hover:bg-ink hover:text-canvas"
+          >
+            Visit blog
+          </a>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>

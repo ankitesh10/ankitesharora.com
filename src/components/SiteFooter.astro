@@ -34,11 +34,13 @@ const footerLinks = [
     >
   </div>
 
-  <div class="flex gap-4 font-label text-[10px] uppercase md:gap-6">
+  <nav aria-label="Footer" class="flex gap-4 font-label text-[10px] uppercase md:gap-6">
     {
       footerLinks.map(({ href, label, active, className }) => (
         <a
           href={href}
+          aria-label={`Open ${label.toLowerCase().replaceAll("_", " ")}`}
+          aria-current={active ? "page" : undefined}
           class:list={[
             className,
             active
@@ -50,5 +52,5 @@ const footerLinks = [
         </a>
       ))
     }
-  </div>
+  </nav>
 </footer>

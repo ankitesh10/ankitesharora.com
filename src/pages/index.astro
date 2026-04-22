@@ -7,6 +7,7 @@ import SectionHeading from "../components/SectionHeading.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import TopNavigation from "../components/TopNavigation.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE_URL, pageMetadata } from "../data/pageMetadata";
 import heroImage from "../assets/aa_web.webp";
 
 const moduleCards = [
@@ -113,18 +114,46 @@ const archiveItems = [
     ],
   },
 ];
+
+const homePage = pageMetadata.home;
+const homeStructuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: homePage.title,
+    url: `${SITE_URL}${homePage.path}`,
+    description: homePage.description,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: `${SITE_URL}${homePage.path}`,
+      },
+    ],
+  },
+];
 ---
 
 <BaseLayout
-  title="Ankitesh Arora | Senior Software Engineer"
-  description="Portfolio of Ankitesh Arora featuring frontend engineering experience, selected work history, technical strengths, and contact links."
-  canonicalPath="/"
+  title={homePage.title}
+  description={homePage.description}
+  canonicalPath={homePage.path}
+  structuredData={homeStructuredData}
 >
   <div id="top">
     <TopNavigation />
-    <main class="mx-auto max-w-7xl space-y-16 px-6 pb-32 pt-24">
+    <main
+      id="main-content"
+      class="mx-auto max-w-7xl space-y-16 px-6 pb-32 pt-24"
+    >
       <section
         id="system"
+        aria-labelledby="system-heading"
         class="grid grid-cols-1 gap-0 border-4 border-ink bg-panel lg:grid-cols-12"
       >
         <div
@@ -138,6 +167,7 @@ const archiveItems = [
               SYSTEM_STATUS: OPERATIONAL
             </div>
             <h1
+              id="system-heading"
               class="font-headline text-5xl leading-[0.85] font-bold uppercase tracking-tighter md:text-6xl lg:text-7xl"
             >
               SENIOR<br />SOFTWARE ENGINEER<br /><span class="text-ink-muted">
@@ -148,6 +178,7 @@ const archiveItems = [
 
           <div class="mt-12 flex flex-wrap gap-4 font-label text-sm">
             <a
+              aria-label="Book a meeting with Ankitesh Arora on Calendly"
               class="border border-ink bg-ink px-4 py-2 text-canvas"
               href="https://calendly.com/ankitesh4/30min"
               target="_blank"
@@ -156,6 +187,7 @@ const archiveItems = [
               INITIATE_PROTOCOL
             </a>
             <a
+              aria-label="Jump to the work archive section"
               class="cursor-pointer border-2 border-ink px-4 py-2 transition-colors hover:bg-accent hover:text-accent-foreground"
               href="#archive"
             >
@@ -182,23 +214,38 @@ const archiveItems = [
         </div>
       </section>
 
-      <section id="stack" class="space-y-6">
-        <SectionHeading title="01_CORE_MODULES" meta="[LOAD_SEQUENCE: 100%]" />
+      <section id="stack" aria-labelledby="stack-heading" class="space-y-6">
+        <SectionHeading
+          id="stack-heading"
+          title="01_CORE_MODULES"
+          meta="[LOAD_SEQUENCE: 100%]"
+        />
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {moduleCards.map((card) => <ModuleCard {...card} />)}
         </div>
       </section>
 
       <div class="grid grid-cols-1 gap-12 lg:grid-cols-12">
-        <section id="archive" class="space-y-6 lg:col-span-8">
-          <SectionHeading title="02_WORK_ARCHIVE" meta="[CAREER_TIMELINE]" />
+        <section
+          id="archive"
+          aria-labelledby="archive-heading"
+          class="space-y-6 lg:col-span-8"
+        >
+          <SectionHeading
+            id="archive-heading"
+            title="02_WORK_ARCHIVE"
+            meta="[CAREER_TIMELINE]"
+          />
           <div class="border-2 border-ink bg-panel">
             {archiveItems.map((item) => <ArchiveItem {...item} />)}
           </div>
         </section>
 
-        <section class="space-y-6 lg:col-span-4">
-          <SectionHeading title="03_CREDENTIALS" />
+        <section
+          aria-labelledby="credentials-heading"
+          class="space-y-6 lg:col-span-4"
+        >
+          <SectionHeading id="credentials-heading" title="03_CREDENTIALS" />
 
           <article
             class="relative overflow-hidden border-2 border-secondary bg-secondary-panel text-secondary-panel-foreground"
@@ -262,10 +309,12 @@ const archiveItems = [
 
       <section
         id="contact"
+        aria-labelledby="contact-heading"
         class="flex flex-col items-center space-y-8 border-t-4 border-ink pt-12 text-center sm:pt-16"
       >
         <div class="max-w-2xl px-4 sm:px-0">
           <h2
+            id="contact-heading"
             class="font-headline text-[clamp(2.5rem,10vw,4rem)] leading-[0.9] font-bold uppercase tracking-[-0.06em] sm:tracking-tighter"
           >
             OPEN_CHANNEL
@@ -281,24 +330,29 @@ const archiveItems = [
           class="flex w-full max-w-4xl flex-col border-2 border-ink sm:flex-row"
         >
           <a
-            class="flex min-h-20 w-full items-center justify-center gap-3 border-b-2 border-ink bg-secondary px-6 py-5 text-center font-bold text-secondary-foreground transition-colors hover:bg-ink hover:text-accent sm:min-h-0 sm:flex-1 sm:border-r-2 sm:border-b-0 sm:px-8 sm:py-4"
+            class="flex min-h-20 w-full items-center justify-center gap-3 border-b-2 border-ink bg-secondary px-6 py-5 text-center font-bold text-secondary-foreground transition-colors hover:bg-ink dark:hover:bg-accent-strong-foreground hover:text-accent sm:min-h-0 sm:flex-1 sm:border-r-2 sm:border-b-0 sm:px-8 sm:py-4"
             href="mailto:ankitesh4@gmail.com"
+            aria-label="Send an email to Ankitesh Arora"
           >
             <Mail class="h-5 w-5" aria-hidden="true" />
             SEND_MAIL
           </a>
           <a
-            class="flex min-h-20 w-full items-center justify-center gap-3 border-b-2 border-ink bg-canvas px-6 py-5 text-center font-bold text-ink transition-colors hover:bg-accent dark:hover:bg-accent-foreground sm:min-h-0 sm:flex-1 sm:border-r-2 sm:border-b-0 sm:px-8 sm:py-4"
+            class="flex min-h-20 w-full items-center justify-center gap-3 border-b-2 border-ink bg-canvas px-6 py-5 text-center font-bold text-ink transition-colors hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent-foreground dark:hover:text-accent sm:min-h-0 sm:flex-1 sm:border-r-2 sm:border-b-0 sm:px-8 sm:py-4"
             href="https://github.com/ankitesh10"
             target="_blank"
+            rel="noreferrer"
+            aria-label="Visit Ankitesh Arora on GitHub"
           >
             <FolderGit2 class="h-5 w-5" aria-hidden="true" />
             GITHUB.LOG
           </a>
           <a
-            class="flex min-h-20 w-full items-center justify-center gap-3 bg-canvas px-6 py-5 text-center font-bold text-ink transition-colors hover:bg-secondary sm:min-h-0 sm:flex-1 sm:px-8 sm:py-4"
+            class="flex min-h-20 w-full items-center justify-center gap-3 bg-canvas px-6 py-5 text-center font-bold text-ink transition-colors hover:bg-secondary hover:text-secondary-foreground sm:min-h-0 sm:flex-1 sm:px-8 sm:py-4"
             href="https://www.linkedin.com/in/ankitesharora/"
             target="_blank"
+            rel="noreferrer"
+            aria-label="Visit Ankitesh Arora on LinkedIn"
           >
             <Link class="h-5 w-5" aria-hidden="true" />
             LINKEDIN_PROF

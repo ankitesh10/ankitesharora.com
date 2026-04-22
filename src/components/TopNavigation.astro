@@ -60,34 +60,40 @@ const mobileMenuActionClass =
 ---
 
 <nav
+  aria-label="Primary"
   class="fixed top-0 left-0 right-0 z-50 border-b-2 border-chrome-border bg-chrome px-4 text-chrome-foreground shadow-[0_1px_0_0_var(--color-border-muted)] md:px-6"
 >
   <div class="flex h-12 items-center justify-between gap-3">
     <a
       href="/"
+      aria-label="Go to the Ankitesh Arora homepage"
       class="min-w-0 flex-1 truncate font-headline text-xs font-bold uppercase tracking-[0.2em] text-accent sm:text-sm md:flex-none md:text-base md:tracking-widest"
     >
       ANKITESH_ARORA_V1.0
     </a>
 
-    <div class="hidden gap-4 md:flex">
+    <ul class="hidden gap-4 md:flex">
       {
         links.map(({ href, label, active }) => (
-          <a
-            href={href}
-            data-nav-link
-            data-active-class={activeNavLinkClass}
-            data-inactive-class={inactiveNavLinkClass}
-            class:list={[
-              baseNavLinkClass,
-              active ? activeNavLinkClass : inactiveNavLinkClass,
-            ]}
-          >
-            {label}
-          </a>
+          <li>
+            <a
+              href={href}
+              aria-label={`Open ${label.toLowerCase()} section`}
+              aria-current={active ? "page" : undefined}
+              data-nav-link
+              data-active-class={activeNavLinkClass}
+              data-inactive-class={inactiveNavLinkClass}
+              class:list={[
+                baseNavLinkClass,
+                active ? activeNavLinkClass : inactiveNavLinkClass,
+              ]}
+            >
+              {label}
+            </a>
+          </li>
         ))
       }
-    </div>
+    </ul>
 
     <div class="flex items-center gap-2 text-accent sm:gap-4">
       {
@@ -170,26 +176,30 @@ const mobileMenuActionClass =
     class="hidden border-t-2 border-chrome-border py-3 md:hidden"
     aria-hidden="true"
   >
-    <div class="flex flex-col gap-2">
+    <ul class="flex flex-col gap-2">
       {
         links.map(({ href, label, active }) => (
-          <a
-            href={href}
-            data-nav-link
-            data-mobile-nav-link
-            data-active-class={activeNavLinkClass}
-            data-inactive-class={inactiveNavLinkClass}
-            class:list={[
-              baseNavLinkClass,
-              "block w-full",
-              active ? activeNavLinkClass : inactiveNavLinkClass,
-            ]}
-          >
-            {label}
-          </a>
+          <li>
+            <a
+              href={href}
+              aria-label={`Open ${label.toLowerCase()} section`}
+              aria-current={active ? "page" : undefined}
+              data-nav-link
+              data-mobile-nav-link
+              data-active-class={activeNavLinkClass}
+              data-inactive-class={inactiveNavLinkClass}
+              class:list={[
+                baseNavLinkClass,
+                "block w-full",
+                active ? activeNavLinkClass : inactiveNavLinkClass,
+              ]}
+            >
+              {label}
+            </a>
+          </li>
         ))
       }
-    </div>
+    </ul>
     <div class="mt-3 border-t-2 border-chrome-border pt-3">
       <div class="grid grid-cols-3 gap-2 rounded-sm p-2">
         <button
