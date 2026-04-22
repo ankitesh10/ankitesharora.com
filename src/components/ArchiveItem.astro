@@ -22,40 +22,83 @@ const {
 
 <article
   class:list={[
-    "flex flex-col gap-5 p-6",
+    "group relative overflow-hidden border-b-2 border-ink",
     highlighted ? "bg-panel" : "bg-panel-soft",
   ]}
 >
-  <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-    <div class="space-y-1">
-      <h4 class="text-lg font-bold uppercase tracking-wide">
-        {company}
-        {location && <span class="font-normal text-ink-muted"> // {location}</span>}
-      </h4>
-      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted">
-        {title}
-      </p>
-    </div>
-
-    <div
-      class:list={[
-        "font-label whitespace-nowrap px-2 py-1 text-xs",
-        highlighted
-          ? "bg-accent text-accent-foreground"
-          : "border border-ink text-ink",
-      ]}
-    >
-      {period}
-    </div>
+  <div class="absolute left-0 top-0 h-14 w-14 border-r border-b border-ink/15">
+  </div>
+  <div
+    class="absolute bottom-0 right-0 h-16 w-16 border-l border-t border-ink/10"
+  >
   </div>
 
-  {summary && <p class="max-w-3xl text-sm text-ink-muted">{summary}</p>}
+  <div class="relative m-2 border border-ink/15 p-6 md:p-7">
+    <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+      <div class="space-y-3">
+        <div
+          class="flex flex-wrap items-center gap-x-3 gap-y-2 font-label text-[10px] uppercase tracking-[0.28em] text-ink-muted"
+        >
+          <span>Employment Record</span>
+          {location && (
+            <>
+              <span class="h-px w-6 bg-ink/20"></span>
+              <span>{location}</span>
+            </>
+          )}
+        </div>
 
-  {
-    bullets.length > 0 && (
-      <ul class="space-y-3 pl-5 text-sm text-ink-muted">
-        {bullets.map((bullet) => <li class="list-disc">{bullet}</li>)}
-      </ul>
-    )
-  }
+        <div class="space-y-1">
+          <h4
+            class="font-headline text-2xl leading-none font-bold uppercase tracking-tight"
+          >
+            {company}
+          </h4>
+          <p
+            class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted"
+          >
+            {title}
+          </p>
+        </div>
+      </div>
+
+      <div
+        class:list={[
+          "shrink-0 border px-3 py-2 font-label text-[11px] uppercase tracking-[0.22em]",
+          highlighted
+            ? "border-accent bg-accent text-accent-foreground"
+            : "border-ink/30 bg-panel text-ink-muted",
+        ]}
+      >
+        {period}
+      </div>
+    </div>
+
+    {summary && <p class="mt-6 max-w-3xl text-sm leading-relaxed text-ink-muted">{summary}</p>}
+
+    {
+      bullets.length > 0 && (
+        <div class="mt-6 border-t border-ink/15 pt-5">
+          <div
+            class="mb-4 font-label text-[10px] uppercase tracking-[0.24em] text-ink-muted"
+          >
+            Impact Log
+          </div>
+          <ul class="space-y-3">
+            {bullets.map((bullet) => (
+              <li class="flex items-start gap-3 text-sm leading-relaxed text-ink-muted">
+                <span
+                  class:list={[
+                    "mt-1.5 h-2 w-2 shrink-0 border border-ink",
+                    highlighted ? "bg-accent" : "bg-transparent",
+                  ]}
+                ></span>
+                <span>{bullet}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </div>
 </article>

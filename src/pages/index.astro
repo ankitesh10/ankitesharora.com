@@ -104,6 +104,9 @@ const archiveItems = [
     company: "CBETTER",
     location: "JAIPUR",
     title: "WEB DEVELOPER",
+    bullets: [
+      "Worked on various frontend and CMS projects, including a website for AUBank Foundation and an interactive schedule portal for the Nasscom Product Conclave.",
+    ],
   },
 ];
 ---
@@ -177,8 +180,8 @@ const archiveItems = [
 
       <div class="grid grid-cols-1 gap-12 lg:grid-cols-12">
         <section id="archive" class="space-y-6 lg:col-span-8">
-          <SectionHeading title="02_WORK_ARCHIVE" />
-          <div class="divide-y-2 divide-ink border-2 border-ink">
+          <SectionHeading title="02_WORK_ARCHIVE" meta="[CAREER_TIMELINE]" />
+          <div class="border-2 border-ink bg-panel">
             {archiveItems.map((item) => <ArchiveItem {...item} />)}
           </div>
         </section>
@@ -254,7 +257,7 @@ const archiveItems = [
           <h2
             class="font-headline text-[clamp(2.5rem,10vw,4rem)] leading-[0.9] font-bold uppercase tracking-[-0.06em] sm:tracking-tighter"
           >
-            ESTABLISH_UPLINK
+            OPEN_CHANNEL
           </h2>
           <p
             class="mt-4 text-pretty font-body text-lg leading-relaxed text-ink-muted sm:text-xl"
