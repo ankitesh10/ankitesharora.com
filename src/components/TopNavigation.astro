@@ -453,6 +453,17 @@ const mobileMenuActionClass =
       toggleMobileMenu(false);
     }
   });
+
+  window.addEventListener("storage", (event) => {
+    console.log("storage", event);
+
+    if (event.key === "theme-preference") {
+      applyTheme(event.newValue);
+
+      syncThemeButton();
+    }
+  });
+
   applyTheme(getPreferredTheme());
   toggleMobileMenu(false);
   syncThemeButton();
