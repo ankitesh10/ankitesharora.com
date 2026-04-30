@@ -116,13 +116,17 @@ const botPage = pageMetadata.bot;
   });
 
   const terminalElement = document.getElementById("terminal");
+  let term: Terminal;
+
+  function convertStringToBlue(text: string) {
+    return `\x1B[3;34m${text}\x1B[0m`;
+  }
+
+  const botuser = `${convertStringToBlue("aa_bot@ ankitesharora.com:~$ ")}`;
+  const vistor = `${convertStringToBlue("visitor@ ankitesharora.com:~$ ")}`;
 
   if (terminalElement) {
-    function convertStringToBlue(text: string) {
-      return `\x1B[3;34m${text}\x1B[0m`;
-    }
-
-    const term = new Terminal({
+    term = new Terminal({
       cursorBlink: true,
       convertEol: true,
       fontFamily: '"Space Grotesk Variable", "Space Grotesk", monospace',
@@ -130,9 +134,6 @@ const botPage = pageMetadata.bot;
       lineHeight: 1.2,
       theme: getTerminalPalette(),
     });
-
-    const botuser = `${convertStringToBlue("aa_bot@ ankitesharora.com:~$ ")}`;
-    const vistor = `${convertStringToBlue("visitor@ ankitesharora.com:~$ ")}`;
 
     term.open(terminalElement);
     term.write(botuser);
@@ -144,12 +145,18 @@ const botPage = pageMetadata.bot;
 
     term.onData((e) => {
       if (e === "\r") {
+        fetch("http://localhost:3000/bot", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message: input }),
+        });
+
         // Enter key
+
         input = "";
         term.write("\r\n");
-        term.write(`${vistor}I am still under development :(`);
-        term.writeln("");
-        term.write(vistor);
       } else if (e === "\x7f") {
         // Backspace (ASCII DEL)
         // Check if there is text to delete before calling
@@ -168,4 +175,26 @@ const botPage = pageMetadata.bot;
       term.refresh(0, term.rows - 1);
     });
   }
+
+  // 1. Establish connection to the server
+  const eventSource = new EventSource("http://localhost:3000/bot");
+
+  // 2. Listen for generic 'message' events
+  eventSource.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+
+    console.log(data);
+
+    if (data.type === "bot_message") {
+      term.write(`${botuser}${data.message}`);
+      term.writeln("");
+      term.write(vistor);
+    }
+  };
+
+  // 3. Handle errors or connection loss
+  eventSource.onerror = (err) => {
+    console.error("EventSource failed:", err);
+    eventSource.close(); // Close on critical error if needed
+  };
 </script>
