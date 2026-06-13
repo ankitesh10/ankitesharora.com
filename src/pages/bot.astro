@@ -82,6 +82,12 @@ const botPage = pageMetadata.bot;
 
 <script>
   import { Terminal } from "@xterm/xterm";
+  import {
+    parseJsonEventStream,
+    readUIMessageStream,
+    uiMessageChunkSchema,
+    type UIMessage,
+  } from "ai";
 
   const getTerminalBackground = () =>
     getComputedStyle(document.documentElement)
@@ -125,6 +131,39 @@ const botPage = pageMetadata.bot;
   const botuser = `${convertStringToBlue("aa_bot@ ankitesharora.com:~$ ")}`;
   const vistor = `${convertStringToBlue("visitor@ ankitesharora.com:~$ ")}`;
 
+  const messages: UIMessage[] = [];
+
+  const createTextMessage = (
+    role: Extract<UIMessage["role"], "user" | "assistant">,
+    text: string,
+  ): UIMessage => ({
+    id: crypto.randomUUID(),
+    role,
+    parts: [{ type: "text", text }],
+  });
+
+  const createUIMessageChunkStream = (stream: ReadableStream<Uint8Array>) =>
+    parseJsonEventStream({
+      stream,
+      schema: uiMessageChunkSchema,
+    }).pipeThrough(
+      new TransformStream({
+        transform(chunk, controller) {
+          if (!chunk.success) {
+            throw chunk.error;
+          }
+
+          controller.enqueue(chunk.value);
+        },
+      }),
+    );
+
+  const getMessageText = (message: UIMessage) =>
+    message.parts
+      .filter((part) => part.type === "text")
+      .map((part) => part.text)
+      .join("");
+
   if (terminalElement) {
     term = new Terminal({
       cursorBlink: true,
@@ -142,21 +181,77 @@ const botPage = pageMetadata.bot;
     term.write(vistor);
 
     let input = "";
+    let isStreaming = false;
 
-    term.onData((e) => {
+    term.onData(async (e) => {
+      if (isStreaming) {
+        return;
+      }
+
       if (e === "\r") {
-        fetch("http://localhost:3000/bot", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ message: input }),
-        });
+        const userInput = input.trim();
 
-        // Enter key
+        if (!userInput) {
+          term.write("\r\n");
+          term.write(vistor);
+          input = "";
+          return;
+        }
 
+        messages.push(createTextMessage("user", userInput));
         input = "";
+        isStreaming = true;
         term.write("\r\n");
+        term.write(botuser);
+
+        try {
+          const response = await fetch("http://localhost:3001/bot", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ messages }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`Bot request failed: ${response.status}`);
+          }
+
+          if (!response.body) {
+            throw new Error("Response body is null");
+          }
+
+          let assistantMessage: UIMessage | undefined;
+          let writtenText = "";
+
+          for await (const message of readUIMessageStream({
+            stream: createUIMessageChunkStream(response.body),
+          })) {
+            console.log("message", message);
+
+            assistantMessage = message;
+            const nextText = getMessageText(message);
+
+            if (nextText.startsWith(writtenText)) {
+              term.write(nextText.slice(writtenText.length));
+            } else {
+              term.write(nextText);
+            }
+
+            writtenText = nextText;
+          }
+
+          if (assistantMessage) {
+            messages.push(assistantMessage);
+          }
+        } catch (error) {
+          console.error(error);
+          term.write("\x1B[31mConnection error. Check the bot API.\x1B[0m");
+        } finally {
+          isStreaming = false;
+          term.writeln("");
+          term.write(vistor);
+        }
       } else if (e === "\x7f") {
         // Backspace (ASCII DEL)
         // Check if there is text to delete before calling
@@ -175,26 +270,4 @@ const botPage = pageMetadata.bot;
       term.refresh(0, term.rows - 1);
     });
   }
-
-  // 1. Establish connection to the server
-  const eventSource = new EventSource("http://localhost:3000/bot");
-
-  // 2. Listen for generic 'message' events
-  eventSource.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-
-    console.log(data);
-
-    if (data.type === "bot_message") {
-      term.write(`${botuser}${data.message}`);
-      term.writeln("");
-      term.write(vistor);
-    }
-  };
-
-  // 3. Handle errors or connection loss
-  eventSource.onerror = (err) => {
-    console.error("EventSource failed:", err);
-    eventSource.close(); // Close on critical error if needed
-  };
 </script>
