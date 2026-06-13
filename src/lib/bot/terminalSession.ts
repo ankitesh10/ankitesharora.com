@@ -36,60 +36,15 @@ export const startBotTerminal = ({
 
   term.open(terminalElement);
 
-  const fitTerminal = () => {
-    const probe = document.createElement("span");
-    probe.textContent = "W";
-    probe.style.cssText = `
-      position: absolute;
-      visibility: hidden;
-      white-space: pre;
-      font-family: ${term.options.fontFamily};
-      font-size: ${term.options.fontSize}px;
-      line-height: ${term.options.lineHeight};
-      letter-spacing: ${term.options.letterSpacing}px;
-    `;
-
-    terminalElement.append(probe);
-
-    const probeRect = probe.getBoundingClientRect();
-    const terminalRect = terminalElement.getBoundingClientRect();
-
-    probe.remove();
-
-    if (probeRect.width <= 0 || probeRect.height <= 0) {
-      return;
-    }
-
-    const cols = Math.max(2, Math.floor(terminalRect.width / probeRect.width));
-    const rows = Math.max(2, Math.floor(terminalRect.height / probeRect.height));
-
-    if (cols !== term.cols || rows !== term.rows) {
-      term.resize(cols, rows);
-    }
+  const showPrompt = () => {
+    term.write(visitorPrompt);
+    term.scrollToBottom();
   };
-
-  let resizeAnimationFrame: number | undefined;
-  const scheduleFitTerminal = () => {
-    if (resizeAnimationFrame !== undefined) {
-      window.cancelAnimationFrame(resizeAnimationFrame);
-    }
-
-    resizeAnimationFrame = window.requestAnimationFrame(() => {
-      resizeAnimationFrame = undefined;
-      fitTerminal();
-    });
-  };
-
-  scheduleFitTerminal();
-
-  const resizeObserver = new ResizeObserver(scheduleFitTerminal);
-  resizeObserver.observe(terminalElement);
-  window.addEventListener("resize", scheduleFitTerminal);
 
   term.write(botPrompt);
   term.write(`Hello from \x1B[1;3;31maa_bot\x1B[0m. Ask anything about me!`);
   term.writeln("");
-  term.write(visitorPrompt);
+  showPrompt();
 
   let input = "";
   let isStreaming = false;
@@ -127,7 +82,7 @@ export const startBotTerminal = ({
 
       if (!userInput) {
         term.write("\r\n");
-        term.write(visitorPrompt);
+        showPrompt();
         input = "";
         return;
       }
@@ -175,7 +130,7 @@ export const startBotTerminal = ({
         stopThinking();
         isStreaming = false;
         term.writeln("");
-        term.write(visitorPrompt);
+        showPrompt();
       }
     } else if (e === "\x7f") {
       if (input.length > 0) {

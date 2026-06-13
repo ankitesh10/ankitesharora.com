@@ -15,10 +15,11 @@ const botPage = pageMetadata.bot;
 >
   <main
     id="main-content"
-    class="mx-auto mt-12 mb-12 flex h-[calc(100dvh-6rem)] min-h-0 max-w-7xl items-stretch px-4 py-3 sm:px-6 md:py-4"
+    data-bot-page
+    class="mx-auto mt-12 flex h-[calc(100dvh-6rem)] min-h-0 max-w-7xl items-stretch overflow-hidden px-4 py-3 sm:px-6 md:py-4"
   >
     <section
-      class="bot-terminal-panel w-full overflow-hidden border-4 border-ink bg-panel shadow-[8px_8px_0_0_var(--color-ink)] sm:shadow-[12px_12px_0_0_var(--color-ink)]"
+      class="bot-terminal-panel w-full overflow-hidden border-4 border-ink bg-panel shadow-[8px_8px_0_0_var(--color-ink)] sm:shadow-[12px_12px_0_0_var(--color-ink)] mt-12"
     >
       <TopNavigation />
 
@@ -58,8 +59,9 @@ const botPage = pageMetadata.bot;
 
 <style>
   .bot-terminal-panel {
-    --bot-terminal-font: "SFMono-Regular", "Cascadia Code", "JetBrains Mono",
-      "Fira Code", "IBM Plex Mono", "Roboto Mono", Menlo, Monaco, Consolas,
+    --bot-terminal-font:
+      "SFMono-Regular", "Cascadia Code", "JetBrains Mono", "Fira Code",
+      "IBM Plex Mono", "Roboto Mono", Menlo, Monaco, Consolas,
       "Liberation Mono", monospace;
     display: flex;
     flex-direction: column;
@@ -92,6 +94,11 @@ const botPage = pageMetadata.bot;
 
   #terminal :global(.xterm-viewport) {
     overflow-y: auto;
+  }
+
+  :global(body:has([data-bot-page])) {
+    height: 100dvh;
+    overflow: hidden;
   }
 </style>
 
