@@ -15,37 +15,39 @@ const botPage = pageMetadata.bot;
 >
   <main
     id="main-content"
-    class="mx-auto flex min-h-[calc(100dvh-3rem)] max-w-7xl items-center px-6 pt-12 pb-16 md:pt-16"
+    class="mx-auto flex min-h-[calc(100dvh-3rem)] max-w-7xl items-start px-4 py-5 sm:px-6 md:py-7"
   >
     <section
-      class="w-full overflow-hidden border-4 border-ink bg-panel shadow-[12px_12px_0_0_var(--color-ink)]"
+      class="bot-terminal-panel w-full overflow-hidden border-4 border-ink bg-panel shadow-[8px_8px_0_0_var(--color-ink)] sm:shadow-[12px_12px_0_0_var(--color-ink)]"
     >
       <TopNavigation />
 
       <header
-        class="flex items-center justify-between gap-4 border-b-4 border-ink bg-accent px-5 py-4 text-accent-foreground"
+        class="flex flex-col gap-3 border-b-4 border-ink bg-accent px-4 py-4 text-accent-foreground sm:flex-row sm:items-center sm:justify-between sm:px-5"
       >
         <div>
-          <p class="font-label text-xs uppercase tracking-[0.3em]">
+          <p
+            class="font-label text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em]"
+          >
             TERMINAL_NODE;
           </p>
           <h1 class="font-headline text-xl font-bold uppercase tracking-tight">
             AA_BOT_INTERFACE;
           </h1>
         </div>
-        <div class="font-label text-xs tracking-[0.25em]">
+        <div class="font-label text-xs tracking-[0.16em] sm:tracking-[0.25em]">
           STATUS: UNDER_DEVELOPMENT;
         </div>
       </header>
 
       <div
-        class="border-b-4 border-ink bg-panel-muted px-5 py-3 font-label text-xs uppercase tracking-[0.2em] text-ink-muted flex justify-between"
+        class="flex flex-col gap-2 border-b-4 border-ink bg-panel-muted px-4 py-3 font-label text-xs uppercase tracking-[0.14em] text-ink-muted sm:flex-row sm:justify-between sm:px-5 sm:tracking-[0.2em]"
       >
         <span>BOOT_SEQUENCE: OK;</span>
         <span>SESSION: LOCALHOST / PROTOCOL: XTERM;</span>
       </div>
 
-      <div class="terminal-shell overflow-hidden px-5 h-[calc(100dvh-17rem)]">
+      <div class="terminal-shell overflow-hidden px-4 py-4 sm:px-5">
         <div id="terminal" class="h-full w-full"></div>
       </div>
     </section>
@@ -55,7 +57,19 @@ const botPage = pageMetadata.bot;
 </BaseLayout>
 
 <style>
+  .bot-terminal-panel {
+    --bot-terminal-font: "SFMono-Regular", "Cascadia Code", "JetBrains Mono",
+      "Fira Code", "IBM Plex Mono", "Roboto Mono", Menlo, Monaco, Consolas,
+      "Liberation Mono", monospace;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--bot-terminal-font);
+    max-height: calc(100dvh - 5.25rem);
+  }
+
   .terminal-shell {
+    flex: 1 1 auto;
+    min-height: 18rem;
     background: var(--color-chrome);
   }
 
@@ -67,6 +81,7 @@ const botPage = pageMetadata.bot;
   #terminal :global(.xterm) {
     height: 100%;
     background: var(--color-chrome);
+    font-family: var(--bot-terminal-font);
   }
 
   #terminal :global(.xterm-screen),

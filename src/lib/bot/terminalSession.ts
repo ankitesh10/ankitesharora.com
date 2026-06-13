@@ -24,11 +24,15 @@ export const startBotTerminal = ({
   const messages: UIMessage[] = [];
 
   const term = new Terminal({
+    cols: 120,
     cursorBlink: true,
     convertEol: true,
-    fontFamily: '"Space Grotesk Variable", "Space Grotesk", monospace',
-    fontSize: 13,
-    lineHeight: 1.2,
+    fontFamily:
+      '"SFMono-Regular", "Cascadia Code", "JetBrains Mono", "Fira Code", "IBM Plex Mono", "Roboto Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace',
+    fontSize: 14,
+    letterSpacing: 0,
+    lineHeight: 1.5,
+    rows: 24,
     theme: getTerminalPalette(),
   });
 
@@ -40,6 +44,29 @@ export const startBotTerminal = ({
 
   let input = "";
   let isStreaming = false;
+  let thinkingTimer: number | undefined;
+
+  const startThinking = () => {
+    let frame = 0;
+    const frames = ["", ".", "..", "..."];
+
+    term.write(`\x1B[90mThinking${frames[frame]}\x1B[0m`);
+
+    thinkingTimer = window.setInterval(() => {
+      frame = (frame + 1) % frames.length;
+      term.write(`\r${botPrompt}\x1B[90mThinking${frames[frame]}   \x1B[0m`);
+    }, 300);
+  };
+
+  const stopThinking = () => {
+    if (thinkingTimer === undefined) {
+      return;
+    }
+
+    window.clearInterval(thinkingTimer);
+    thinkingTimer = undefined;
+    term.write(`\r\x1B[2K${botPrompt}`);
+  };
 
   term.onData(async (e) => {
     if (isStreaming) {
@@ -61,6 +88,7 @@ export const startBotTerminal = ({
       isStreaming = true;
       term.write("\r\n");
       term.write(botPrompt);
+      startThinking();
 
       try {
         let assistantMessage: UIMessage | undefined;
@@ -70,10 +98,12 @@ export const startBotTerminal = ({
           endpoint,
           messages,
         )) {
-          console.log("message", message);
-
           assistantMessage = message;
           const nextText = getMessageText(message);
+
+          if (nextText.length > 0) {
+            stopThinking();
+          }
 
           if (nextText.startsWith(writtenText)) {
             term.write(nextText.slice(writtenText.length));
@@ -89,8 +119,10 @@ export const startBotTerminal = ({
         }
       } catch (error) {
         console.error(error);
+        stopThinking();
         term.write("\x1B[31mConnection error. Check the bot API.\x1B[0m");
       } finally {
+        stopThinking();
         isStreaming = false;
         term.writeln("");
         term.write(visitorPrompt);
