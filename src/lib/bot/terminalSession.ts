@@ -1,4 +1,5 @@
 import { Terminal } from "@xterm/xterm";
+import { FitAddon } from "@xterm/addon-fit";
 import type { UIMessage } from "ai";
 
 import { streamBotMessages } from "./botStream";
@@ -13,8 +14,6 @@ type BotTerminalOptions = {
 
 const fontSize = 14;
 const lineHeight = 1.5;
-const cellHeight = fontSize * lineHeight;
-const cellWidth = fontSize * 0.6;
 
 export const startBotTerminal = ({
   endpoint,
@@ -39,22 +38,14 @@ export const startBotTerminal = ({
     theme: getTerminalPalette(),
   });
 
+  const fitAddon = new FitAddon();
+  term.loadAddon(fitAddon);
+
   term.open(terminalElement);
 
   const fitTerminal = () => {
-    const cols = Math.max(
-      20,
-      Math.floor(terminalElement.clientWidth / cellWidth),
-    );
-    const rows = Math.max(
-      4,
-      Math.floor(terminalElement.clientHeight / cellHeight),
-    );
-
-    if (cols !== term.cols || rows !== term.rows) {
-      term.resize(cols, rows);
-      term.scrollToBottom();
-    }
+    fitAddon.fit();
+    term.scrollToBottom();
   };
 
   const showPrompt = () => {
