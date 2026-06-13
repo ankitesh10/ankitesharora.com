@@ -15,7 +15,7 @@ const botPage = pageMetadata.bot;
 >
   <main
     id="main-content"
-    class="mx-auto flex min-h-[calc(100dvh-3rem)] max-w-7xl items-start px-4 py-5 sm:px-6 md:py-7"
+    class="mx-auto mt-12 mb-12 flex h-[calc(100dvh-6rem)] min-h-0 max-w-7xl items-stretch px-4 py-3 sm:px-6 md:py-4"
   >
     <section
       class="bot-terminal-panel w-full overflow-hidden border-4 border-ink bg-panel shadow-[8px_8px_0_0_var(--color-ink)] sm:shadow-[12px_12px_0_0_var(--color-ink)]"
@@ -64,12 +64,12 @@ const botPage = pageMetadata.bot;
     display: flex;
     flex-direction: column;
     font-family: var(--bot-terminal-font);
-    max-height: calc(100dvh - 5.25rem);
+    min-height: 0;
   }
 
   .terminal-shell {
     flex: 1 1 auto;
-    min-height: 18rem;
+    min-height: 0;
     background: var(--color-chrome);
   }
 

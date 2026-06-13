@@ -24,7 +24,6 @@ export const startBotTerminal = ({
   const messages: UIMessage[] = [];
 
   const term = new Terminal({
-    cols: 120,
     cursorBlink: true,
     convertEol: true,
     fontFamily:
@@ -32,11 +31,61 @@ export const startBotTerminal = ({
     fontSize: 14,
     letterSpacing: 0,
     lineHeight: 1.5,
-    rows: 24,
     theme: getTerminalPalette(),
   });
 
   term.open(terminalElement);
+
+  const fitTerminal = () => {
+    const probe = document.createElement("span");
+    probe.textContent = "W";
+    probe.style.cssText = `
+      position: absolute;
+      visibility: hidden;
+      white-space: pre;
+      font-family: ${term.options.fontFamily};
+      font-size: ${term.options.fontSize}px;
+      line-height: ${term.options.lineHeight};
+      letter-spacing: ${term.options.letterSpacing}px;
+    `;
+
+    terminalElement.append(probe);
+
+    const probeRect = probe.getBoundingClientRect();
+    const terminalRect = terminalElement.getBoundingClientRect();
+
+    probe.remove();
+
+    if (probeRect.width <= 0 || probeRect.height <= 0) {
+      return;
+    }
+
+    const cols = Math.max(2, Math.floor(terminalRect.width / probeRect.width));
+    const rows = Math.max(2, Math.floor(terminalRect.height / probeRect.height));
+
+    if (cols !== term.cols || rows !== term.rows) {
+      term.resize(cols, rows);
+    }
+  };
+
+  let resizeAnimationFrame: number | undefined;
+  const scheduleFitTerminal = () => {
+    if (resizeAnimationFrame !== undefined) {
+      window.cancelAnimationFrame(resizeAnimationFrame);
+    }
+
+    resizeAnimationFrame = window.requestAnimationFrame(() => {
+      resizeAnimationFrame = undefined;
+      fitTerminal();
+    });
+  };
+
+  scheduleFitTerminal();
+
+  const resizeObserver = new ResizeObserver(scheduleFitTerminal);
+  resizeObserver.observe(terminalElement);
+  window.addEventListener("resize", scheduleFitTerminal);
+
   term.write(botPrompt);
   term.write(`Hello from \x1B[1;3;31maa_bot\x1B[0m. Ask anything about me!`);
   term.writeln("");
@@ -117,6 +166,7 @@ export const startBotTerminal = ({
         if (assistantMessage) {
           messages.push(assistantMessage);
         }
+        console.log("messages", messages);
       } catch (error) {
         console.error(error);
         stopThinking();
