@@ -19,7 +19,7 @@ const botPage = pageMetadata.bot;
     class="mx-auto mt-12 flex h-[calc(100dvh-6rem)] min-h-0 max-w-7xl items-stretch overflow-hidden px-4 py-3 sm:px-6 md:py-4"
   >
     <section
-      class="bot-terminal-panel w-full overflow-hidden border-4 border-ink bg-panel shadow-[8px_8px_0_0_var(--color-ink)] sm:shadow-[12px_12px_0_0_var(--color-ink)] mt-12"
+      class="bot-terminal-panel w-full overflow-hidden border-4 border-ink bg-panel shadow-[8px_8px_0_0_var(--color-ink)] sm:shadow-[12px_12px_0_0_var(--color-ink)]"
     >
       <TopNavigation />
 
@@ -88,12 +88,7 @@ const botPage = pageMetadata.bot;
 
   #terminal :global(.xterm-screen),
   #terminal :global(.xterm-viewport) {
-    height: 100% !important;
     background: var(--color-chrome);
-  }
-
-  #terminal :global(.xterm-viewport) {
-    overflow-y: auto;
   }
 
   :global(body:has([data-bot-page])) {

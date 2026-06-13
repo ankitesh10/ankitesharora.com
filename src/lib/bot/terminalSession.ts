@@ -11,6 +11,11 @@ type BotTerminalOptions = {
   terminalSelector: string;
 };
 
+const fontSize = 14;
+const lineHeight = 1.5;
+const cellHeight = fontSize * lineHeight;
+const cellWidth = fontSize * 0.6;
+
 export const startBotTerminal = ({
   endpoint,
   terminalSelector,
@@ -28,18 +33,38 @@ export const startBotTerminal = ({
     convertEol: true,
     fontFamily:
       '"SFMono-Regular", "Cascadia Code", "JetBrains Mono", "Fira Code", "IBM Plex Mono", "Roboto Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace',
-    fontSize: 14,
+    fontSize,
     letterSpacing: 0,
-    lineHeight: 1.5,
+    lineHeight,
     theme: getTerminalPalette(),
   });
 
   term.open(terminalElement);
 
+  const fitTerminal = () => {
+    const cols = Math.max(
+      20,
+      Math.floor(terminalElement.clientWidth / cellWidth),
+    );
+    const rows = Math.max(
+      4,
+      Math.floor(terminalElement.clientHeight / cellHeight),
+    );
+
+    if (cols !== term.cols || rows !== term.rows) {
+      term.resize(cols, rows);
+      term.scrollToBottom();
+    }
+  };
+
   const showPrompt = () => {
     term.write(visitorPrompt);
     term.scrollToBottom();
   };
+
+  fitTerminal();
+  new ResizeObserver(fitTerminal).observe(terminalElement);
+  window.addEventListener("resize", fitTerminal);
 
   term.write(botPrompt);
   term.write(`Hello from \x1B[1;3;31maa_bot\x1B[0m. Ask anything about me!`);
