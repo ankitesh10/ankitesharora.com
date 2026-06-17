@@ -37,7 +37,7 @@ const botPage = pageMetadata.bot;
           </h1>
         </div>
         <div class="font-label text-xs tracking-[0.16em] sm:tracking-[0.25em]">
-          STATUS: UNDER_DEVELOPMENT;
+          STATUS: <span id="status">INITIATING_SEQUENCE</span>;
         </div>
       </header>
 
@@ -98,10 +98,27 @@ const botPage = pageMetadata.bot;
 </style>
 
 <script>
+  const response = await fetch(`${import.meta.env.PUBLIC_API_URL}/health`);
+
+  const data = await response.json();
+
+  let aa_bot_status =
+    data?.status === "up" && data?.database?.status === "up"
+      ? "CONNECTED"
+      : "UNABLE_TO_CONNECT";
+
+  const statusElement = document.querySelector("#status");
+
+  if (statusElement?.innerHTML) {
+    statusElement.innerHTML = aa_bot_status;
+  }
+</script>
+
+<script>
   import { startBotTerminal } from "../lib/bot/terminalSession";
 
   startBotTerminal({
-    endpoint: "http://localhost:3001/bot",
+    endpoint: `${import.meta.env.PUBLIC_API_URL}/bot`,
     terminalSelector: "#terminal",
   });
 </script>
