@@ -98,24 +98,25 @@ const botPage = pageMetadata.bot;
 </style>
 
 <script>
-  const response = await fetch(`${import.meta.env.PUBLIC_API_URL}/health`);
-
-  const data = await response.json();
-
-  let aa_bot_status =
-    data?.status === "up" && data?.database?.status === "up"
-      ? "CONNECTED"
-      : "UNABLE_TO_CONNECT";
-
-  const statusElement = document.querySelector("#status");
-
-  if (statusElement?.innerHTML) {
-    statusElement.innerHTML = aa_bot_status;
-  }
-</script>
-
-<script>
   import { startBotTerminal } from "../lib/bot/terminalSession";
+
+  const setBotStatus = async () => {
+    const response = await fetch(`${import.meta.env.PUBLIC_API_URL}/health`);
+    const data = await response.json();
+
+    let aa_bot_status =
+      data?.status === "up" && data?.database?.status === "up"
+        ? "CONNECTED"
+        : "UNABLE_TO_CONNECT";
+
+    const statusElement = document.querySelector("#status");
+
+    if (statusElement?.innerHTML) {
+      statusElement.innerHTML = aa_bot_status;
+    }
+  };
+
+  setBotStatus();
 
   startBotTerminal({
     endpoint: `${import.meta.env.PUBLIC_API_URL}/bot`,
