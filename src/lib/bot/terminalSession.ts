@@ -6,6 +6,7 @@ import { streamBotMessages } from "./botStream";
 import { createTextMessage, getMessageText } from "./messages";
 import { botPrompt, visitorPrompt } from "./terminalPrompts";
 import { getTerminalPalette } from "./terminalTheme";
+import { getSessionId } from "./getSessionId";
 
 type BotTerminalOptions = {
   endpoint: string;
@@ -15,7 +16,9 @@ type BotTerminalOptions = {
 const fontSize = 14;
 const lineHeight = 1.5;
 
-export const startBotTerminal = ({
+let sessionId: string = "";
+
+export const startBotTerminal = async ({
   endpoint,
   terminalSelector,
 }: BotTerminalOptions) => {
@@ -24,6 +27,18 @@ export const startBotTerminal = ({
   if (!terminalElement) {
     return;
   }
+
+  if (!sessionId) {
+    try {
+      const id = await getSessionId();
+
+      if (id) sessionId = id;
+    } catch (error) {
+      return;
+    }
+  }
+
+  console.log("sessionId", sessionId);
 
   const messages: UIMessage[] = [];
 
@@ -117,6 +132,7 @@ export const startBotTerminal = ({
         for await (const message of await streamBotMessages(
           endpoint,
           messages,
+          sessionId,
         )) {
           assistantMessage = message;
           const nextText = getMessageText(message);

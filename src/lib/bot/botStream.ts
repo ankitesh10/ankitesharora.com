@@ -24,13 +24,14 @@ const createUIMessageChunkStream = (stream: ReadableStream<Uint8Array>) =>
 export const streamBotMessages = async (
   endpoint: string,
   messages: UIMessage[],
+  sessionId: string,
 ) => {
   const response = await fetch(endpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ messages }),
+    body: JSON.stringify({ messages, sessionId }),
   });
 
   if (!response.ok) {
