@@ -17,14 +17,6 @@ const {
 const siteUrl = Astro.site ?? new URL("https://ankitesharora.com");
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
 const defaultSocialImage = new URL("/favicon.svg", siteUrl).toString();
-const googleAnalyticsScript = `
-  window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    dataLayer.push(arguments);
-  }
-  gtag("js", new Date());
-  gtag("config", "G-W604KML8NV");
-`;
 ---
 
 <!doctype html>
@@ -52,12 +44,12 @@ const googleAnalyticsScript = `
     {
       import.meta.env.PROD && (
         <>
+          <script is:inline src="/analytics-init.js" />
           <script
             is:inline
             async
             src="https://www.googletagmanager.com/gtag/js?id=G-W604KML8NV"
           />
-          <script is:inline set:html={googleAnalyticsScript} />
         </>
       )
     }
