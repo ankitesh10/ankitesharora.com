@@ -35,7 +35,16 @@ export const streamBotMessages = async (
   });
 
   if (!response.ok) {
-    throw new Error(`Bot request failed: ${response.status}`);
+    const body = await response.json().catch(() => undefined);
+    const message =
+      body &&
+      typeof body === "object" &&
+      "error" in body &&
+      typeof body.error === "string"
+        ? body.error
+        : `Bot request failed: ${response.status}`;
+
+    throw new Error(message);
   }
 
   if (!response.body) {

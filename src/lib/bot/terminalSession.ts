@@ -38,8 +38,6 @@ export const startBotTerminal = async ({
     }
   }
 
-  console.log("sessionId", sessionId);
-
   const messages: UIMessage[] = [];
 
   const term = new Terminal({
@@ -153,11 +151,11 @@ export const startBotTerminal = async ({
         if (assistantMessage) {
           messages.push(assistantMessage);
         }
-        console.log("messages", messages);
       } catch (error) {
+        const apiError = error as Error;
         console.error(error);
         stopThinking();
-        term.write("\x1B[31mConnection error. Check the bot API.\x1B[0m");
+        term.write(`\x1B[31m${apiError.message}\x1B[0m`);
       } finally {
         stopThinking();
         isStreaming = false;
