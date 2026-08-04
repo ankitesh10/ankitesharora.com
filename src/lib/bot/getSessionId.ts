@@ -6,8 +6,13 @@ export async function getSessionId(): Promise<string | void> {
 
     const response = await result.json();
 
-    return response.resource.id;
+    if (result.ok) {
+      return response.resource.id;
+    } else {
+      throw response;
+    }
   } catch (error) {
     console.error(error);
+    throw error as Error;
   }
 }
