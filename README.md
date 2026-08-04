@@ -1,43 +1,78 @@
-# Astro Starter Kit: Minimal
+# ankitesharora.com
 
-```sh
-pnpm create astro@latest -- --template minimal
-```
+Source for [ankitesharora.com](https://ankitesharora.com) — Ankitesh Arora's personal portfolio site. Built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com), featuring a terminal-style AI "bot" interface powered by [xterm.js](https://xtermjs.org) and the [Vercel AI SDK](https://sdk.vercel.ai).
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## ✨ Features
 
-## 🚀 Project Structure
+- Fast, static-first portfolio built on Astro
+- Tailwind CSS v4 for styling
+- Interactive terminal UI (`/bot`) that streams responses from an AI backend via xterm.js
+- Resume, blog, and archive pages
 
-Inside of your Astro project, you'll see the following folders and files:
+## 📁 Project structure
 
 ```text
 /
-├── public/
+├── public/                  # Static assets (favicon, resume PDF, robots.txt, etc.)
 ├── src/
-│   └── pages/
-│       └── index.astro
+│   ├── components/          # Reusable Astro components
+│   ├── data/                # Page metadata (titles, descriptions, paths)
+│   ├── layouts/              # Shared page layout(s)
+│   ├── lib/bot/              # Terminal session, streaming, and prompt logic for the bot interface
+│   ├── pages/                # File-based routes (index, blog, resume, bot, 404)
+│   └── styles/                # Global styles
+├── astro.config.mjs
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 🚀 Getting started
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+**Requirements:** Node.js `>=22.12.0` and [pnpm](https://pnpm.io).
 
-Any static assets, like images, can be placed in the `public/` directory.
+```sh
+pnpm install
+pnpm dev
+```
+
+The dev server runs at `http://localhost:4321`.
+
+### Environment variables
+
+The bot interface (`/bot`) talks to an external API. Create a `.env` file in the project root:
+
+```sh
+PUBLIC_API_URL=http://localhost:PORT
+```
+
+Without a reachable `PUBLIC_API_URL`, the rest of the site works normally but the terminal page won't be able to connect.
 
 ## 🧞 Commands
 
-All commands are run from the root of the project, from a terminal:
+| Command         | Action                                       |
+| :--------------- | :-------------------------------------------- |
+| `pnpm install`   | Install dependencies                          |
+| `pnpm dev`       | Start local dev server at `localhost:4321`    |
+| `pnpm build`     | Build production site to `./dist/`            |
+| `pnpm preview`   | Preview the production build locally          |
+| `pnpm astro ...` | Run Astro CLI commands (e.g. `astro check`)   |
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+## 🛠️ Tech stack
 
-## 👀 Want to learn more?
+- [Astro](https://astro.build) — static site generation & routing
+- [Tailwind CSS v4](https://tailwindcss.com) — styling
+- [xterm.js](https://xtermjs.org) — terminal emulator for the bot interface
+- [Vercel AI SDK](https://sdk.vercel.ai) — streaming message types/utilities
+- [Prettier](https://prettier.io) (with the Astro plugin) — formatting
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## 🤝 Contributing
+
+This is a personal portfolio, so large feature contributions aren't expected — but bug reports, typo fixes, and accessibility/performance improvements are welcome via issues and pull requests.
+
+1. Fork the repo and create a branch from `main`
+2. Run `pnpm dev` and verify your change
+3. Run `pnpm astro check` and format with Prettier before opening a PR
+4. Open a PR describing the change and why it's needed
+
+## 📄 License
+
+The site's source code is shared for reference. Personal content (writing, resume, images, and branding) is not licensed for reuse — please don't republish it as your own.
