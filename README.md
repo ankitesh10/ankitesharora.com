@@ -75,4 +75,4 @@ This is a personal portfolio, so large feature contributions aren't expected —
 
 ## 📄 License
 
-The site's source code is shared for reference. Personal content (writing, resume, images, and branding) is not licensed for reuse — please don't republish it as your own.
+Source code is licensed under [MIT](./LICENSE). Personal content (writing, resume, images, and branding) is not licensed for reuse — please don't republish it as your own.
