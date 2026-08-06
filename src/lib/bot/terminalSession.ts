@@ -76,8 +76,6 @@ export const startBotTerminal = async ({
     } catch (error) {
       const terminalError = error as Error;
 
-      console.log("terminalError", terminalError);
-
       term.write(`\x1B[31m${terminalError.message}\x1B[0m`);
     }
   }
