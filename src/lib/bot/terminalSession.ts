@@ -28,16 +28,6 @@ export const startBotTerminal = async ({
     return;
   }
 
-  if (!sessionId) {
-    try {
-      const id = await getSessionId();
-
-      if (id) sessionId = id;
-    } catch (error) {
-      return;
-    }
-  }
-
   const messages: UIMessage[] = [];
 
   const term = new Terminal({
@@ -71,9 +61,24 @@ export const startBotTerminal = async ({
   window.addEventListener("resize", fitTerminal);
 
   term.write(botPrompt);
+
   term.write(`Hello from \x1B[1;3;31maa_bot\x1B[0m. Ask anything about me!`);
   term.writeln("");
   showPrompt();
+
+  if (!sessionId) {
+    try {
+      const id = await getSessionId();
+
+      if (id) {
+        sessionId = id;
+      }
+    } catch (error) {
+      const terminalError = error as Error;
+
+      term.write(`\x1B[31m${terminalError.message}\x1B[0m`);
+    }
+  }
 
   let input = "";
   let isStreaming = false;
