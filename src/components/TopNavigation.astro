@@ -15,11 +15,12 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
 const currentHash = Astro.url.hash;
 
 const links = [
-  { href: "/#system", label: "SYSTEM" },
-  { href: "/blog", label: "BLOG" },
-  { href: "/resume", label: "RESUME" },
-  { href: "/bot", label: "BOT", mobileOnly: true },
-  { href: "/#contact", label: "CONTACT" },
+  { href: "/#system", label: "Home" },
+  { href: "/#work", label: "Work" },
+  { href: "/blog", label: "Blog" },
+  { href: "/resume", label: "Resume" },
+  { href: "/bot", label: "Ask the bot", mobileOnly: true },
+  { href: "/#contact", label: "Contact" },
 ].map((link) => {
   const url = new URL(link.href, Astro.url);
   const linkPath = url.pathname.replace(/\/+$/, "") || "/";
@@ -35,7 +36,7 @@ const links = [
 });
 
 const baseNavLinkClass =
-  "px-2 py-1 font-label text-sm uppercase tracking-tighter transition-colors duration-75";
+  "px-3 py-1.5 font-label text-sm font-medium transition-colors duration-150";
 const activeNavLinkClass = "bg-accent text-accent-foreground";
 const inactiveNavLinkClass =
   "text-accent hover:bg-secondary/80 hover:text-chrome-foreground";
@@ -68,18 +69,17 @@ const mobileMenuActionClass =
     <a
       href="/"
       aria-label="Go to the Ankitesh Arora homepage"
-      class="min-w-0 flex-1 truncate font-headline text-xs font-bold uppercase tracking-[0.2em] text-accent sm:text-sm md:flex-none md:text-base md:tracking-widest"
+      class="min-w-0 flex-1 truncate font-headline text-base font-bold tracking-tight text-accent md:flex-none md:text-lg"
     >
-      ANKITESH_ARORA_V1.0
+      Ankitesh Arora
     </a>
 
-    <ul class="hidden gap-4 md:flex">
+    <ul class="hidden gap-1 md:flex">
       {
         links.filter((link) => !link.mobileOnly).map(({ href, label, active }) => (
           <li>
             <a
               href={href}
-              aria-label={`Open ${label.toLowerCase()} section`}
               aria-current={active ? "page" : undefined}
               data-nav-link
               data-active-class={activeNavLinkClass}
@@ -183,7 +183,6 @@ const mobileMenuActionClass =
           <li>
             <a
               href={href}
-              aria-label={`Open ${label.toLowerCase()} section`}
               aria-current={active ? "page" : undefined}
               data-nav-link
               data-mobile-nav-link
@@ -445,6 +444,9 @@ const mobileMenuActionClass =
     });
   });
 
+  // On the home page the active link follows the section being read.
+  let spyHash: string | null = null;
+
   function syncActiveNavigation() {
     const navLinks = document.querySelectorAll("[data-nav-link]");
 
@@ -457,7 +459,7 @@ const mobileMenuActionClass =
       const currentPathname =
         window.location.pathname.replace(/\/+$/, "") || "/";
       const linkPathname = linkUrl.pathname.replace(/\/+$/, "") || "/";
-      const currentHashname = window.location.hash;
+      const currentHashname = spyHash ?? window.location.hash;
       const isActive = linkUrl.hash
         ? currentPathname === linkPathname &&
           (currentHashname
@@ -489,7 +491,49 @@ const mobileMenuActionClass =
     applyTheme(event.matches ? "dark" : "light");
     syncThemeButton();
   });
-  window.addEventListener("hashchange", syncActiveNavigation);
+  window.addEventListener("hashchange", () => {
+    spyHash = null;
+    syncActiveNavigation();
+  });
+
+  if (window.location.pathname === "/") {
+    const spySections = ["system", "work", "contact"]
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el instanceof HTMLElement);
+    const visible = new Map<string, number>();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            visible.set(entry.target.id, entry.boundingClientRect.top);
+          } else {
+            visible.delete(entry.target.id);
+          }
+        });
+
+        const atBottom =
+          window.innerHeight + window.scrollY >=
+          document.documentElement.scrollHeight - 4;
+        const current = atBottom
+          ? "contact"
+          : spySections
+              .map((section) => section.id)
+              .filter((id) => visible.has(id))
+              .pop();
+
+        // Sections between "work" and "contact" (experience, education) belong to Home.
+        const next = current ? `#${current}` : "#system";
+        if (next !== spyHash) {
+          spyHash = next;
+          syncActiveNavigation();
+        }
+      },
+      { rootMargin: "-30% 0px -55% 0px", threshold: 0 },
+    );
+
+    spySections.forEach((section) => observer.observe(section));
+  }
   window.addEventListener("resize", () => {
     if (window.innerWidth >= 768) {
       toggleMobileMenu(false);
@@ -497,9 +541,10 @@ const mobileMenuActionClass =
   });
 
   window.addEventListener("storage", (event) => {
-    console.log("storage", event);
-
-    if (event.key === "theme-preference") {
+    if (
+      event.key === "theme-preference" &&
+      (event.newValue === "light" || event.newValue === "dark")
+    ) {
       applyTheme(event.newValue);
 
       syncThemeButton();

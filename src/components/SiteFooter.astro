@@ -3,10 +3,10 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
 const currentHash = Astro.url.hash;
 
 const footerLinks = [
-  { href: "/blog", label: "DEBUG_LOGS" },
-  { href: "/#system", label: "SYSTEM_STATUS" },
-  { href: "/resume", label: "LICENSE.TXT" },
-  { href: "/bot", label: "BOT_SHELL", className: "hidden md:inline" },
+  { href: "/#system", label: "Home" },
+  { href: "/blog", label: "Blog" },
+  { href: "/resume", label: "Resume" },
+  { href: "/bot", label: "Ask the bot", className: "hidden md:inline-flex" },
 ].map((link) => {
   const url = new URL(link.href, Astro.url);
   const linkPath = url.pathname.replace(/\/+$/, "") || "/";
@@ -25,26 +25,22 @@ const footerLinks = [
 <footer
   class="fixed bottom-0 left-0 right-0 z-50 flex h-12 items-center justify-between border-t-2 border-chrome-border bg-chrome px-4 md:px-6 text-chrome-foreground shadow-[0_-1px_0_0_var(--color-border-muted)]"
 >
-  <div
-    class="flex items-center gap-4 font-label text-[10px] leading-tight text-chrome-muted"
-  >
-    <span class="font-bold text-accent">ANKITESH_ARORA</span>
-    <span class="hidden md:inline"
-      >© 2026 ANKITESH_ARORA // BIT_REF: 0b101010</span
-    >
-  </div>
+  <p class="font-label text-xs text-chrome-muted">
+    <span class="font-bold text-accent">Ankitesh Arora</span>
+    <span class="hidden md:inline"> · © 2026</span>
+  </p>
 
-  <nav aria-label="Footer" class="flex gap-4 font-label text-[10px] uppercase md:gap-6">
+  <nav aria-label="Footer" class="flex gap-5 font-label text-xs md:gap-6">
     {
       footerLinks.map(({ href, label, active, className }) => (
         <a
           href={href}
-          aria-label={`Open ${label.toLowerCase().replaceAll("_", " ")}`}
           aria-current={active ? "page" : undefined}
           class:list={[
-            className,
+            "min-h-8 items-center transition-colors duration-150",
+            className ?? "inline-flex",
             active
-              ? "text-accent underline underline-offset-2"
+              ? "text-accent underline underline-offset-4"
               : "text-chrome-muted hover:text-accent",
           ]}
         >
