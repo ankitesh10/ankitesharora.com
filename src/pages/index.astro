@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import {
   ArrowDownRight,
   ArrowUpRight,
+  FileText,
   FolderGit2,
   Link,
   Mail,
@@ -19,28 +20,24 @@ import heroImage from "../assets/aa_web.webp";
 
 const moduleCards = [
   {
-    code: "MOD_01",
     title: "Frontend engineering",
     description:
       "React, TypeScript, Next.js, Remix, responsive UI engineering, performance optimization, and frontend testing.",
     icon: "architecture",
   },
   {
-    code: "MOD_02",
     title: "Backend systems",
     description:
       "Node.js, API development, server-side architecture, integrations, and application logic for production systems.",
     icon: "developer_board",
   },
   {
-    code: "MOD_03",
     title: "Data & persistence",
     description:
       "PostgreSQL, relational schema design, querying, performance-aware data access, and reliable persistence workflows.",
     icon: "database",
   },
   {
-    code: "MOD_04",
     title: "Cloud & delivery",
     description:
       "AWS, Docker, deployment workflows, environment management, and scalable delivery pipelines.",
@@ -75,36 +72,55 @@ const archiveItems = [
     ],
   },
   {
-    period: "Apr 2024 — Oct 2024",
+    period: "May 2021 — Oct 2024",
     company: "Jio Haptik, Reliance Jio Platform",
     location: "Mumbai",
-    title: "Software Engineer III, Frontend",
-    hideDivider: true,
-    bullets: [
-      "Led the migration to Vite bundler and React 18, resulting in a 40% improvement in re-rendering performance and a 70% reduction in build time, with better hot reload performance and roughly 20% higher developer productivity.",
-      "Held weekly review meetings with the team for technical discussion, feedback, and engineering growth.",
-    ],
-  },
-  {
-    period: "May 2021 — Mar 2024",
-    company: "",
-    location: "",
-    title: "Software Engineer II, Frontend",
-    bullets: [
-      "Worked on features including WhatsApp carousel card templates, Instagram, Announcement Hub, and Ad Performance, ensuring strong UX across desktop and mobile web platforms.",
-      "Enhanced Inbox performance by over 30%, improving user engagement.",
-      "Worked on Storybook and design system integration, improving design consistency across the project and increasing developer productivity.",
-      "Identified and improved the UX of Instagram's embedded signup flow, increasing signup success rate from 14% to 71%.",
+    title: "",
+    roles: [
+      {
+        period: "Apr 2024 — Oct 2024",
+        title: "Software Engineer III, Frontend",
+        promoted: true,
+        bullets: [
+          "Led the migration to Vite bundler and React 18, resulting in a 40% improvement in re-rendering performance and a 70% reduction in build time, with better hot reload performance and roughly 20% higher developer productivity.",
+          "Held weekly review meetings with the team for technical discussion, feedback, and engineering growth.",
+        ],
+      },
+      {
+        period: "May 2021 — Mar 2024",
+        title: "Software Engineer II, Frontend",
+        bullets: [
+          "Worked on features including WhatsApp carousel card templates, Instagram, Announcement Hub, and Ad Performance, ensuring strong UX across desktop and mobile web platforms.",
+          "Enhanced Inbox performance by over 30%, improving user engagement.",
+          "Worked on Storybook and design system integration, improving design consistency across the project and increasing developer productivity.",
+          "Identified and improved the UX of Instagram's embedded signup flow, increasing signup success rate from 14% to 71%.",
+        ],
+      },
     ],
   },
   {
     period: "Oct 2019 — Mar 2021",
     company: "AppLaunch",
     location: "Bengaluru",
-    title: "React JS Team Lead & React Native Developer",
-    bullets: [
-      "Led and mentored the React JS team, establishing coding standards and best practices.",
-      "Worked on two React Native projects, including an audio live-streaming platform.",
+    title: "",
+    roles: [
+      {
+        period: "Dec 2020 — Mar 2021",
+        title: "React JS Team Lead",
+        promoted: true,
+        bullets: [
+          "Led and mentored the React JS team, establishing coding standards and best practices.",
+          "Worked on two React Native projects, including an audio live-streaming platform.",
+        ],
+      },
+      {
+        period: "Oct 2019 — Nov 2020",
+        title: "React JS Developer",
+        bullets: [
+          "Maintained and optimised a Progressive Web App, implementing advanced caching strategies.",
+          "Worked on various React JS dashboards.",
+        ],
+      },
     ],
   },
   {
@@ -142,10 +158,10 @@ const homePage = pageMetadata.home;
           class="flex flex-col justify-center p-6 py-10 sm:p-10 lg:col-span-8 lg:p-12"
         >
           <p
-            class="font-label text-xs font-medium uppercase tracking-[0.18em] text-ink-muted"
+            class="font-label text-sm font-medium text-ink-muted"
           >
             Ankitesh Arora <span class="mx-2 text-ink-subtle" aria-hidden="true"
-              >/</span
+              >·</span
             > Jaipur, India
           </p>
           <h1
@@ -157,7 +173,7 @@ const homePage = pageMetadata.home;
             >
           </h1>
           <p
-            class="mt-6 max-w-lg text-base leading-relaxed text-ink-muted sm:text-lg"
+            class="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted"
           >
             I build thoughtful interfaces and reliable web applications, from
             React and TypeScript to the systems behind them.
@@ -166,19 +182,18 @@ const homePage = pageMetadata.home;
             class="mt-8 flex flex-col items-stretch gap-3 font-label text-sm font-semibold sm:flex-row sm:items-center sm:gap-6"
           >
             <a
-              aria-label="Book a meeting with Ankitesh Arora on Calendly"
-              class="inline-flex min-h-12 items-center justify-center gap-3 bg-accent px-5 py-3 text-accent-foreground transition-colors hover:bg-accent-strong"
+              class="inline-flex min-h-12 items-center justify-center gap-3 bg-accent px-6 py-3 text-accent-foreground transition-colors hover:bg-accent-strong"
               href="https://calendly.com/ankitesh4/30min"
               target="_blank"
               rel="noreferrer"
             >
-              Let's talk <ArrowUpRight class="h-4 w-4" aria-hidden="true" />
+              Book a 30-min call <ArrowUpRight class="h-4 w-4" aria-hidden="true" />
             </a>
             <a
               class="inline-flex min-h-12 items-center justify-center gap-3 px-1 py-3 text-ink-muted underline-offset-4 transition-colors hover:text-ink hover:underline"
               href="#work"
             >
-              Explore my work <ArrowDownRight
+              See my work <ArrowDownRight
                 class="h-4 w-4"
                 aria-hidden="true"
               />
@@ -197,9 +212,9 @@ const homePage = pageMetadata.home;
             format="webp"
           />
           <div
-            class="absolute bottom-5 left-5 bg-chrome/90 px-3 py-2 font-label text-[10px] uppercase tracking-[0.14em] text-chrome-foreground"
+            class="absolute bottom-5 left-5 bg-chrome/90 px-3 py-2 font-label text-xs text-chrome-foreground"
           >
-            Software engineer / Frontend
+            Software engineer · Frontend
           </div>
         </div>
       </section>
@@ -274,7 +289,7 @@ const homePage = pageMetadata.home;
         >
           <div class="max-w-xl">
             <p
-              class="font-label text-xs uppercase tracking-[0.18em] text-ink-muted"
+              class="font-label text-sm text-ink-muted"
             >
               05 / Get in touch
             </p>
@@ -282,10 +297,10 @@ const homePage = pageMetadata.home;
               id="contact-heading"
               class="mt-4 font-headline text-4xl font-bold leading-tight tracking-[-0.04em] sm:text-5xl"
             >
-              Have something in mind?
+              Have a project in mind?
             </h2>
             <p class="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
-              Have an exciting project you need help with? Let's talk.
+              Tell me what you're building and I'll get back to you.
             </p>
           </div>
           <a
@@ -301,10 +316,15 @@ const homePage = pageMetadata.home;
         >
           <a
             class="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-ink-muted underline-offset-4 hover:text-ink hover:underline"
+            href="/resume"
+          >
+            <FileText class="h-4 w-4" aria-hidden="true" /> Resume
+          </a>
+          <a
+            class="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-ink-muted underline-offset-4 hover:text-ink hover:underline"
             href="https://github.com/ankitesh10"
             target="_blank"
             rel="noreferrer"
-            aria-label="Visit Ankitesh Arora on GitHub"
           >
             <FolderGit2 class="h-4 w-4" aria-hidden="true" /> GitHub
             <ArrowUpRight class="h-3 w-3" aria-hidden="true" />
@@ -314,7 +334,6 @@ const homePage = pageMetadata.home;
             href="https://www.linkedin.com/in/ankitesharora/"
             target="_blank"
             rel="noreferrer"
-            aria-label="Visit Ankitesh Arora on LinkedIn"
           >
             <Link class="h-4 w-4" aria-hidden="true" /> LinkedIn
             <ArrowUpRight class="h-3 w-3" aria-hidden="true" />

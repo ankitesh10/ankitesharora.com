@@ -126,7 +126,7 @@ const experiences = [
           aria-labelledby={`${experience.id}-heading`}
         >
           <div class="lg:pt-14">
-            <p class="text-xs leading-relaxed text-ink-muted">
+            <p class="text-sm leading-relaxed text-ink-muted">
               {experience.role}
             </p>
             <h3
@@ -135,7 +135,7 @@ const experiences = [
             >
               {experience.title}
             </h3>
-            <p class="mt-4 max-w-prose text-sm leading-7 text-ink-muted">
+            <p class="mt-4 max-w-prose text-[0.9375rem] leading-7 text-ink-muted">
               {experience.description}
             </p>
             <a
@@ -146,7 +146,7 @@ const experiences = [
               rel={
                 experience.href.startsWith("https:") ? "noreferrer" : undefined
               }
-              class="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-medium underline-offset-4 hover:underline"
+              class="mt-5 inline-flex min-h-11 items-center gap-2 border-b-2 border-accent-strong text-sm font-semibold transition-colors hover:bg-accent/30"
             >
               {experience.link}
               <ArrowUpRight class="h-4 w-4" aria-hidden="true" />
@@ -218,8 +218,7 @@ const experiences = [
     <div class="mb-4 flex items-center justify-between gap-4">
       <h2 id="work-viewer-title" class="text-sm font-medium">
         Work screenshot
-      </h2>
-      <button
+      </h2>      <button
         type="button"
         data-close-viewer
         aria-label="Close screenshot"
