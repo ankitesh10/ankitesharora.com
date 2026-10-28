@@ -12,6 +12,7 @@ import ModuleCard from "../components/ModuleCard.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import TopNavigation from "../components/TopNavigation.astro";
+import WorkShowcase from "../components/WorkShowcase.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { pageMetadata } from "../data/pageMetadata";
 import heroImage from "../assets/aa_web.webp";
@@ -175,7 +176,7 @@ const homePage = pageMetadata.home;
             </a>
             <a
               class="inline-flex min-h-12 items-center justify-center gap-3 px-1 py-3 text-ink-muted underline-offset-4 transition-colors hover:text-ink hover:underline"
-              href="#archive"
+              href="#work"
             >
               Explore my work <ArrowDownRight
                 class="h-4 w-4"
@@ -261,6 +262,8 @@ const homePage = pageMetadata.home;
         </section>
       </div>
 
+      <WorkShowcase />
+
       <section
         id="contact"
         aria-labelledby="contact-heading"
@@ -273,7 +276,7 @@ const homePage = pageMetadata.home;
             <p
               class="font-label text-xs uppercase tracking-[0.18em] text-ink-muted"
             >
-              04 / Get in touch
+              05 / Get in touch
             </p>
             <h2
               id="contact-heading"

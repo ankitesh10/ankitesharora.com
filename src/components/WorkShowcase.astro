@@ -1,0 +1,317 @@
+---
+import { ArrowUpRight, Expand, X } from "@lucide/astro";
+import SectionHeading from "./SectionHeading.astro";
+
+const experiences = [
+  {
+    id: "interakt",
+    title: "Interakt",
+    role: "Jio Haptik · 2021–2024",
+    description:
+      "Customer messaging across WhatsApp and Instagram. I worked on inbox performance, messaging workflows, and shared UI foundations.",
+    href: "https://www.interakt.shop/",
+    link: "Visit Interakt",
+    screenshots: [
+      {
+        id: "inbox",
+        label: "Inbox",
+        src: "/images/work/interakt-inbox.jpg",
+        title: "Interakt · Shared inbox",
+        alt: "Interakt's shared inbox with the left-hand chat list, an active conversation and message composer, and customer details on the right",
+        width: 1024,
+        height: 490,
+        source:
+          "https://www.interakt.shop/resource_center/tally/how-to-use-interakts-shared-team-inbox/",
+      },
+      {
+        id: "templates",
+        label: "Templates",
+        src: "/images/work/interakt-templates.jpg",
+        title: "Interakt · Message templates",
+        alt: "Interakt's template builder with marketing, utility and authentication categories and interactive template types",
+        width: 1357,
+        height: 754,
+        source:
+          "https://www.interakt.shop/resource-center/whatsapp-message-notification-template-creation/",
+      },
+      {
+        id: "bulk-messages",
+        label: "Bulk messages",
+        src: "/images/work/interakt-bulk-messages.jpg",
+        title: "Interakt · Bulk message campaign",
+        alt: "Interakt's campaign builder with one-time bulk broadcasts and ongoing campaign settings",
+        width: 768,
+        height: 348,
+        source:
+          "https://www.interakt.shop/resource-center/whatsapp-message-notification-template-one-time-campaign-creation/",
+      },
+    ],
+  },
+  {
+    id: "postman",
+    title: "Postman",
+    role: "Software Engineer II · 2024–2025",
+    description:
+      "Improved mock server setup, collection actions, and large collection diffs to make everyday API workflows clearer and faster.",
+    href: "https://www.postman.com/",
+    link: "Visit Postman",
+    screenshots: [
+      {
+        id: "collections",
+        label: "Collections",
+        src: "/images/work/postman-collections.jpg",
+        title: "Postman · Collections",
+        alt: "Postman's expanded Collections sidebar showing API requests alongside request parameters and a successful JSON example response",
+        width: 1440,
+        height: 1000,
+        source:
+          "https://www.postman.com/postman/postman-public-workspace/http-example/20891195-ba59f0a0-d7df-4047-88bc-b5523bfd5dab",
+      },
+      {
+        id: "mock-servers",
+        label: "Mock servers",
+        src: "/images/work/postman-mock-server.jpg",
+        title: "Postman · Mock server configuration",
+        alt: "Postman's mock server creation screen with collection, environment and response delay settings",
+        width: 1538,
+        height: 1256,
+        source:
+          "https://learning.postman.com/v11/docs/design-apis/mock-apis/set-up-mock-servers/",
+      },
+    ],
+  },
+  {
+    id: "ask-ankitesh",
+    title: "Ask Ankitesh",
+    role: "Personal project",
+    description:
+      "A personal assistant for exploring my work and experience. A terminal on desktop, and a conversational chat on mobile.",
+    href: "/bot",
+    link: "Try the bot",
+    screenshots: [
+      {
+        id: "desktop",
+        label: "Desktop",
+        src: "/images/work/bot-desktop.png",
+        title: "Ask Ankitesh · Desktop terminal",
+        alt: "Ankitesh's desktop bot answering a question about his frontend experience in a terminal interface",
+        width: 1440,
+        height: 1000,
+      },
+      {
+        id: "mobile",
+        label: "Mobile",
+        src: "/images/work/bot-mobile.png",
+        title: "Ask Ankitesh · Mobile chat",
+        alt: "Ankitesh's mobile bot displaying the same conversation in a responsive chat interface",
+        width: 390,
+        height: 844,
+      },
+    ],
+  },
+];
+---
+
+<section
+  id="work"
+  aria-labelledby="work-heading"
+  class="scroll-mt-24 space-y-10 sm:space-y-12"
+>
+  <SectionHeading id="work-heading" title="Selected work" number="04" />
+  <div class="space-y-12 sm:space-y-16">
+    {
+      experiences.map((experience) => (
+        <article
+          class="grid min-w-0 gap-6 border-t border-border-muted pt-12 first:border-0 first:pt-0 sm:gap-8 sm:pt-16 lg:grid-cols-[1fr_2fr] lg:gap-12"
+          aria-labelledby={`${experience.id}-heading`}
+        >
+          <div class="lg:pt-14">
+            <p class="text-xs leading-relaxed text-ink-muted">
+              {experience.role}
+            </p>
+            <h3
+              id={`${experience.id}-heading`}
+              class="mt-3 font-headline text-3xl font-semibold tracking-tight"
+            >
+              {experience.title}
+            </h3>
+            <p class="mt-4 max-w-prose text-sm leading-7 text-ink-muted">
+              {experience.description}
+            </p>
+            <a
+              href={experience.href}
+              target={
+                experience.href.startsWith("https:") ? "_blank" : undefined
+              }
+              rel={
+                experience.href.startsWith("https:") ? "noreferrer" : undefined
+              }
+              class="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-medium underline-offset-4 hover:underline"
+            >
+              {experience.link}
+              <ArrowUpRight class="h-4 w-4" aria-hidden="true" />
+            </a>
+          </div>
+          <div data-project-gallery class="min-w-0">
+            <div
+              role="group"
+              aria-label={`${experience.title} screenshots`}
+              class="mb-4 flex flex-wrap gap-x-5 gap-y-1 border-b border-border-muted sm:gap-x-6"
+            >
+              {experience.screenshots.map((shot, index) => (
+                <button
+                  type="button"
+                  data-select-shot={shot.id}
+                  aria-pressed={index === 0 ? "true" : "false"}
+                  aria-controls={`${experience.id}-${shot.id}`}
+                  class="-mb-px min-h-11 cursor-pointer border-b-2 border-transparent px-0.5 pb-3 pt-2 text-sm text-ink-muted transition-colors hover:text-ink aria-pressed:border-ink aria-pressed:font-medium aria-pressed:text-ink"
+                >
+                  {shot.label}
+                </button>
+              ))}
+            </div>
+            {experience.screenshots.map((shot, index) => (
+              <div
+                id={`${experience.id}-${shot.id}`}
+                data-shot-panel={shot.id}
+                hidden={index !== 0}
+              >
+                <button
+                  type="button"
+                  data-work-screenshot={shot.src}
+                  data-screenshot-title={shot.title}
+                  data-screenshot-source={
+                    "source" in shot ? shot.source : undefined
+                  }
+                  aria-label={`Enlarge ${shot.title} screenshot`}
+                  aria-haspopup="dialog"
+                  class="group relative flex aspect-[16/10] w-full cursor-zoom-in items-center justify-center overflow-hidden bg-panel-muted p-3 sm:p-5"
+                >
+                  <img
+                    src={shot.src}
+                    alt={shot.alt}
+                    width={shot.width}
+                    height={shot.height}
+                    loading="lazy"
+                    decoding="async"
+                    class="h-full w-full object-contain"
+                  />
+                  <span
+                    class="absolute bottom-3 right-3 flex h-9 w-9 items-center justify-center bg-panel/95 text-ink transition-colors group-hover:bg-accent group-hover:text-accent-foreground"
+                    aria-hidden="true"
+                  >
+                    <Expand class="h-4 w-4" />
+                  </span>
+                </button>
+              </div>
+            ))}
+          </div>
+        </article>
+      ))
+    }
+  </div>
+  <dialog
+    data-work-viewer
+    aria-labelledby="work-viewer-title"
+    class="m-auto max-h-[92dvh] w-[calc(100%-2rem)] max-w-6xl overflow-auto border border-border-muted bg-panel p-4 text-ink sm:p-6"
+  >
+    <div class="mb-4 flex items-center justify-between gap-4">
+      <h2 id="work-viewer-title" class="text-sm font-medium">
+        Work screenshot
+      </h2>
+      <button
+        type="button"
+        data-close-viewer
+        aria-label="Close screenshot"
+        autofocus
+        class="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center hover:bg-panel-muted"
+        ><X class="h-5 w-5" aria-hidden="true" /></button
+      >
+    </div>
+    <img
+      data-work-full-image
+      alt=""
+      class="mx-auto max-h-[calc(92dvh-10rem)] w-full object-contain"
+    />
+    <a
+      data-screenshot-credit
+      hidden
+      target="_blank"
+      rel="noreferrer"
+      class="mt-4 inline-block text-xs text-ink-muted underline decoration-border-muted underline-offset-4 hover:text-ink"
+      >Official product screenshot source</a
+    >
+  </dialog>
+</section>
+
+<style>
+  [hidden] {
+    display: none;
+  }
+  dialog::backdrop {
+    background: rgb(0 0 0 / 0.8);
+  }
+</style>
+
+<script>
+  document
+    .querySelectorAll<HTMLElement>("[data-project-gallery]")
+    .forEach((gallery) => {
+      const selectors =
+        gallery.querySelectorAll<HTMLButtonElement>("[data-select-shot]");
+      const panels = gallery.querySelectorAll<HTMLElement>("[data-shot-panel]");
+      selectors.forEach((selector) => {
+        selector.addEventListener("click", () => {
+          selectors.forEach((button) =>
+            button.setAttribute("aria-pressed", String(button === selector)),
+          );
+          panels.forEach((panel) => {
+            panel.hidden =
+              panel.dataset.shotPanel !== selector.dataset.selectShot;
+          });
+        });
+      });
+    });
+  const viewer =
+    document.querySelector<HTMLDialogElement>("[data-work-viewer]");
+  const fullImage = document.querySelector<HTMLImageElement>(
+    "[data-work-full-image]",
+  );
+  const title = document.getElementById("work-viewer-title");
+  const credit = document.querySelector<HTMLAnchorElement>(
+    "[data-screenshot-credit]",
+  );
+  if (viewer && fullImage && title && credit) {
+    document
+      .querySelectorAll<HTMLButtonElement>("[data-work-screenshot]")
+      .forEach((button) => {
+        button.addEventListener("click", () => {
+          fullImage.src = button.dataset.workScreenshot!;
+          fullImage.alt =
+            button.querySelector("img")?.alt ?? "Product screenshot";
+          title.textContent =
+            button.dataset.screenshotTitle ?? "Work screenshot";
+          const source = button.dataset.screenshotSource;
+          credit.hidden = !source;
+          if (source) credit.href = source;
+          else credit.removeAttribute("href");
+          viewer.showModal();
+        });
+      });
+    viewer
+      .querySelector("[data-close-viewer]")
+      ?.addEventListener("click", () => viewer.close());
+    viewer.addEventListener("click", (event) => {
+      if (event.target === viewer) {
+        const bounds = viewer.getBoundingClientRect();
+        if (
+          event.clientX < bounds.left ||
+          event.clientX > bounds.right ||
+          event.clientY < bounds.top ||
+          event.clientY > bounds.bottom
+        )
+          viewer.close();
+      }
+    });
+  }
+</script>
