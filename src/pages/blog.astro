@@ -1,19 +1,14 @@
 ---
+import { ArrowRight, FileText } from "@lucide/astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import TopNavigation from "../components/TopNavigation.astro";
 import { pageMetadata } from "../data/pageMetadata";
 
-const statusRows = [
-  { label: "CHANNEL", value: "BLOG_TRANSMISSION" },
-  { label: "STATE", value: "COMING_SOON" },
-  { label: "ETA", value: "CALIBRATING" },
-];
-
 const previewTopics = [
-  "State machine, and why to use one!",
-  "Scaling web app, all the tools you need",
-  "Monorepo architecture postives and negatives",
+  "State machines, and why to use one",
+  "Scaling a web app: the tools you need",
+  "Monorepo architecture: the good and the bad",
 ];
 
 const blogPage = pageMetadata.blog;
@@ -23,108 +18,60 @@ const blogPage = pageMetadata.blog;
   title={blogPage.title}
   description={blogPage.description}
   canonicalPath={blogPage.path}
+  appearance="minimal"
 >
   <TopNavigation />
 
   <main
     id="main-content"
-    class="mx-auto flex min-h-dvh max-w-6xl items-center px-6 pb-20 pt-24"
+    class="mx-auto flex min-h-dvh max-w-4xl items-center px-5 pb-28 pt-24 sm:px-8"
   >
-    <section
-      class="grid w-full overflow-hidden border-4 border-ink bg-panel shadow-[12px_12px_0_0_var(--color-ink)] lg:grid-cols-[1.3fr_0.7fr]"
-    >
-      <div
-        class="border-b-4 border-ink p-8 md:p-10 lg:border-r-4 lg:border-b-0"
+    <section class="w-full border border-border-muted bg-panel p-8 sm:p-12">
+      <p
+        class="inline-flex items-center gap-2 bg-accent/20 px-3 py-1 font-label text-sm font-medium"
       >
-        <div
-          class="mb-8 flex items-center gap-3 font-label text-xs uppercase tracking-[0.3em] text-ink-muted"
-        >
-          <span class="h-3 w-3 animate-pulse bg-accent"></span>
-          Signal detected
-        </div>
+        <span class="h-2 w-2 animate-pulse bg-accent-strong" aria-hidden="true"
+        ></span>
+        Coming soon
+      </p>
 
-        <div class="space-y-6">
-          <p
-            class="font-label text-xs uppercase tracking-[0.3em] text-secondary-panel"
-          >
-            /blog
-          </p>
-          <h1
-            class="font-headline text-5xl leading-[0.9] font-bold uppercase tracking-[-0.06em] md:text-7xl"
-          >
-            Journal
-            <br />
-            uplink
-            <br />
-            pending
-          </h1>
-          <p class="max-w-2xl text-base leading-7 text-ink-muted md:text-lg">
-            Long-form notes, experiments, and behind-the-build writing are on
-            the way. This terminal is reserved for future transmissions.
-          </p>
-        </div>
+      <h1
+        class="mt-6 font-headline text-4xl font-bold leading-tight tracking-[-0.04em] sm:text-5xl"
+      >
+        The blog is on its way.
+      </h1>
+      <p class="mt-4 max-w-xl text-lg leading-relaxed text-ink-muted">
+        I'm writing up what I've learned building frontend systems. The first
+        posts will cover:
+      </p>
 
-        <div
-          class="mt-10 flex flex-wrap gap-4 font-label text-sm uppercase tracking-[0.2em]"
+      <ul class="mt-8 divide-y divide-border-muted border-y border-border-muted">
+        {
+          previewTopics.map((topic, index) => (
+            <li class="flex gap-4 py-4 text-base">
+              <span class="font-label text-sm text-ink-muted">
+                0{index + 1}
+              </span>
+              <span>{topic}</span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="mt-10 flex flex-col gap-3 font-label text-sm font-semibold sm:flex-row sm:items-center sm:gap-6">
+        <a
+          href="/"
+          class="inline-flex min-h-12 items-center justify-center gap-3 bg-accent px-6 py-3 text-accent-foreground transition-colors hover:bg-accent-strong"
         >
-          <a
-            href="/"
-            class="border-2 border-chrome-border bg-chrome px-5 py-3 text-chrome-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-          >
-            Return home
-          </a>
-          <a
-            href="/resume"
-            class="border-2 border-accent bg-panel px-5 py-3 text-accent-strong-foreground dark:text-accent transition-colors hover:bg-accent hover:text-accent-foreground"
-          >
-            View resume
-          </a>
-        </div>
+          Back to home <ArrowRight class="h-4 w-4" aria-hidden="true" />
+        </a>
+        <a
+          href="/resume"
+          class="inline-flex min-h-12 items-center justify-center gap-2 px-1 py-3 text-ink-muted underline-offset-4 transition-colors hover:text-ink hover:underline"
+        >
+          <FileText class="h-4 w-4" aria-hidden="true" /> View my resume
+        </a>
       </div>
-
-      <aside class="bg-panel-muted p-8 md:p-10">
-        <div class="space-y-6">
-          <div class="border-2 border-ink bg-canvas p-5">
-            <div
-              class="mb-4 font-label text-[11px] uppercase tracking-[0.3em] text-ink-muted"
-            >
-              Status monitor
-            </div>
-            <div
-              class="space-y-3 font-label text-xs uppercase tracking-[0.2em]"
-            >
-              {
-                statusRows.map(({ label, value }) => (
-                  <div class="flex items-center justify-between gap-4 border-b border-border-muted pb-3 last:border-b-0 last:pb-0">
-                    <span class="text-ink-muted">{label}</span>
-                    <span class="text-right font-bold text-ink">{value}</span>
-                  </div>
-                ))
-              }
-            </div>
-          </div>
-
-          <div
-            class="border-2 border-ink bg-secondary-panel p-5 text-secondary-panel-foreground"
-          >
-            <div class="mb-4 font-label text-[11px] uppercase tracking-[0.3em]">
-              Incoming topics
-            </div>
-            <ul class="space-y-3 text-sm leading-6">
-              {
-                previewTopics.map((topic, index) => (
-                  <li class="flex gap-3 border-b border-secondary-panel-foreground/20 pb-3 last:border-b-0 last:pb-0">
-                    <span class="font-label text-xs uppercase tracking-[0.2em]">
-                      0{index + 1}
-                    </span>
-                    <span>{topic}</span>
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-        </div>
-      </aside>
     </section>
   </main>
 

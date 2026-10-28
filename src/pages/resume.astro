@@ -1,12 +1,12 @@
 ---
+import { Download, ExternalLink } from "@lucide/astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import TopNavigation from "../components/TopNavigation.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import { pageMetadata } from "../data/pageMetadata";
 
-const resumeUrl = "resume_frontend_engineer_ankitesh.pdf";
-const resumePreviewUrl =
-  "resume_frontend_engineer_ankitesh.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH";
+const resumeUrl = "/resume_frontend_engineer_ankitesh.pdf";
+const resumePreviewUrl = `${resumeUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`;
 const resumePage = pageMetadata.resume;
 ---
 
@@ -14,59 +14,64 @@ const resumePage = pageMetadata.resume;
   title={resumePage.title}
   description={resumePage.description}
   canonicalPath={resumePage.path}
+  appearance="minimal"
 >
   <TopNavigation />
 
   <main
     id="main-content"
-    class="mx-auto px-6 pb-10 pt-10 my-auto max-w-5xl 2xl:max-w-6xl h-dvh flex items-center justify-center"
+    class="mx-auto flex h-dvh max-w-5xl flex-col px-5 pb-16 pt-16 sm:px-8"
   >
     <section
-      class="overflow-hidden border-4 border-ink bg-panel shadow-[12px_12px_0_0_var(--color-ink)] dark:shadow-[12px_12px_0_0_var(--color-secondary-panel)]"
+      class="flex min-h-0 flex-1 flex-col border border-border-muted bg-panel"
     >
       <header
-        class="flex flex-col gap-6 border-b-4 border-ink bg-panel-soft px-6 py-4 text-ink md:flex-row md:items-center md:justify-between"
+        class="flex flex-col gap-3 border-b border-border-muted p-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
       >
-        <div class="space-y-2">
-          <p
-            class="font-label text-[11px] tracking-[0.3em] break-all text-ink-muted uppercase"
+        <div>
+          <h1
+            class="font-headline text-3xl font-bold tracking-[-0.03em] sm:text-3xl"
           >
-            Preview source:
-            <span class="text-accent-strong-foreground dark:text-accent-strong"
-              >{resumeUrl}</span
-            >
+            Resume
+          </h1>
+          <p class="mt-1 text-sm text-ink-muted sm:text-base">
+            Senior software engineer, frontend focused.
           </p>
         </div>
 
-        <div class="flex flex-wrap gap-3 font-label text-xs tracking-[0.2em]">
+        <div class="flex flex-col gap-3 font-label text-sm font-semibold sm:flex-row sm:items-center">
+          <a
+            href={resumeUrl}
+            download
+            class="inline-flex min-h-12 items-center justify-center gap-3 bg-accent px-6 py-3 text-accent-foreground transition-colors hover:bg-accent-strong"
+          >
+            <Download class="h-4 w-4" aria-hidden="true" /> Download PDF
+          </a>
           <a
             href={resumeUrl}
             target="_blank"
             rel="noreferrer"
-            class="border-2 border-chrome-border bg-chrome px-4 py-3 text-chrome-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            class="inline-flex min-h-12 items-center justify-center gap-2 px-3 py-3 text-ink-muted underline-offset-4 transition-colors hover:text-ink hover:underline"
           >
-            open_pdf
-          </a>
-          <a
-            href={resumeUrl}
-            download
-            class="border-2 border-accent bg-panel px-4 py-3 text-accent-strong-foreground transition-colors hover:bg-accent hover:text-accent-foreground dark:text-accent"
-          >
-            download
+            Open in new tab <ExternalLink class="h-4 w-4" aria-hidden="true" />
           </a>
         </div>
       </header>
 
-      <div class="bg-panel-muted p-2">
-        <div
-          class="overflow-hidden border-2 border-ink bg-white shadow-[0_0_0_1px_var(--color-panel-strong)]"
-        >
-          <iframe
-            src={resumePreviewUrl}
-            title="Resume PDF Preview"
-            class="h-[calc(100dvh-300px)] w-full lg:h-[calc(100dvh-250px)]"
-          ></iframe>
-        </div>
+      <div class="flex min-h-0 flex-1 flex-col bg-panel-muted p-2 sm:p-3">
+        <iframe
+          src={resumePreviewUrl}
+          title="Resume PDF preview"
+          class="min-h-0 w-full flex-1 bg-white"></iframe>
+        <p class="mt-2 text-sm text-ink-muted">
+          Preview not loading? <a
+            href={resumeUrl}
+            target="_blank"
+            rel="noreferrer"
+            class="font-medium text-ink underline underline-offset-4"
+            >Open the PDF directly</a
+          >.
+        </p>
       </div>
     </section>
   </main>

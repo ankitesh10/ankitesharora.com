@@ -21,7 +21,7 @@ export const pageMetadata = {
       "Preview and download Ankitesh Arora's resume covering senior frontend engineering experience, product work, and technical leadership.",
   },
   bot: {
-    title: "Bot Interface | Ankitesh Arora",
+    title: "Ask Ankitesh | Ankitesh Arora",
     path: "/bot",
     description:
       "Experimental bot interface for Ankitesh Arora's portfolio, presented as a terminal-style interactive page.",
