@@ -1,6 +1,12 @@
 ---
 import { Image } from "astro:assets";
-import { FolderGit2, Link, Mail } from "@lucide/astro";
+import {
+  ArrowDownRight,
+  ArrowUpRight,
+  FolderGit2,
+  Link,
+  Mail,
+} from "@lucide/astro";
 import ArchiveItem from "../components/ArchiveItem.astro";
 import ModuleCard from "../components/ModuleCard.astro";
 import SectionHeading from "../components/SectionHeading.astro";
@@ -13,44 +19,40 @@ import heroImage from "../assets/aa_web.webp";
 const moduleCards = [
   {
     code: "MOD_01",
-    title: "INTERFACE_DEV",
+    title: "Frontend engineering",
     description:
       "React, TypeScript, Next.js, Remix, responsive UI engineering, performance optimization, and frontend testing.",
     icon: "architecture",
-    accent: "secondary" as const,
   },
   {
     code: "MOD_02",
-    title: "BACKEND_RUNTIME",
+    title: "Backend systems",
     description:
       "Node.js, API development, server-side architecture, integrations, and application logic for production systems.",
     icon: "developer_board",
-    accent: "primary" as const,
   },
   {
     code: "MOD_03",
-    title: "DATA_LAYER",
+    title: "Data & persistence",
     description:
       "PostgreSQL, relational schema design, querying, performance-aware data access, and reliable persistence workflows.",
     icon: "database",
-    accent: "secondary" as const,
   },
   {
     code: "MOD_04",
-    title: "CLOUD_DEVOPS",
+    title: "Cloud & delivery",
     description:
       "AWS, Docker, deployment workflows, environment management, and scalable delivery pipelines.",
     icon: "cloud_upload",
-    accent: "primary" as const,
   },
 ];
 
 const archiveItems = [
   {
-    period: "MAY 2025 - PRESENT",
-    company: "THRILLOPHILIA",
-    location: "JAIPUR",
-    title: "SENIOR SOFTWARE ENGINEER",
+    period: "May 2025 — Present",
+    company: "Thrillophilia",
+    location: "Jaipur",
+    title: "Senior Software Engineer",
     bullets: [
       "Decoupled the React app from the Ruby on Rails framework and migrated the bundler to Vite, reducing frontend and backend build time by over 95%.",
       "Implemented multi-payment support on the checkout page to improve the experience of thousands of monthly users.",
@@ -61,10 +63,10 @@ const archiveItems = [
     highlighted: true,
   },
   {
-    period: "OCT 2024 - APRIL 2025",
-    company: "POSTMAN",
-    location: "BENGALURU",
-    title: "SOFTWARE ENGINEER II",
+    period: "Oct 2024 — Apr 2025",
+    company: "Postman",
+    location: "Bengaluru",
+    title: "Software Engineer II",
     bullets: [
       "Implemented UI/UX improvements to mock servers at Postman, reducing the number of steps needed to create a mock server for nearly 56 million paid users.",
       "Added support for loading collection diff asynchronously, improving efficiency for large orgs that rely on these large diffs.",
@@ -72,10 +74,10 @@ const archiveItems = [
     ],
   },
   {
-    period: "APRIL 2024 - OCT 2024",
-    company: "JIO HAPTIK, RELIANCE JIO PLATFORM",
+    period: "Apr 2024 — Oct 2024",
+    company: "Jio Haptik, Reliance Jio Platform",
     location: "Mumbai",
-    title: "SOFTWARE ENGINEER III, FRONTEND",
+    title: "Software Engineer III, Frontend",
     hideDivider: true,
     bullets: [
       "Led the migration to Vite bundler and React 18, resulting in a 40% improvement in re-rendering performance and a 70% reduction in build time, with better hot reload performance and roughly 20% higher developer productivity.",
@@ -83,10 +85,10 @@ const archiveItems = [
     ],
   },
   {
-    period: "MAY 2021 - MARCH 2024",
+    period: "May 2021 — Mar 2024",
     company: "",
     location: "",
-    title: "SOFTWARE ENGINEER II, FRONTEND",
+    title: "Software Engineer II, Frontend",
     bullets: [
       "Worked on features including WhatsApp carousel card templates, Instagram, Announcement Hub, and Ad Performance, ensuring strong UX across desktop and mobile web platforms.",
       "Enhanced Inbox performance by over 30%, improving user engagement.",
@@ -95,20 +97,20 @@ const archiveItems = [
     ],
   },
   {
-    period: "OCT 2019 - MARCH 2021",
-    company: "APPLAUNCH",
-    location: "BENGALURU",
-    title: "REACT JS TEAM LEAD AND REACT NATIVE DEVELOPER",
+    period: "Oct 2019 — Mar 2021",
+    company: "AppLaunch",
+    location: "Bengaluru",
+    title: "React JS Team Lead & React Native Developer",
     bullets: [
       "Led and mentored the React JS team, establishing coding standards and best practices.",
       "Worked on two React Native projects, including an audio live-streaming platform.",
     ],
   },
   {
-    period: "JAN 2018 - OCT 2019",
-    company: "CBETTER",
-    location: "JAIPUR",
-    title: "WEB DEVELOPER",
+    period: "Jan 2018 — Oct 2019",
+    company: "Cbetter",
+    location: "Jaipur",
+    title: "Web Developer",
     bullets: [
       "Worked on various frontend and CMS projects, including a website for AUBank Foundation and an interactive schedule portal for the Nasscom Product Conclave.",
     ],
@@ -122,167 +124,139 @@ const homePage = pageMetadata.home;
   title={homePage.title}
   description={homePage.description}
   canonicalPath={homePage.path}
+  appearance="minimal"
 >
   <div id="top">
     <TopNavigation />
     <main
       id="main-content"
-      class="mx-auto max-w-7xl space-y-16 px-6 pb-32 pt-24"
+      class="mx-auto max-w-7xl space-y-20 px-5 pb-28 pt-24 sm:space-y-24 sm:px-8 lg:space-y-28 lg:px-12 lg:pt-32"
     >
       <section
         id="system"
         aria-labelledby="system-heading"
-        class="grid grid-cols-1 gap-0 border-4 border-ink bg-panel lg:grid-cols-12"
+        class="grid scroll-mt-24 overflow-hidden border border-border-muted bg-panel lg:grid-cols-12"
       >
         <div
-          class="flex flex-col justify-between border-b-4 border-ink p-8 lg:col-span-8 lg:border-r-4 lg:border-b-0"
+          class="flex flex-col justify-center p-6 py-10 sm:p-10 lg:col-span-8 lg:p-12"
         >
-          <div class="space-y-4">
-            <div
-              class="flex items-center gap-2 font-label text-xs uppercase tracking-widest text-ink-muted"
+          <p
+            class="font-label text-xs font-medium uppercase tracking-[0.18em] text-ink-muted"
+          >
+            Ankitesh Arora <span class="mx-2 text-ink-subtle" aria-hidden="true"
+              >/</span
+            > Jaipur, India
+          </p>
+          <h1
+            id="system-heading"
+            class="mt-6 max-w-3xl font-headline text-[clamp(2.5rem,5.5vw,4.5rem)] font-bold leading-[1.05] tracking-[-0.05em]"
+          >
+            Senior software<br />engineer<span class="text-ink-muted"
+              >.<br />Frontend focused.</span
             >
-              <span class="h-2 w-2 animate-pulse bg-accent"></span>
-              SYSTEM_STATUS: OPERATIONAL
-            </div>
-            <h1
-              id="system-heading"
-              class="font-headline text-5xl leading-[0.85] font-bold uppercase tracking-tighter md:text-6xl lg:text-7xl"
-            >
-              SENIOR<br />SOFTWARE ENGINEER<br /><span class="text-ink-muted">
-                _FRONTEND
-              </span>
-            </h1>
-          </div>
-
-          <div class="mt-12 flex flex-wrap gap-4 font-label text-sm">
+          </h1>
+          <p
+            class="mt-6 max-w-lg text-base leading-relaxed text-ink-muted sm:text-lg"
+          >
+            I build thoughtful interfaces and reliable web applications, from
+            React and TypeScript to the systems behind them.
+          </p>
+          <div
+            class="mt-8 flex flex-col items-stretch gap-3 font-label text-sm font-semibold sm:flex-row sm:items-center sm:gap-6"
+          >
             <a
               aria-label="Book a meeting with Ankitesh Arora on Calendly"
-              class="border border-ink bg-ink px-4 py-2 text-canvas"
+              class="inline-flex min-h-12 items-center justify-center gap-3 bg-accent px-5 py-3 text-accent-foreground transition-colors hover:bg-accent-strong"
               href="https://calendly.com/ankitesh4/30min"
               target="_blank"
               rel="noreferrer"
             >
-              INITIATE_PROTOCOL
+              Let's talk <ArrowUpRight class="h-4 w-4" aria-hidden="true" />
             </a>
             <a
-              aria-label="Jump to the work archive section"
-              class="cursor-pointer border-2 border-ink px-4 py-2 transition-colors hover:bg-accent hover:text-accent-foreground"
+              class="inline-flex min-h-12 items-center justify-center gap-3 px-1 py-3 text-ink-muted underline-offset-4 transition-colors hover:text-ink hover:underline"
               href="#archive"
             >
-              VIEW_ARCHIVE.SH
+              Explore my work <ArrowDownRight
+                class="h-4 w-4"
+                aria-hidden="true"
+              />
             </a>
           </div>
         </div>
-
-        <div class="relative min-h-[400px] overflow-hidden lg:col-span-4">
+        <div
+          class="relative aspect-[4/3] overflow-hidden border-t border-border-muted sm:aspect-[16/9] lg:col-span-4 lg:aspect-auto lg:border-l lg:border-t-0"
+        >
           <Image
-            class="absolute inset-0 h-full w-full object-cover grayscale contrast-125 brightness-110"
+            class="absolute inset-0 h-full w-full object-cover object-[center_35%] grayscale"
             src={heroImage}
-            alt="Close-up portrait of a professional engineer in a high-contrast black and white aesthetic with dramatic technical lighting"
-            sizes="(min-width: 1024px) 33vw, 100vw"
+            alt="Ankitesh Arora"
+            sizes="(min-width: 1280px) 395px, (min-width: 1024px) 33vw, 100vw"
             loading="eager"
             format="webp"
           />
-          <div class="absolute inset-0 bg-accent/10 mix-blend-multiply"></div>
           <div
-            class="absolute bottom-4 left-4 bg-ink px-2 py-1 font-label text-[10px] text-canvas"
+            class="absolute bottom-5 left-5 bg-chrome/90 px-3 py-2 font-label text-[10px] uppercase tracking-[0.14em] text-chrome-foreground"
           >
-            UID: 0b101010_AA
+            Software engineer / Frontend
           </div>
         </div>
       </section>
 
-      <section id="stack" aria-labelledby="stack-heading" class="space-y-6">
+      <section
+        id="stack"
+        aria-labelledby="stack-heading"
+        class="scroll-mt-24 space-y-8"
+      >
         <SectionHeading
           id="stack-heading"
-          title="01_CORE_MODULES"
-          meta="[LOAD_SEQUENCE: 100%]"
+          title="Core expertise"
+          number="01"
+          meta="The tools behind the work"
         />
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {moduleCards.map((card) => <ModuleCard {...card} />)}
         </div>
       </section>
 
-      <div class="grid grid-cols-1 gap-12 lg:grid-cols-12">
+      <div
+        class="grid grid-cols-1 items-start gap-16 lg:grid-cols-12 lg:gap-12"
+      >
         <section
           id="archive"
           aria-labelledby="archive-heading"
-          class="space-y-6 lg:col-span-8"
+          class="scroll-mt-24 space-y-8 lg:col-span-8"
         >
           <SectionHeading
             id="archive-heading"
-            title="02_WORK_ARCHIVE"
-            meta="[CAREER_TIMELINE]"
+            title="Work experience"
+            number="02"
+            meta="2018 — Present"
           />
-          <div class="border-2 border-ink bg-panel">
+          <div class="border border-border-muted bg-panel">
             {archiveItems.map((item) => <ArchiveItem {...item} />)}
           </div>
         </section>
 
         <section
           aria-labelledby="credentials-heading"
-          class="space-y-6 lg:col-span-4"
+          class="space-y-8 lg:col-span-4"
         >
-          <SectionHeading id="credentials-heading" title="03_CREDENTIALS" />
-
-          <article
-            class="relative overflow-hidden border-2 border-[hsl(190_92%_42%)] bg-[linear-gradient(145deg,hsl(192_82%_14%)_0%,hsl(189_72%_19%)_50%,hsl(186_68%_24%)_100%)] text-[hsl(186_45%_94%)] shadow-[10px_10px_0_0_rgba(9,28,33,0.32)]"
-          >
-            <div
-              class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(120,245,255,0.18),transparent_38%),radial-gradient(circle_at_bottom_right,rgba(120,245,255,0.12),transparent_34%)]"
-            >
-            </div>
-            <div
-              class="absolute left-0 top-0 h-16 w-16 border-r border-b border-[hsl(189_85%_65%/0.35)]"
-            >
-            </div>
-            <div
-              class="absolute bottom-0 right-0 h-20 w-20 border-l border-t border-[hsl(189_85%_65%/0.32)]"
-            >
-            </div>
-
-            <div
-              class="relative m-2 border-[3px] border-[hsl(189_85%_65%/0.34)] p-6 md:p-7"
-            >
-              <div class="flex items-start justify-between gap-6">
-                <div>
-                  <div
-                    class="font-label text-[10px] uppercase tracking-[0.28em] text-[hsl(187_40%_78%)]"
-                  >
-                    Education
-                  </div>
-                  <h3 class="mt-4 text-xl font-bold leading-none text-white">
-                    JECRC, Jaipur
-                  </h3>
-                </div>
-
-                <div
-                  class="shrink-0 border border-[hsl(188_70%_80%/0.45)] bg-[rgba(5,20,24,0.34)] px-4 py-2 text-right font-label text-[11px] leading-tight tracking-[0.24em] text-[hsl(186_55%_90%)]"
-                >
-                  2014-2018
-                </div>
-              </div>
-
-              <div class="mt-8 border-t border-[hsl(188_70%_80%/0.28)] pt-6">
-                <div
-                  class="font-label text-[10px] uppercase tracking-[0.24em] text-[hsl(187_40%_78%)]"
-                >
-                  Degree Program
-                </div>
-                <p
-                  class="mt-3 max-w-sm text-xl leading-[1.2] italic text-white"
-                >
-                  Btech, Information Technology
-                </p>
-              </div>
-
-              <div
-                class="mt-8 flex flex-col gap-2 border-t border-[hsl(188_70%_80%/0.22)] pt-4 font-label text-[10px] uppercase tracking-[0.24em] text-[hsl(187_42%_80%)] sm:flex-row sm:items-center sm:justify-between"
-              >
-                <span>Academic Record</span>
-                <span>Credential Verified</span>
-              </div>
-            </div>
+          <SectionHeading
+            id="credentials-heading"
+            title="Education"
+            number="03"
+          />
+          <article class="border-l-2 border-border-muted pl-6">
+            <p class="font-label text-xs tracking-wide text-ink-muted">
+              2014 — 2018
+            </p>
+            <h3 class="mt-3 text-xl font-semibold tracking-tight">
+              JECRC, Jaipur
+            </h3>
+            <p class="mt-3 text-base leading-relaxed text-ink-muted">
+              B.Tech in Information Technology
+            </p>
           </article>
         </section>
       </div>
@@ -290,52 +264,57 @@ const homePage = pageMetadata.home;
       <section
         id="contact"
         aria-labelledby="contact-heading"
-        class="flex flex-col items-center space-y-8 border-t-4 border-ink pt-12 text-center sm:pt-16"
+        class="scroll-mt-24 border-t border-border-muted pt-12 sm:pt-16"
       >
-        <div class="max-w-2xl px-4 sm:px-0">
-          <h2
-            id="contact-heading"
-            class="font-headline text-[clamp(2.5rem,10vw,4rem)] leading-[0.9] font-bold uppercase tracking-[-0.06em] sm:tracking-tighter"
-          >
-            OPEN_CHANNEL
-          </h2>
-          <p
-            class="mt-4 text-pretty font-body text-lg leading-relaxed text-ink-muted sm:text-xl"
-          >
-            Have an exicting project you need help with? Drop a email!
-          </p>
-        </div>
-
         <div
-          class="flex w-full max-w-4xl flex-col border-2 border-ink sm:flex-row"
+          class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between lg:gap-12"
         >
+          <div class="max-w-xl">
+            <p
+              class="font-label text-xs uppercase tracking-[0.18em] text-ink-muted"
+            >
+              04 / Get in touch
+            </p>
+            <h2
+              id="contact-heading"
+              class="mt-4 font-headline text-4xl font-bold leading-tight tracking-[-0.04em] sm:text-5xl"
+            >
+              Have something in mind?
+            </h2>
+            <p class="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
+              Have an exciting project you need help with? Let's talk.
+            </p>
+          </div>
           <a
-            class="flex min-h-20 w-full items-center justify-center gap-3 border-b-2 border-ink bg-secondary px-6 py-5 text-center font-bold text-secondary-foreground transition-colors hover:bg-ink dark:hover:bg-accent-strong-foreground hover:text-accent sm:min-h-0 sm:flex-1 sm:border-r-2 sm:border-b-0 sm:px-8 sm:py-4"
+            class="inline-flex min-h-12 shrink-0 items-center justify-center gap-3 self-start bg-accent px-6 py-3 font-semibold text-accent-foreground transition-colors hover:bg-accent-strong"
             href="mailto:ankitesh4@gmail.com"
-            aria-label="Send an email to Ankitesh Arora"
           >
             <Mail class="h-5 w-5" aria-hidden="true" />
-            SEND_MAIL
+            Send an email <ArrowUpRight class="h-4 w-4" aria-hidden="true" />
           </a>
+        </div>
+        <div
+          class="mt-10 flex flex-wrap gap-x-8 gap-y-4 border-t border-border-muted pt-6"
+        >
           <a
-            class="flex min-h-20 w-full items-center justify-center gap-3 border-b-2 border-ink bg-canvas px-6 py-5 text-center font-bold text-ink transition-colors hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent-foreground dark:hover:text-accent sm:min-h-0 sm:flex-1 sm:border-r-2 sm:border-b-0 sm:px-8 sm:py-4"
+            class="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-ink-muted underline-offset-4 hover:text-ink hover:underline"
             href="https://github.com/ankitesh10"
             target="_blank"
             rel="noreferrer"
             aria-label="Visit Ankitesh Arora on GitHub"
           >
-            <FolderGit2 class="h-5 w-5" aria-hidden="true" />
-            GITHUB.LOG
+            <FolderGit2 class="h-4 w-4" aria-hidden="true" /> GitHub
+            <ArrowUpRight class="h-3 w-3" aria-hidden="true" />
           </a>
           <a
-            class="flex min-h-20 w-full items-center justify-center gap-3 bg-canvas px-6 py-5 text-center font-bold text-ink transition-colors hover:bg-secondary hover:text-secondary-foreground sm:min-h-0 sm:flex-1 sm:px-8 sm:py-4"
+            class="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-ink-muted underline-offset-4 hover:text-ink hover:underline"
             href="https://www.linkedin.com/in/ankitesharora/"
             target="_blank"
             rel="noreferrer"
             aria-label="Visit Ankitesh Arora on LinkedIn"
           >
-            <Link class="h-5 w-5" aria-hidden="true" />
-            LINKEDIN_PROF
+            <Link class="h-4 w-4" aria-hidden="true" /> LinkedIn
+            <ArrowUpRight class="h-3 w-3" aria-hidden="true" />
           </a>
         </div>
       </section>

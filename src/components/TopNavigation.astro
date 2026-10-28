@@ -18,6 +18,7 @@ const links = [
   { href: "/#system", label: "SYSTEM" },
   { href: "/blog", label: "BLOG" },
   { href: "/resume", label: "RESUME" },
+  { href: "/bot", label: "BOT", mobileOnly: true },
   { href: "/#contact", label: "CONTACT" },
 ].map((link) => {
   const url = new URL(link.href, Astro.url);
@@ -74,7 +75,7 @@ const mobileMenuActionClass =
 
     <ul class="hidden gap-4 md:flex">
       {
-        links.map(({ href, label, active }) => (
+        links.filter((link) => !link.mobileOnly).map(({ href, label, active }) => (
           <li>
             <a
               href={href}

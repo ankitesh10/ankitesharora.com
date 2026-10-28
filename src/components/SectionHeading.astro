@@ -2,13 +2,28 @@
 interface Props {
   id?: string;
   title: string;
+  number?: string;
   meta?: string;
 }
 
-const { id, title, meta } = Astro.props;
+const { id, title, number, meta } = Astro.props;
 ---
 
-<div class="flex items-baseline justify-between border-b-2 border-ink pb-2">
-  <h2 id={id} class="font-headline text-2xl font-bold uppercase tracking-tight">{title}</h2>
+<div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-3">
+  <div class="flex items-baseline gap-3">
+    {
+      number && (
+        <span class="font-label text-xs text-ink-muted" aria-hidden="true">
+          {number} /
+        </span>
+      )
+    }
+    <h2
+      id={id}
+      class="font-headline text-2xl font-semibold tracking-tight sm:text-3xl"
+    >
+      {title}
+    </h2>
+  </div>
   {meta && <span class="font-label text-xs text-ink-muted">{meta}</span>}
 </div>

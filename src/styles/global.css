@@ -153,6 +153,12 @@
     background-size: var(--app-grid-size) var(--app-grid-size);
   }
 
+  /* Keep reading surfaces quiet; use content and spacing for hierarchy. */
+  .app-shell-minimal {
+    --color-chrome-border: var(--color-border-muted);
+    background-image: none;
+  }
+
   .scanline {
     pointer-events: none;
     position: fixed;
