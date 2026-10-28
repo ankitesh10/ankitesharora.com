@@ -13,6 +13,10 @@ export default defineConfig({
     service: passthroughImageService()
   },
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    build: {
+      // Production CSP only allows script-src 'self', so never inline scripts.
+      assetsInlineLimit: 0
+    }
   }
 });
